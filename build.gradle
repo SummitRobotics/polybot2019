@@ -3,7 +3,7 @@ plugins {
     id "edu.wpi.first.GradleRIO" version "2018.06.21"
 }
 
-def ROBOT_CLASS = "frc.team0000.robot.Robot"
+def ROBOT_CLASS = "frc.team5468.robot.Robot"
 
 // Define my targets (RoboRIO) and artifacts (deployable files)
 // This is added by GradleRIO's backing project EmbeddedTools.
@@ -11,7 +11,7 @@ deploy {
     targets {
         target("roborio", edu.wpi.first.gradlerio.frc.RoboRIO) {
             // Team can be overridden by command line, for use with VSCode
-            team = getTeamOrDefault(5333)
+            team = getTeamOrDefault(5468)
         }
     }
     artifacts {
