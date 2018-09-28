@@ -8,7 +8,7 @@ import frc.team5468.robot.Sensors.HallEffect;
 
 public class RobotMap {
 
-    public boolean isMain = false;
+    public boolean isMain;
 
     public static int rightFrontDrive, rightBackDrive, leftFrontDrive, leftBackDrive, hallEffectMotor;
     public static int hFXSensor;
@@ -20,7 +20,41 @@ public class RobotMap {
 
     public static DigitalInput hallEffect;
 
-    public RobotMap(){
+    /*
+     Builder pattern allows for simplified configuration of objects.
+
+                          Replace
+     RobotMap map = new RobotMap(value1, value2, value3);
+
+                            With
+     RobotMap map = new RobotMap.Builder()
+                            .setValue1(whatever)
+                            .setValue2(whatever)
+                            .setValue3(whatever)
+                            .build();
+
+     Hopefully it should be self evident how this will make configuration easier once configuration options start to pile up
+     If you still don't believe me refer to: https://dzone.com/articles/design-patterns-the-builder-pattern
+     */
+
+    static class Builder {
+        boolean isMain = false;
+
+        public Builder(){}
+
+        Builder isMain(boolean isMain) {
+            this.isMain = isMain;
+            return this;
+        }
+
+        RobotMap build() {
+            return new RobotMap(isMain);
+        }
+
+    }
+
+    public RobotMap(boolean isMain){
+        this.isMain = isMain;
         if(isMain){
             rightFrontDrive = 0;
             rightBackDrive = 0;
