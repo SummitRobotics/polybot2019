@@ -1,4 +1,4 @@
 Manifest-Version: 1.0
-Robot-Class: frc.team0000.robot.Robot
+Robot-Class: frc.team5468.robot.Robot
 Main-Class: edu.wpi.first.wpilibj.RobotBase
 

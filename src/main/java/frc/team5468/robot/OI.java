@@ -72,7 +72,7 @@ public class OI {
         if(button){
             return 1;
         }
-        else{
+        else {
             return 0;
         }
     }
