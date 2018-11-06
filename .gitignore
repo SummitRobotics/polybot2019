@@ -2,3 +2,8 @@
 .build/
 .out/
 .project
+*.bin
+.gradle
+/build/
+.gradletasknamecache
+*.class
