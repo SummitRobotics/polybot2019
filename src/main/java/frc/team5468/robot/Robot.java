@@ -24,6 +24,9 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
 
+        //Zero encoders on the initialization of an auto path.
+        RobotMap.leftDrive.setSelectedSensorPosition(0,0,0);
+        RobotMap.rightDrive.setSelectedSensorPosition(0,0,0);
     }
 
     @Override

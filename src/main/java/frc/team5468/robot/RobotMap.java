@@ -50,9 +50,11 @@ public class RobotMap {
 
         leftSlave = new VictorSPX(leftBackDrive);
         leftSlave.follow(leftDrive);
+        leftSlave.setInverted(true);
 
         rightSlave = new VictorSPX(rightBackDrive);
         rightSlave.follow(rightDrive);
+        rightSlave.setInverted(false);
 
         hallFXMotor = new VictorSPX(hallEffectMotor);
 

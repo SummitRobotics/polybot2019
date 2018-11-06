@@ -1,6 +1,7 @@
 package frc.team5468.robot.Teleop;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team5468.robot.RobotMap;
 import frc.team5468.robot.OI;
 
@@ -32,6 +33,9 @@ public class Teleop_DefaultDrive {
         RobotMap.rightDrive.set(ControlMode.PercentOutput, rightPower);
 
         RobotMap.hallFXMotor.set(ControlMode.PercentOutput, gamepad.holdButton(gamepad.isButtonA()));
+
+        SmartDashboard.putNumber("LEFT ENCODER", RobotMap.leftDrive.getSelectedSensorPosition(0));
+        SmartDashboard.putNumber("RIGHT ENCODER", RobotMap.rightDrive.getSelectedSensorPosition(0));
 
     }
 }

@@ -1,9 +1,0 @@
-[
-  {
-    "artifact": "frcJava",
-    "target": "roborio",
-    "debugfile": "frcJava_roborio.debugconfig",
-    "project": "polybot2019",
-    "language": "java"
-  }
-]
