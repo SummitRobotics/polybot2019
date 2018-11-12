@@ -73,7 +73,7 @@ public class RobotMap {
         //Right speed controller group
         rightDrive = new SpeedControllerGroup(rightDriveMotor, rightSlaveMotor);
 
-        //Creates a drive object which groups and inverts our speed controller groups. 
+        //Creates a drive object which groups and inverts our speed controller groups.
         robotDrive = new DifferentialDrive(leftDrive, rightDrive);
 
         hallFXMotor = new WPI_VictorSPX(hallEffectMotor);

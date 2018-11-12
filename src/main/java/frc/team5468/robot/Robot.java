@@ -1,13 +1,13 @@
 package frc.team5468.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import frc.team5468.robot.Teleop.Teleop_DefaultDrive;
+import frc.team5468.robot.Teleop.Teleop_Arcade_Differential;
 
 public class Robot extends TimedRobot {
 
     private RobotMap robot = new RobotMap();
 
-    private Teleop_DefaultDrive Teleop;
+    private Teleop_Arcade_Differential Teleop;
 
     @Override
     public void robotInit() {
@@ -25,14 +25,14 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
 
         //Zero encoders on the initialization of an auto path.
-        RobotMap.leftDrive.setSelectedSensorPosition(0,0,0);
-        RobotMap.rightDrive.setSelectedSensorPosition(0,0,0);
+        RobotMap.leftDriveMotor.setSelectedSensorPosition(0,0,0);
+        RobotMap.rightDriveMotor.setSelectedSensorPosition(0,0,0);
     }
 
     @Override
     public void teleopInit() {
 
-        Teleop = new Teleop_DefaultDrive();
+        Teleop = new Teleop_Arcade_Differential();
 
         Teleop.init();
 
@@ -57,7 +57,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
 
-        Teleop.periodic();
+        Teleop.run();
 
     }
 
