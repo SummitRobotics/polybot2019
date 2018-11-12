@@ -1,7 +1,7 @@
 package frc.team5468.robot.Teleop;
 
 import frc.team5468.robot.OI;
-import frc.team5468.robot.RobotMap;
+import frc.team5468.robot.Subsystems.Drivetrain;
 
 public class Teleop_Arcade_Differential {
 
@@ -18,7 +18,8 @@ public class Teleop_Arcade_Differential {
         xSpeed = gamepad.getRightTrigger() - gamepad.getLeftTrigger();
         zRotation = gamepad.getRightJoystickX();
 
-        RobotMap.robotDrive.arcadeDrive(xSpeed,zRotation);
+        //Potentially implement curvatureDrive in the future?
+        Drivetrain.robotDrive.arcadeDrive(xSpeed,zRotation);
     }
 
 

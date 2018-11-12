@@ -1,18 +1,23 @@
 package frc.team5468.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import frc.team5468.robot.CommandGroups.GoFwd;
+import frc.team5468.robot.Subsystems.Drivetrain;
 import frc.team5468.robot.Teleop.Teleop_Arcade_Differential;
 
 public class Robot extends TimedRobot {
 
-    private RobotMap robot = new RobotMap();
+    public static Drivetrain Drivetrain = new Drivetrain();
 
     private Teleop_Arcade_Differential Teleop;
+
+    private GoFwd auto;
 
     @Override
     public void robotInit() {
 
-        robot.init();
+        this.Drivetrain.init();
 
     }
 
@@ -25,8 +30,10 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
 
         //Zero encoders on the initialization of an auto path.
-        RobotMap.leftDriveMotor.setSelectedSensorPosition(0,0,0);
-        RobotMap.rightDriveMotor.setSelectedSensorPosition(0,0,0);
+        Drivetrain.leftDriveMotor.setSelectedSensorPosition(0,0,0);
+        Drivetrain.rightDriveMotor.setSelectedSensorPosition(0,0,0);
+
+        auto.start();
     }
 
     @Override
@@ -51,7 +58,7 @@ public class Robot extends TimedRobot {
     
     @Override
     public void autonomousPeriodic() {
-
+        Scheduler.getInstance().run();
     }
 
     @Override

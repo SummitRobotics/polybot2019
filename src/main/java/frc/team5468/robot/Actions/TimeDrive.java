@@ -1,11 +1,9 @@
 package frc.team5468.robot.Actions;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import edu.wpi.first.wpilibj.Timer;
-import frc.team5468.robot.RobotMap;
 
-public class TimeDrive extends Action {
-
+//Based on old Action architecture, depreciated.
+public class TimeDrive {
+/*
     double leftPower, rightPower;
     double time, startTime, currentTime;
     boolean isFirstRun = true;
@@ -26,13 +24,13 @@ public class TimeDrive extends Action {
             isFirstRun = false;
         }
         if((Timer.getFPGATimestamp() - startTime) < time){
-            RobotMap.leftDrive.set(ControlMode.PercentOutput, leftPower);
-            RobotMap.rightDrive.set(ControlMode.PercentOutput, rightPower);
+            RobotMap.leftDriveMotor.set(ControlMode.PercentOutput, leftPower);
+            RobotMap.rightDriveMotor.set(ControlMode.PercentOutput, rightPower);
         }
         else{
-            RobotMap.leftDrive.set(ControlMode.PercentOutput, 0);
-            RobotMap.rightDrive.set(ControlMode.PercentOutput, 0);
-            isDone = true;
+            RobotMap.leftDriveMotor.set(ControlMode.PercentOutput, 0);
+            RobotMap.rightDriveMotor.set(ControlMode.PercentOutput, 0);
+
         }
     }
 /*
