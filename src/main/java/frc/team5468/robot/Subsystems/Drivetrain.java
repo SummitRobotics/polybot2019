@@ -3,6 +3,7 @@ package frc.team5468.robot.Subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
@@ -60,9 +61,10 @@ public class Drivetrain extends Subsystem {
         return rightDriveMotor.getSelectedSensorPosition(0);
     }
     public static void stop(){
-
         leftDriveMotor.set(0);
         rightDriveMotor.set(0);
     }
+
+    //todo - gerabox emergency stop - if motors are busy and encoder position has not changed, emergency stop the drivetrain.
 
 }

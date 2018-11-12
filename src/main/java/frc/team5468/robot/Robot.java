@@ -12,6 +12,7 @@ public class Robot extends TimedRobot {
 
     private Teleop_Arcade_Differential Teleop;
 
+    //todo - autonomous SendableChooser
     private GoFwd auto;
 
     @Override
