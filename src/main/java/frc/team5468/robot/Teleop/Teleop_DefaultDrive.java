@@ -2,11 +2,10 @@ package frc.team5468.robot.Teleop;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.team5468.robot.RobotMap;
 import frc.team5468.robot.OI;
 
 //Depreciated, use Teleop_Arcade_Differential.
-public class Teleop_DefaultDrive {
+public class Teleop_DefaultDrive { /*
 
     OI gamepad;
 
@@ -40,5 +39,5 @@ public class Teleop_DefaultDrive {
         SmartDashboard.putNumber("LEFT ENCODER", RobotMap.leftDriveMotor.getSelectedSensorPosition(0));
         SmartDashboard.putNumber("RIGHT ENCODER", RobotMap.rightDriveMotor.getSelectedSensorPosition(0));
 
-    }
+    }*/
 }
