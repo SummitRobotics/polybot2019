@@ -2,8 +2,12 @@ package frc.team5468.robot;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.team5468.robot.Sensors.HallEffect;
 
 public class RobotMap {
@@ -13,8 +17,11 @@ public class RobotMap {
     public static int rightFrontDrive, rightBackDrive, leftFrontDrive, leftBackDrive, hallEffectMotor;
     public static int hFXSensor;
 
-    public static TalonSRX leftDrive, rightDrive;
-    public static VictorSPX leftSlave, rightSlave, hallFXMotor;
+    public static WPI_TalonSRX leftDriveMotor, rightDriveMotor;
+    public static WPI_VictorSPX leftSlaveMotor, rightSlaveMotor, hallFXMotor;
+
+    public static SpeedControllerGroup leftDrive, rightDrive;
+    public static DifferentialDrive robotDrive;
 
     public static ADXRS450_Gyro gyro;
 
@@ -41,22 +48,35 @@ public class RobotMap {
 
     public void init(){
 
-        leftDrive = new TalonSRX(leftFrontDrive);
-        leftDrive.setInverted(true);
+        //Config for left Talon
+        leftDriveMotor = new WPI_TalonSRX(leftFrontDrive);
+        leftDriveMotor.setInverted(true);
 
-        rightDrive = new TalonSRX(rightFrontDrive);
-        rightDrive.setInverted(false);
+        //Config for right Victor, sets it to follow leftTalon.
+        //Follow and Inversion may be made redundant by DifferentialDrive, may be depreciated in the future.
+        leftSlaveMotor = new WPI_VictorSPX(leftBackDrive);
+        leftSlaveMotor.follow(leftDriveMotor);
+        leftSlaveMotor.setInverted(true);
 
+        //Instantiates a speed controller group using the above motors, pairing them together.
+        leftDrive = new SpeedControllerGroup(leftDriveMotor, leftSlaveMotor);
 
-        leftSlave = new VictorSPX(leftBackDrive);
-        leftSlave.follow(leftDrive);
-        leftSlave.setInverted(true);
+        //Config for right Talon
+        rightDriveMotor = new WPI_TalonSRX(rightFrontDrive);
+        rightDriveMotor.setInverted(false);
 
-        rightSlave = new VictorSPX(rightBackDrive);
-        rightSlave.follow(rightDrive);
-        rightSlave.setInverted(false);
+        //Config for right Victor, see above.
+        rightSlaveMotor = new WPI_VictorSPX(rightBackDrive);
+        rightSlaveMotor.follow(rightDriveMotor);
+        rightSlaveMotor.setInverted(false);
 
-        hallFXMotor = new VictorSPX(hallEffectMotor);
+        //Right speed controller group
+        rightDrive = new SpeedControllerGroup(rightDriveMotor, rightSlaveMotor);
+
+        //Creates a drive object which groups and inverts our speed controller groups. 
+        robotDrive = new DifferentialDrive(leftDrive, rightDrive);
+
+        hallFXMotor = new WPI_VictorSPX(hallEffectMotor);
 
         hallEffect = new DigitalInput(hFXSensor);
 
