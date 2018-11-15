@@ -42,14 +42,15 @@ public class RobotMap {
     public void init(){
 
         leftDrive = new TalonSRX(leftFrontDrive);
-        leftDrive.setInverted(true);
+        leftDrive.setInverted(false
+);
 
         rightDrive = new TalonSRX(rightFrontDrive);
         rightDrive.setInverted(false);
 
-
         leftSlave = new VictorSPX(leftBackDrive);
         leftSlave.follow(leftDrive);
+        leftDrive.setInverted(false);
 
         rightSlave = new VictorSPX(rightBackDrive);
         rightSlave.follow(rightDrive);
