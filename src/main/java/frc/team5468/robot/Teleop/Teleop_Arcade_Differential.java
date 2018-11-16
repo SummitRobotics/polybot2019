@@ -19,7 +19,7 @@ public class Teleop_Arcade_Differential {
         zRotation = gamepad.getRightJoystickX();
 
         //Potentially implement curvatureDrive in the future?
-        Drivetrain.robotDrive.arcadeDrive(xSpeed,zRotation);
+        Drivetrain.robotDrive.curvatureDrive(xSpeed,zRotation, true);
     }
 
 

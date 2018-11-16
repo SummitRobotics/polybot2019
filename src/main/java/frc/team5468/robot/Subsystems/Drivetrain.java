@@ -30,14 +30,14 @@ public class Drivetrain extends Subsystem {
 
         leftSlaveMotor = new WPI_VictorSPX(leftBackDrive);
         leftSlaveMotor.follow(leftDriveMotor);
-        leftSlaveMotor.setInverted(true);
+        leftSlaveMotor.setInverted(false);
 
         rightDriveMotor = new WPI_TalonSRX(rightFrontDrive);
-        rightDriveMotor.setInverted(false);
+        //rightDriveMotor.setInverted(false);
 
         rightSlaveMotor = new WPI_VictorSPX(rightBackDrive);
         rightSlaveMotor.follow(rightDriveMotor);
-        rightSlaveMotor.setInverted(false);
+        //rightSlaveMotor.setInverted(false);
 
         leftDrive = new SpeedControllerGroup(leftDriveMotor, leftSlaveMotor);
         rightDrive = new SpeedControllerGroup(rightDriveMotor, leftDriveMotor);
