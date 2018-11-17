@@ -1,5 +1,6 @@
 package frc.team5468.robot.Teleop;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team5468.robot.OI;
 import frc.team5468.robot.Subsystems.Drivetrain;
 
@@ -9,18 +10,22 @@ public class Teleop_Arcade_Differential {
 
     double xSpeed, zRotation;
 
+    MotorInputTest test = new MotorInputTest();
+
     public void init(){
         gamepad = new OI();
     }
 
     public void run(){
 
-        xSpeed = gamepad.getRightTrigger() - gamepad.getLeftTrigger();
-        zRotation = gamepad.getRightJoystickX();
+        xSpeed = gamepad.getLeftTrigger() - gamepad.getRightTrigger();
+        zRotation = -gamepad.getLeftJoystickX();
 
         //Potentially implement curvatureDrive in the future?
-        Drivetrain.robotDrive.curvatureDrive(xSpeed,zRotation, true);
+        //turn in place?
+        Drivetrain.robotDrive.arcadeDrive(xSpeed, zRotation);
+
+        test.testValues(xSpeed, zRotation);
+
     }
-
-
 }

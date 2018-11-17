@@ -26,11 +26,11 @@ public class Drivetrain extends Subsystem {
     public void init(){
 
         leftDriveMotor = new WPI_TalonSRX(leftFrontDrive);
-        leftDriveMotor.setInverted(true);
+        //leftDriveMotor.setInverted(true);
 
         leftSlaveMotor = new WPI_VictorSPX(leftBackDrive);
         leftSlaveMotor.follow(leftDriveMotor);
-        leftSlaveMotor.setInverted(false);
+        //leftSlaveMotor.setInverted(true);
 
         rightDriveMotor = new WPI_TalonSRX(rightFrontDrive);
         //rightDriveMotor.setInverted(false);
@@ -40,12 +40,14 @@ public class Drivetrain extends Subsystem {
         //rightSlaveMotor.setInverted(false);
 
         leftDrive = new SpeedControllerGroup(leftDriveMotor, leftSlaveMotor);
-        rightDrive = new SpeedControllerGroup(rightDriveMotor, leftDriveMotor);
+        rightDrive = new SpeedControllerGroup(rightDriveMotor, rightDriveMotor);
+
 
         robotDrive = new DifferentialDrive(leftDrive, rightDrive);
-        robotDrive.setSafetyEnabled(true);
-        robotDrive.setExpiration(0.2);
-        robotDrive.setMaxOutput(1.0);
+
+        //robotDrive.setSafetyEnabled(true);
+        //robotDrive.setExpiration(0.2);
+        //robotDrive.setMaxOutput(1.0);
     }
 
     @Override
