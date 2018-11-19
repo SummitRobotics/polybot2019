@@ -3,6 +3,7 @@ package frc.team5468.robot.Teleop;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.team5468.robot.Subsystems.Drivetrain;
 
 public class MotorInputTest extends RobotDriveBase {
 
@@ -32,6 +33,8 @@ public class MotorInputTest extends RobotDriveBase {
         SmartDashboard.putNumber("Speed", speed);
         SmartDashboard.putNumber("Rotation Value", zRotation);
         SmartDashboard.putNumber("Max Value", maxInput);
+
+        SmartDashboard.putBoolean("Safety", Drivetrain.robotDrive.isSafetyEnabled());
     }
 
 }

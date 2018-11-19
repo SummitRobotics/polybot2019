@@ -44,9 +44,9 @@ public class Drivetrain extends Subsystem {
 
 
         robotDrive = new DifferentialDrive(leftDrive, rightDrive);
-
-        //robotDrive.setSafetyEnabled(true);
-        //robotDrive.setExpiration(0.2);
+        robotDrive.setSafetyEnabled(false);
+        //todo - motor safety
+        //robotDrive.setExpiration(1.0);
         //robotDrive.setMaxOutput(1.0);
     }
 
@@ -65,6 +65,11 @@ public class Drivetrain extends Subsystem {
     public static void stop(){
         leftDriveMotor.set(0);
         rightDriveMotor.set(0);
+    }
+
+    public static void zeroEncoders(){
+        Drivetrain.leftDriveMotor.setSelectedSensorPosition(0,0,0);
+        Drivetrain.rightDriveMotor.setSelectedSensorPosition(0,0,0);
     }
 
     //todo - gerabox emergency stop - if motors are busy and encoder position has not changed, emergency stop the drivetrain.

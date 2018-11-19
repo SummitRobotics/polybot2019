@@ -6,7 +6,6 @@ import frc.team5468.robot.Subsystems.Drivetrain;
 
 public class MoveByTime extends Command {
 
-    private boolean isDone;
     private double power, time;
 
     public MoveByTime(double power, double time){
@@ -26,15 +25,12 @@ public class MoveByTime extends Command {
             Drivetrain.robotDrive.tankDrive(power, power);
         }
         if(timeSinceInitialized() >= time){
-            isDone = true;
+            isFinished();
         }
     }
 
     protected boolean isFinished(){
-        if(isDone)
-            return true;
-        else
-            return false;
+        return true;
     }
 
     @Override
