@@ -24,13 +24,10 @@ public class MoveByTime extends Command {
         while(timeSinceInitialized() < time){
             Drivetrain.robotDrive.tankDrive(power, power);
         }
-        if(timeSinceInitialized() >= time){
-            isFinished();
-        }
     }
 
     protected boolean isFinished(){
-        return true;
+        return (timeSinceInitialized() >= time);
     }
 
     @Override

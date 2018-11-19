@@ -1,12 +1,13 @@
 package frc.team5468.robot.CommandGroups;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import frc.team5468.robot.Commands.EncoderDrive;
 import frc.team5468.robot.Commands.MoveByTime;
 
 
 public class GoFwd extends CommandGroup {
 
     public GoFwd(){
-        addSequential(new MoveByTime(0.4, 1.5));
+        addSequential(new EncoderDrive(4, 0.5));
     }
 }

@@ -1,5 +1,6 @@
 package frc.team5468.robot.Subsystems;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -16,6 +17,9 @@ public class Drivetrain extends Subsystem {
     public static SpeedControllerGroup leftDrive, rightDrive;
     public static DifferentialDrive robotDrive;
 
+    private static final double TICKS_PER_ROTATION = 4096;
+    private static final double WHEEL_DIAMETER = 6.0;
+
     public Drivetrain(){
         rightFrontDrive = 21;
         rightBackDrive = 31;
@@ -27,6 +31,8 @@ public class Drivetrain extends Subsystem {
 
         leftDriveMotor = new WPI_TalonSRX(leftFrontDrive);
         //leftDriveMotor.setInverted(true);
+        leftDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0 ,0);
+        leftDriveMotor.setSensorPhase(true);
 
         leftSlaveMotor = new WPI_VictorSPX(leftBackDrive);
         leftSlaveMotor.follow(leftDriveMotor);
@@ -34,6 +40,7 @@ public class Drivetrain extends Subsystem {
 
         rightDriveMotor = new WPI_TalonSRX(rightFrontDrive);
         //rightDriveMotor.setInverted(false);
+        rightDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0,0);
 
         rightSlaveMotor = new WPI_VictorSPX(rightBackDrive);
         rightSlaveMotor.follow(rightDriveMotor);
@@ -44,7 +51,7 @@ public class Drivetrain extends Subsystem {
 
 
         robotDrive = new DifferentialDrive(leftDrive, rightDrive);
-        robotDrive.setSafetyEnabled(false);
+        robotDrive.setSafetyEnabled(true);
         //todo - motor safety
         //robotDrive.setExpiration(1.0);
         //robotDrive.setMaxOutput(1.0);
@@ -55,11 +62,18 @@ public class Drivetrain extends Subsystem {
 
     }
 
-    public double getLeftEncoderPos(){
+    public static double getLeftEncoderPos(){
         return leftDriveMotor.getSelectedSensorPosition(0);
     }
-    public double getRightEncoderPos(){
+    public static double getRightEncoderPos(){
         return rightDriveMotor.getSelectedSensorPosition(0);
+    }
+    //return feet per second
+    public static double getLeftEncoderVel(){
+        return (ticksToInches(leftDriveMotor.getSelectedSensorVelocity(0)) /10);
+    }
+    public static double getRightEncoderVel(){
+        return (ticksToInches(rightDriveMotor.getSelectedSensorVelocity(0)) /10);
     }
 
     public static void stop(){
@@ -71,6 +85,15 @@ public class Drivetrain extends Subsystem {
         Drivetrain.leftDriveMotor.setSelectedSensorPosition(0,0,0);
         Drivetrain.rightDriveMotor.setSelectedSensorPosition(0,0,0);
     }
+
+    public static double ticksToInches(double tick){
+        return (tick / TICKS_PER_ROTATION) * (WHEEL_DIAMETER * Math.PI);
+    }
+    public static double inchesToTicks(double inch){
+        return (inch / (WHEEL_DIAMETER * Math.PI) * TICKS_PER_ROTATION);
+    }
+
+
 
     //todo - gerabox emergency stop - if motors are busy and encoder position has not changed, emergency stop the drivetrain.
 

@@ -31,6 +31,8 @@ public class Robot extends TimedRobot {
 
         SmartDashboard.putData("Autonomous", autoChooser);
 
+        Drivetrain.zeroEncoders();
+
     }
 
     @Override
@@ -55,6 +57,8 @@ public class Robot extends TimedRobot {
         Teleop = new Teleop_Arcade_Differential();
 
         Teleop.init();
+
+        //Drivetrain.zeroEncoders();
 
 
     }
