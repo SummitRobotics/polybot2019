@@ -5,7 +5,9 @@ import frc.team5468.robot.Teleop.Teleop_DefaultDrive;
 
 public class Robot extends TimedRobot {
 
-    private RobotMap robot = new RobotMap();
+    private RobotMap robot = new RobotMap.Builder()
+            .isMain(false)
+            .build();
 
     private Teleop_DefaultDrive Teleop;
 
@@ -45,7 +47,7 @@ public class Robot extends TimedRobot {
     public void disabledPeriodic() {
 
     }
-    
+
     @Override
     public void autonomousPeriodic() {
 
