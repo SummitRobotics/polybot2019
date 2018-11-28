@@ -17,7 +17,7 @@ public class Drivetrain extends Subsystem {
     public static SpeedControllerGroup leftDrive, rightDrive;
     public static DifferentialDrive robotDrive;
 
-    private static final double TICKS_PER_ROTATION = 1024;
+    private static final double TICKS_PER_ROTATION = 4096;
     private static final double WHEEL_DIAMETER = 6.0;
 
     public Drivetrain(){
