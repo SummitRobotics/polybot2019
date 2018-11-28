@@ -23,20 +23,20 @@ public class EncoderDrive extends Command {
         leftInitPosition = Drivetrain.getLeftEncoderPos();
         rightInitPosition = Drivetrain.getRightEncoderPos();
 
-        leftTarget = Drivetrain.inchesToTicks(leftInch);
-        rightTarget = Drivetrain.inchesToTicks(rightInch);
+        leftTarget = leftInitPosition + Drivetrain.inchesToTicks(leftInch);
+        rightTarget = rightInitPosition + Drivetrain.inchesToTicks(rightInch);
     }
 
     @Override
     protected void execute() {
-        while(Drivetrain.getLeftEncoderPos() < leftTarget || Drivetrain.getRightEncoderPos() < rightTarget){
+        while((Drivetrain.getLeftEncoderPos() < leftTarget) && (Drivetrain.getRightEncoderPos() < rightTarget)){
             Drivetrain.robotDrive.tankDrive(power, power);
         }
     }
 
     @Override
     protected void end() {
-        Drivetrain.stop();
+        //Drivetrain.stop();
     }
 
     @Override
@@ -46,6 +46,6 @@ public class EncoderDrive extends Command {
 
     @Override
     protected boolean isFinished() {
-        return ((Drivetrain.getLeftEncoderPos() <= leftTarget) || (Drivetrain.getRightEncoderPos() <= rightTarget));
+        return ((Drivetrain.getLeftEncoderPos() >= leftTarget) || (Drivetrain.getRightEncoderPos() >= rightTarget));
     }
 }
