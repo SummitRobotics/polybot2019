@@ -1,18 +1,37 @@
 package frc.team5468.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import frc.team5468.robot.Teleop.Teleop_DefaultDrive;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.team5468.robot.CommandGroups.GoFwd;
+import frc.team5468.robot.Subsystems.Drivetrain;
+import frc.team5468.robot.Teleop.Teleop_Arcade_Differential;
 
 public class Robot extends TimedRobot {
 
-    private RobotMap robot = new RobotMap();
+    Command auto;
 
-    private Teleop_DefaultDrive Teleop;
+    public static Drivetrain Drivetrain = new Drivetrain();
+
+    private Teleop_Arcade_Differential Teleop;
+
+    //todo - autonomous SendableChooser
+    //private GoFwd auto;
+    public SendableChooser autoChooser;
 
     @Override
     public void robotInit() {
 
-        robot.init();
+        this.Drivetrain.init();
+
+        autoChooser = new SendableChooser();
+        autoChooser.addDefault("Cross The Line", new GoFwd());
+
+        SmartDashboard.putData("Autonomous", autoChooser);
+
+        Drivetrain.zeroEncoders();
 
     }
 
@@ -24,14 +43,23 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
 
+        auto = (Command) autoChooser.getSelected();
+
+        //Zero encoders on the initialization of an auto path.
+        Drivetrain.zeroEncoders();
+
+        auto.start();
     }
 
     @Override
     public void teleopInit() {
 
-        Teleop = new Teleop_DefaultDrive();
+        Teleop = new Teleop_Arcade_Differential();
 
         Teleop.init();
+
+        //Drivetrain.zeroEncoders();
+
 
     }
 
@@ -48,13 +76,14 @@ public class Robot extends TimedRobot {
     
     @Override
     public void autonomousPeriodic() {
+        Scheduler.getInstance().run();
 
     }
 
     @Override
     public void teleopPeriodic() {
 
-        Teleop.periodic();
+        Teleop.run();
 
     }
 
