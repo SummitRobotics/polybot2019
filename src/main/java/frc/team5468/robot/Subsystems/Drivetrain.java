@@ -32,7 +32,7 @@ public class Drivetrain extends Subsystem {
         leftDriveMotor = new WPI_TalonSRX(leftFrontDrive);
         //leftDriveMotor.setInverted(true);
         leftDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0 ,0);
-        leftDriveMotor.setSensorPhase(true);
+        leftDriveMotor.setSensorPhase(false);
 
         leftSlaveMotor = new WPI_VictorSPX(leftBackDrive);
         leftSlaveMotor.follow(leftDriveMotor);
@@ -41,6 +41,7 @@ public class Drivetrain extends Subsystem {
         rightDriveMotor = new WPI_TalonSRX(rightFrontDrive);
         //rightDriveMotor.setInverted(false);
         rightDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0,0);
+        rightDriveMotor.setSensorPhase(true);
 
         rightSlaveMotor = new WPI_VictorSPX(rightBackDrive);
         rightSlaveMotor.follow(rightDriveMotor);
