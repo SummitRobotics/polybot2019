@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.XboxController;
 
 public class OI {
 
+    double deadzoneDefault = 0.15;
+
     XboxController controller = new XboxController(0);
 
     public OI(){
@@ -22,7 +24,7 @@ public class OI {
     public double getRightJoystickX(){
         return controller.getX(GenericHID.Hand.kRight);
     }
-    public double getRightJoystickY(){
+    public double getRightJoystickY() {
         return controller.getY(GenericHID.Hand.kRight);
     }
 
@@ -47,4 +49,33 @@ public class OI {
     public boolean isButtonY() {
         return controller.getYButton();
     }
+
+
+    public double joystickDeadzone(double stickVal, double deadzone){
+        if (Math.abs(stickVal) < deadzone){
+            return 0;
+        }
+        else{
+            return stickVal;
+        }
+    }
+    public double joystickDeadzone (double stickVal){
+        if(Math.abs(stickVal) < deadzoneDefault){
+            return 0;
+        }
+        else{
+            return stickVal;
+        }
+    }
+
+    public double holdButton (boolean button){
+        if(button){
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+
+
 }
