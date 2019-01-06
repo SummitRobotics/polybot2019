@@ -1,8 +1,8 @@
-package frc.team5468.robot;
+package frc.old.robot;
 
 //Use this class to output motor speeds and other diagnostic information to the SmartDashboard
 
-import frc.team5468.robot.Subsystems.Drivetrain;
+import frc.old.robot.Subsystems.Drivetrain;
 
 public class MotorOutputDiagnostic {
 
