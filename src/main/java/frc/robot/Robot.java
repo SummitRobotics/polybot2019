@@ -13,9 +13,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.ExampleCommand;
+import frc.robot.CommandGroups.GoFwd;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.teleop.Teleop_Arcade_Differential;
 
 /**
@@ -27,12 +26,11 @@ import frc.robot.teleop.Teleop_Arcade_Differential;
  */
 
 public class Robot extends TimedRobot {
-  public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
   public static Drivetrain drivetrain = new Drivetrain();
-  public static OI m_oi;
+  public static OI OpI;
 
-  Command m_autonomousCommand;
-  SendableChooser<Command> m_chooser = new SendableChooser<>();
+  Command auto;
+  SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   private Teleop_Arcade_Differential Teleop;
 
@@ -43,11 +41,16 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    m_oi = new OI();
-    m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
-    // chooser.addOption("My Auto", new MyAutoCommand());
-    SmartDashboard.putData("Auto mode", m_chooser);
+    //Create an instance of the Operator Interface (Op--erator I--nterface)
+    OpI = new OI();
 
+    //Create a drop-down menu for selcting an autonomous program
+    //Use .addOption for adding new autonomous routines
+    autoChooser.setDefaultOption("Default Auto", new GoFwd());
+    SmartDashboard.putData("Auto mode", autoChooser);
+
+    //Initialize the various subsystems
+    //TODO - Make a robotbuilder architecture
     drivetrain.init();
   }
 
@@ -94,18 +97,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_chooser.getSelected();
+    auto = autoChooser.getSelected();
 
-    /*
-     * String autoSelected = SmartDashboard.getString("Auto Selector",
-     * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-     * = new MyAutoCommand(); break; case "Default Auto": default:
-     * autonomousCommand = new ExampleCommand(); break; }
-     */
-
-    // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.start();
+    if (auto != null) {
+      auto.start();
     }
   }
 
@@ -115,6 +110,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    //Runs the Command Scheduler as defined by the WPIlib API.
+    //In other words, makes our auto actually execute.
     Scheduler.getInstance().run();
   }
 
@@ -125,9 +122,9 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    /*if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
-    }*/
+    if (auto != null) {
+      auto.cancel();
+    }
     Teleop = new Teleop_Arcade_Differential();
 
     Teleop.init();
