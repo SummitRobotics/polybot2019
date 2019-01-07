@@ -9,13 +9,13 @@ public class RobotConstants{
     /*    PART 1  -  PORT NUMBERS   */
     /*------------------------------*/
     
-    //LEFT_FRONT_DRIVE is a Victor SPX
+    //LEFT_FRONT_DRIVE is a Talon SRX
     public static final int LEFT_FRONT_DRIVE = 22;
-    //LEFT_BACK_DRIVE_ is a Talon SRX
+    //LEFT_BACK_DRIVE_ is a Victor SPX
     public static final int LEFT_BACK_DRIVE = 32;
-    //RIGHT_FRONT_DRIVE is a Victor SPX
+    //RIGHT_FRONT_DRIVE is a Talon SRX
     public static final int RIGHT_FRONT_DRIVE = 21;
-    //RIGHT_BACK_DRIVE is a Talon SRX
+    //RIGHT_BACK_DRIVE is a Victor SPX
     public static final int RIGHT_BACK_DRIVE = 31;
 
     /*------------------------------*/

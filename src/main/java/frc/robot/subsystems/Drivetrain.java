@@ -25,13 +25,13 @@ public class Drivetrain extends Subsystem{
         /*Left Motor Config*/
 
         //Creates motor object and configures it to use a relative magnetic encoder for feedback.
-        leftDriveMotor = new WPI_TalonSRX(RobotConstants.LEFT_BACK_DRIVE);
+        leftDriveMotor = new WPI_TalonSRX(RobotConstants.LEFT_FRONT_DRIVE);
         leftDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0 ,0);
         //Does NOT invert the direction of the encoder
         leftDriveMotor.setSensorPhase(false);
 
         //Creates the slave motor and assigns it to follow all given input from the drive motor.
-        leftSlaveMotor = new WPI_VictorSPX(RobotConstants.LEFT_FRONT_DRIVE);
+        leftSlaveMotor = new WPI_VictorSPX(RobotConstants.LEFT_BACK_DRIVE);
         leftSlaveMotor.follow(leftDriveMotor);
 
         //Groups all left-side motors together as one object.
@@ -41,13 +41,13 @@ public class Drivetrain extends Subsystem{
         /*Right Motor Config*/
 
         //Creates motor object and configures it to use a relative magnetic encoder for feedback.
-        rightDriveMotor = new WPI_TalonSRX(RobotConstants.RIGHT_BACK_DRIVE);
+        rightDriveMotor = new WPI_TalonSRX(RobotConstants.RIGHT_FRONT_DRIVE);
         rightDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0 , 0);
         //Inverts the phase of the encoder
         rightDriveMotor.setSensorPhase(true);
 
         //Creates the slave motor and assigns it to follow all given input from the drive motor.
-        rightSlaveMotor = new WPI_VictorSPX(RobotConstants.RIGHT_FRONT_DRIVE);
+        rightSlaveMotor = new WPI_VictorSPX(RobotConstants.RIGHT_BACK_DRIVE);
         rightSlaveMotor.follow(rightDriveMotor);
 
         //Groups all right-side motors together as one object.
