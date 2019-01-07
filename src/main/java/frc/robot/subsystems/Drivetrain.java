@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -18,6 +19,9 @@ public class Drivetrain extends Subsystem{
     //This makes it so we only have to assign power to one object instead of 4+. 
     private static SpeedControllerGroup leftDrive, rightDrive;
     public static DifferentialDrive robotDrive;
+
+    //Defines the robot gyro
+    private static ADXRS450_Gyro gyro;
 
     public void init(){
         //This configures our motor controller objects and assigns them to the CAN objects on the robot.
@@ -60,6 +64,9 @@ public class Drivetrain extends Subsystem{
         //This disables the watchdog safety which will disable the motor if its input is not updated for a given timeout period. 
         //TODO - Configure Safety Watchdog
         robotDrive.setSafetyEnabled(false);
+
+        //Creates gyro object
+        gyro = new ADXRS450_Gyro();
         
     }
 
@@ -87,6 +94,36 @@ public class Drivetrain extends Subsystem{
     //This method does what the above one does, but in reverse. 
     public static double inchesToTicks(double inch){
         return (inch / (RobotConstants.WHEEL_DIAMETER * Math.PI) * RobotConstants.TICKS_PER_ROTATION);
+    }
+
+    /*The two methods below interface with the gyro so we can publically access the rate and angle of the sensor.*/
+    /*They're configured in a way which will allow the robot to continue running even if the gyro is disconnected.*/
+    /*This is known as the "Fuck you, Daniel" logic block*/
+    /*Right now, if the gyro is disconnected it will just return a value of 0 and print an error statement*/
+    /*This means that the robot could spin infinitely, unless a timeout flag is added to the gyro command*/
+    /*In the future, this should ideally throw some sort of error flag and disable gyro-based commands*/
+
+    //Returns current angle of the gyro
+    public static double getGyroRotation(){
+        if(gyro.isConnected()){
+            return gyro.getAngle();
+        }
+        else{
+            //TODO - More elegant error flag system.
+            System.out.println("ERROR: Gyro not connected. Defaulting to 0 angle...");
+            return 0;
+        }
+    }
+
+    //Returns current rate of the gyro.
+    public static double getGyroRate(){
+        if(gyro.isConnected()){
+            return gyro.getRate();
+        }
+        else{
+            System.out.println("ERROR: Gyro not connected. Defaulting to 0 rate...");
+            return 0;
+        }
     }
 
     //This is an abstract Command method, and must be overwritten

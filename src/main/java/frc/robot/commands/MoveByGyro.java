@@ -18,12 +18,12 @@ public class MoveByGyro extends Command{
 
     @Override
     protected void initialize() {
-        targetAngle = angle + Drivetrain.getGyroAngle();
+        targetAngle = angle + Drivetrain.getGyroRotation();
     }
 
     @Override
     protected void execute() {
-        while(roundAngle(Drivetrain.getGyroAngle()) < roundAngle(targetAngle) || (roundAngle(Drivetrain.getGyroAngle()) > roundAngle(targetAngle)));{
+        while(roundAngle(Drivetrain.getGyroRotation()) < roundAngle(targetAngle) || (roundAngle(Drivetrain.getGyroRotation()) > roundAngle(targetAngle)));{
             Drivetrain.robotDrive.tankDrive(power, power * direction);
         }
     }
