@@ -7,13 +7,16 @@
 
 package frc.robot;
 
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.teleop.Teleop_Arcade_Differential;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -22,12 +25,17 @@ import frc.robot.subsystems.ExampleSubsystem;
  * creating this project, you must also update the build.gradle file in the
  * project.
  */
+
 public class Robot extends TimedRobot {
   public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
+  public static Drivetrain drivetrain = new Drivetrain();
   public static OI m_oi;
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
+
+  private Teleop_Arcade_Differential Teleop;
+
 
   /**
    * This function is run when the robot is first started up and should be
@@ -41,6 +49,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto mode", m_chooser);
   }
 
+
   /**
    * This function is called every robot packet, no matter the mode. Use
    * this for items like diagnostics that you want ran during disabled,
@@ -53,6 +62,7 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
   }
 
+
   /**
    * This function is called once each time the robot enters Disabled mode.
    * You can use it to reset any subsystem information you want to clear when
@@ -62,10 +72,12 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
   }
 
+
   @Override
   public void disabledPeriodic() {
     Scheduler.getInstance().run();
   }
+
 
   /**
    * This autonomous (along with the chooser code above) shows how to select
@@ -95,6 +107,7 @@ public class Robot extends TimedRobot {
     }
   }
 
+
   /**
    * This function is called periodically during autonomous.
    */
@@ -102,6 +115,7 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
   }
+
 
   @Override
   public void teleopInit() {
@@ -112,15 +126,19 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    Teleop.init();
   }
+
 
   /**
    * This function is called periodically during operator control.
    */
   @Override
   public void teleopPeriodic() {
-    Scheduler.getInstance().run();
+    //Scheduler.getInstance().run();
+    Teleop.run();
   }
+
 
   /**
    * This function is called periodically during test mode.

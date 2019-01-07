@@ -1,15 +1,13 @@
-package frc.old.robot;
+package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.old.robot.CommandGroups.GoFwd;
-import frc.old.robot.Subsystems.Drivetrain;
-import frc.old.robot.Teleop.Teleop_Arcade_Differential;
 
-public class Robot extends TimedRobot {
+
+public class Robot_old extends TimedRobot {/*
 
     Command auto;
 
@@ -91,4 +89,4 @@ public class Robot extends TimedRobot {
     public void testPeriodic() {
 
     }
-}
+*/}

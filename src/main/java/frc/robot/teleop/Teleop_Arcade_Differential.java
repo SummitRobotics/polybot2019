@@ -1,8 +1,8 @@
-package frc.old.robot.Teleop;
+package frc.robot.teleop;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.old.robot.OI;
-import frc.old.robot.Subsystems.Drivetrain;
+import frc.robot.OI;
+import frc.robot.subsystems.Drivetrain;
 
 public class Teleop_Arcade_Differential {
 

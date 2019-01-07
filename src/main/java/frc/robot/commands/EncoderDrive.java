@@ -1,9 +1,9 @@
-package frc.old.robot.Commands;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.old.robot.Robot;
-import frc.old.robot.Subsystems.Drivetrain;
+import frc.robot.Robot;
+import frc.robot.subsystems.Drivetrain;
 
 public class EncoderDrive extends Command {
 
@@ -13,7 +13,7 @@ public class EncoderDrive extends Command {
     private double power;
 
     public EncoderDrive(double distance, double power){
-        requires(Robot.Drivetrain);
+        requires(Robot.drivetrain);
         leftInch = distance;
         rightInch = distance;
         this.power = power;

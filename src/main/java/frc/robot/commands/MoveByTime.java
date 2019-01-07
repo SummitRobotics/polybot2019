@@ -1,15 +1,15 @@
-package frc.team5468.robot.Commands;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.team5468.robot.Robot;
-import frc.team5468.robot.Subsystems.Drivetrain;
+import frc.robot.Robot;
+import frc.robot.subsystems.Drivetrain;
 
 public class MoveByTime extends Command {
 
     private double power, time;
 
     public MoveByTime(double power, double time){
-        requires(Robot.Drivetrain);
+        requires(Robot.drivetrain);
         this.power = power;
         this.time = time;
     }
@@ -32,7 +32,7 @@ public class MoveByTime extends Command {
 
     @Override
     protected void end() {
-        Drivetrain.stop();
+        
     }
 
     @Override

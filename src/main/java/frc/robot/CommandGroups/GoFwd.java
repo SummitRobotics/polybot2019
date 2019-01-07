@@ -1,7 +1,7 @@
-package frc.old.robot.CommandGroups;
+package frc.robot.CommandGroups;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.old.robot.Commands.EncoderDrive;
+import frc.robot.commands.EncoderDrive;
 
 
 
