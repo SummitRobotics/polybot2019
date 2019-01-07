@@ -2,7 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Robot;
+import frc.robot.RobotBuilder;
 import frc.robot.subsystems.Drivetrain;
 
 public class MoveByEncoder extends Command {
@@ -13,7 +13,7 @@ public class MoveByEncoder extends Command {
     private double power;
 
     public MoveByEncoder(double distance, double power){
-        requires(Robot.drivetrain);
+        requires(RobotBuilder.drivetrain);
         leftInch = distance;
         rightInch = distance;
         this.power = power;

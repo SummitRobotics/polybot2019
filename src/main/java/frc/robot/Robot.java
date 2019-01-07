@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.CommandGroups.GoFwd;
+import frc.robot.commandgroups.GoFwd;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.teleop.Teleop_Arcade_Differential;
 
@@ -26,7 +26,8 @@ import frc.robot.teleop.Teleop_Arcade_Differential;
  */
 
 public class Robot extends TimedRobot {
-  public static Drivetrain drivetrain = new Drivetrain();
+  //public static Drivetrain drivetrain = new Drivetrain();
+  public static RobotBuilder robot = new RobotBuilder();
   public static OI OpI;
 
   Command auto;
@@ -50,8 +51,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto mode", autoChooser);
 
     //Initialize the various subsystems
-    //TODO - Make a robotbuilder architecture
-    drivetrain.init();
+    //TODO - Test robotbuilder architecture
+    robot.init();
   }
 
 

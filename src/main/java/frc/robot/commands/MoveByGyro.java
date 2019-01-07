@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.RobotBuilder;
 import frc.robot.subsystems.Drivetrain;
 
 public class MoveByGyro extends Command{
@@ -10,6 +11,7 @@ public class MoveByGyro extends Command{
     private double targetAngle;
 
     public MoveByGyro(double angle, double power){
+        requires(RobotBuilder.drivetrain);
         this.angle = angle;
         //We only ever want positive power, as the angle of the gyro will determine wether we go in the positive or negative direction.
         this.power = Math.abs(power);
