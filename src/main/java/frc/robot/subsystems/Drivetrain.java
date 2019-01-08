@@ -23,6 +23,7 @@ public class Drivetrain extends Subsystem implements initableSubsystem{
     //Defines the robot gyro
     private static ADXRS450_Gyro gyro;
 
+    @Override
     public void init(){
         //This configures our motor controller objects and assigns them to the CAN objects on the robot.
 
@@ -78,6 +79,12 @@ public class Drivetrain extends Subsystem implements initableSubsystem{
         return rightDriveMotor.getSelectedSensorPosition(0);
     }
 
+    //This resets the encoder values to 0
+    public static void zeroEncoders(){
+        leftDriveMotor.setSelectedSensorPosition(0);
+        rightDriveMotor.setSelectedSensorPosition(0);
+    }
+
     //These methods get the velocities (in feet per second) of the left and right drive Talons, based on the encoder ticks per second.
     //To convert units, we use the ticksToInches method, shown below
     public static double getLeftEncoderVel(){
@@ -104,6 +111,7 @@ public class Drivetrain extends Subsystem implements initableSubsystem{
     /*In the future, this should ideally throw some sort of error flag and disable gyro-based commands*/
 
     //Returns current angle of the gyro
+    //TODO - Backup Encoder-Only Auton
     public static double getGyroRotation(){
         if(gyro.isConnected()){
             return gyro.getAngle();

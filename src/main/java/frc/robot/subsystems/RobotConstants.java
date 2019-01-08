@@ -18,6 +18,12 @@ public class RobotConstants{
     //RIGHT_BACK_DRIVE is a Victor SPX
     public static final int RIGHT_BACK_DRIVE = 31;
 
+    //TEST_MOTOR is a Victor SPX
+    public static final int TEST_MOTOR = 33;
+
+    //This is a hall-effect digital input sensor;
+    public static final int HALL_FX = 1;
+
     /*------------------------------*/
     /*      PART 2   -    OTHER     */
     /*------------------------------*/
