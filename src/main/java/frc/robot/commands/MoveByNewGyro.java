@@ -4,11 +4,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.RobotBuilder;
 import frc.robot.subsystems.Drivetrain;
 
-public class MoveByNewGyro extends Command{
+public class MoveByNewGyro extends Command {
     private double angle, power, targetAngle;
     private double direction;
     
-    public MoveByNewGyro(double angle, double power){
+    public MoveByNewGyro(double angle, double power) {
         requires(RobotBuilder.drivetrain);
         this.angle = angle;
         this.power = Math.abs(power);

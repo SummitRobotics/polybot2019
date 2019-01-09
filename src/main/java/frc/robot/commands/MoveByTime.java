@@ -26,7 +26,7 @@ public class MoveByTime extends Command {
         }
     }
 
-    protected boolean isFinished(){
+    protected boolean isFinished() {
         return (timeSinceInitialized() >= time);
     }
 

@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commandgroups.GoFwd;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.teleop.Teleop_Arcade_Differential;
 
 /**
@@ -53,7 +54,7 @@ public class Robot extends TimedRobot {
     //TODO - Test robotbuilder architecture
     robot.init();
 
-    robot.drivetrain.zeroEncoders();;
+    Drivetrain.zeroEncoders();
   }
 
 

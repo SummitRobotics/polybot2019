@@ -15,13 +15,13 @@ public class OI {
 
 
     //Now here's a bunch of methods for calling all these values.
-    public double getLeftJoystickX(){
+    public double getLeftJoystickX() {
         return controller.getX(GenericHID.Hand.kLeft);
     }
-    public double getLeftJoystickY(){
+    public double getLeftJoystickY() {
         return controller.getY(GenericHID.Hand.kLeft);
     }
-    public double getRightJoystickX(){
+    public double getRightJoystickX() {
         return controller.getX(GenericHID.Hand.kRight);
     }
     public double getRightJoystickY() {
@@ -29,10 +29,10 @@ public class OI {
     }
 
 
-    public double getLeftTrigger(){
+    public double getLeftTrigger() {
         return controller.getTriggerAxis(GenericHID.Hand.kLeft);
     }
-    public double getRightTrigger(){
+    public double getRightTrigger() {
         return controller.getTriggerAxis(GenericHID.Hand.kRight);
     }
 
@@ -51,28 +51,26 @@ public class OI {
     }
 
 
-    public double joystickDeadzone(double stickVal, double deadzone){
+    public double joystickDeadzone(double stickVal, double deadzone) {
         if (Math.abs(stickVal) < deadzone){
             return 0;
-        }
-        else{
+        } else {
             return stickVal;
         }
     }
-    public double joystickDeadzone (double stickVal){
-        if(Math.abs(stickVal) < deadzoneDefault){
+    public double joystickDeadzone (double stickVal) {
+        if(Math.abs(stickVal) < deadzoneDefault) {
             return 0;
         }
-        else{
+        else {
             return stickVal;
         }
     }
 
-    public double holdButton (boolean button){
-        if(button){
+    public double holdButton (boolean button) {
+        if (button){
             return 1;
-        }
-        else {
+        } else {
             return 0;
         }
     }

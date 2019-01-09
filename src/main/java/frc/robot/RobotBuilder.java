@@ -23,5 +23,4 @@ public class RobotBuilder{
             list.get(i).init();
         }
     }
-
 }

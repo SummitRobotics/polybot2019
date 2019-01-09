@@ -12,7 +12,7 @@ public class MoveByEncoder extends Command {
     private double leftTarget, rightTarget;
     private double power;
 
-    public MoveByEncoder(double distance, double power){
+    public MoveByEncoder(double distance, double power) {
         requires(RobotBuilder.drivetrain);
         leftInch = distance;
         rightInch = distance;
@@ -30,7 +30,7 @@ public class MoveByEncoder extends Command {
 
     @Override
     protected void execute() {
-        while((Drivetrain.getLeftEncoderPos() < leftTarget) && (Drivetrain.getRightEncoderPos() < rightTarget)){
+        while((Drivetrain.getLeftEncoderPos() < leftTarget) && (Drivetrain.getRightEncoderPos() < rightTarget)) {
             //todo - encoder invert
             Drivetrain.robotDrive.tankDrive(-power, -power);
             postValues();
@@ -50,21 +50,19 @@ public class MoveByEncoder extends Command {
     @Override
     protected boolean isFinished() {
         //return ((Drivetrain.getLeftEncoderPos() >= leftTarget) || (Drivetrain.getRightEncoderPos() >= rightTarget));
-        if (Drivetrain.getLeftEncoderPos() >= leftTarget){
+        if (Drivetrain.getLeftEncoderPos() >= leftTarget) {
             SmartDashboard.putString("Is Finished:", "True");
             return true;
-        }
-        else if (Drivetrain.getRightEncoderPos() >= rightTarget){
+        } else if (Drivetrain.getRightEncoderPos() >= rightTarget) {
             SmartDashboard.putString("Is Finished:", "True");
             return true;
-        }
-        else {
+        } else {
             SmartDashboard.putString("Is Finished:", "False");
             return false;
         }
     }
 
-    protected void postValues(){
+    protected void postValues() {
         SmartDashboard.putNumber("Left Target:", leftTarget);
         SmartDashboard.putNumber("Right Target:", rightTarget);
         SmartDashboard.putNumber("Left Position", Drivetrain.getLeftEncoderPos());

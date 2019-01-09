@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.sensors.PigeonIMU;
@@ -12,7 +11,7 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
-public class Drivetrain extends Subsystem implements initableSubsystem{
+public class Drivetrain extends Subsystem implements initableSubsystem {
 
     //Defines the motor controllers
     private static WPI_TalonSRX leftDriveMotor, rightDriveMotor;
@@ -35,7 +34,7 @@ public class Drivetrain extends Subsystem implements initableSubsystem{
     private static TalonSRX Unused;
 
     @Override
-    public void init(){
+    public void init() {
         //This configures our motor controller objects and assigns them to the CAN objects on the robot.
 
         /*Left Motor Config*/
@@ -92,34 +91,34 @@ public class Drivetrain extends Subsystem implements initableSubsystem{
     }
 
     //These methods are used for returning the current value of the relative encoders on the left and right Drive Talons. 
-    public static double getLeftEncoderPos(){
+    public static double getLeftEncoderPos() {
         return leftDriveMotor.getSelectedSensorPosition(0);
     }
-    public static double getRightEncoderPos(){
+    public static double getRightEncoderPos() {
         return rightDriveMotor.getSelectedSensorPosition(0);
     }
 
     //This resets the encoder values to 0
-    public static void zeroEncoders(){
+    public static void zeroEncoders() {
         leftDriveMotor.setSelectedSensorPosition(0);
         rightDriveMotor.setSelectedSensorPosition(0);
     }
 
     //These methods get the velocities (in feet per second) of the left and right drive Talons, based on the encoder ticks per second.
     //To convert units, we use the ticksToInches method, shown below
-    public static double getLeftEncoderVel(){
+    public static double getLeftEncoderVel() {
         return (ticksToInches(leftDriveMotor.getSelectedSensorVelocity(0)) /10);
     }
-    public static double getRightEncoderVel(){
+    public static double getRightEncoderVel() {
         return (ticksToInches(rightDriveMotor.getSelectedSensorVelocity(0)) /10);
     }
 
     //This method returns the number of inches a robot will have traveled, given an input of encoder ticks
-    public static double ticksToInches(double tick){
+    public static double ticksToInches(double tick) {
         return (tick / RobotConstants.TICKS_PER_ROTATION * (RobotConstants.WHEEL_DIAMETER * Math.PI));
     }
     //This method does what the above one does, but in reverse. 
-    public static double inchesToTicks(double inch){
+    public static double inchesToTicks(double inch) {
         return (inch / (RobotConstants.WHEEL_DIAMETER * Math.PI) * RobotConstants.TICKS_PER_ROTATION);
     }
 
@@ -132,11 +131,10 @@ public class Drivetrain extends Subsystem implements initableSubsystem{
 
     //Returns current angle of the gyro
     //TODO - Backup Encoder-Only Auton
-    public static double getGyroRotation(){
-        if(gyro.isConnected()){
+    public static double getGyroRotation() {
+        if (gyro.isConnected()) {
             return gyro.getAngle();
-        }
-        else{
+        } else {
             //TODO - More elegant error flag system.
             System.out.println("ERROR: Gyro not connected. Defaulting to 0 angle...");
             return 0;
@@ -144,18 +142,17 @@ public class Drivetrain extends Subsystem implements initableSubsystem{
     }
 
     //Returns current rate of the gyro.
-    public static double getGyroRate(){
-        if(gyro.isConnected()){
+    public static double getGyroRate() {
+        if (gyro.isConnected()) {
             return gyro.getRate();
-        }
-        else{
+        } else {
             System.out.println("ERROR: Gyro not connected. Defaulting to 0 rate...");
             return 0;
         }
     }
 
 
-    public static double getPigeonYaw(){
+    public static double getPigeonYaw() {
         double[] ypr = new double[3];
         gyro2.getYawPitchRoll(ypr);
         return ypr[0];
