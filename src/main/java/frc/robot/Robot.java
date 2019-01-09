@@ -54,7 +54,7 @@ public class Robot extends TimedRobot {
     //TODO - Test robotbuilder architecture
     robot.init();
 
-    Drivetrain.zeroEncoders();
+    robot.drivetrain.zeroEncoders();
   }
 
 

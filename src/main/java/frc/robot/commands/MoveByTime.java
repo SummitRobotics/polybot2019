@@ -8,6 +8,8 @@ public class MoveByTime extends Command {
 
     private double power, time;
 
+    private Drivetrain drivetrain = Drivetrain.GetInstance();
+
     public MoveByTime(double power, double time){
         requires(RobotBuilder.drivetrain);
         this.power = power;
@@ -22,7 +24,7 @@ public class MoveByTime extends Command {
     @Override
     protected void execute() {
         while(timeSinceInitialized() < time){
-            Drivetrain.robotDrive.tankDrive(power, power);
+            drivetrain.robotDrive.tankDrive(power, power);
         }
     }
 

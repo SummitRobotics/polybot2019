@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 
 public class RobotBuilder{
-    public static Drivetrain drivetrain = new Drivetrain();
+    public static Drivetrain drivetrain = Drivetrain.GetInstance();
     public static TestMotor mast = new TestMotor();
     ArrayList<initableSubsystem> list;
     

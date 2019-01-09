@@ -10,6 +10,8 @@ public class Teleop_Arcade_Differential {
 
     double xSpeed, zRotation;
 
+    Drivetrain drivetrain = Drivetrain.GetInstance();
+
     public void init(){
         gamepad = new OI();
     }
@@ -20,11 +22,11 @@ public class Teleop_Arcade_Differential {
         zRotation = -gamepad.getLeftJoystickX();
 
         //Potentially implement curvatureDrive in the future?
-        Drivetrain.robotDrive.arcadeDrive(xSpeed, zRotation);
-        SmartDashboard.putNumber("Left Encoder", Drivetrain.getLeftEncoderPos());
-        SmartDashboard.putNumber("Right Encoder", Drivetrain.getRightEncoderPos());
-        SmartDashboard.putNumber("Left Velocity", Drivetrain.getLeftEncoderVel());
-        SmartDashboard.putNumber("Right Velocity", Drivetrain.getRightEncoderVel());
+        drivetrain.robotDrive.arcadeDrive(xSpeed, zRotation);
+        SmartDashboard.putNumber("Left Encoder", drivetrain.getLeftEncoderPos());
+        SmartDashboard.putNumber("Right Encoder", drivetrain.getRightEncoderPos());
+        SmartDashboard.putNumber("Left Velocity", drivetrain.getLeftEncoderVel());
+        SmartDashboard.putNumber("Right Velocity", drivetrain.getRightEncoderVel());
 
     }
 }

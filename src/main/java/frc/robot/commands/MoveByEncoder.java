@@ -7,13 +7,15 @@ import frc.robot.subsystems.Drivetrain;
 
 public class MoveByEncoder extends Command {
 
+    private Drivetrain drivetrain = Drivetrain.GetInstance();
+
     private double leftInch, rightInch;
     private double leftInitPosition, rightInitPosition;
     private double leftTarget, rightTarget;
     private double power;
 
     public MoveByEncoder(double distance, double power) {
-        requires(RobotBuilder.drivetrain);
+        requires(drivetrain);
         leftInch = distance;
         rightInch = distance;
         this.power = power;
@@ -21,18 +23,18 @@ public class MoveByEncoder extends Command {
 
     @Override
     protected void initialize() {
-        leftInitPosition = Drivetrain.getLeftEncoderPos();
-        rightInitPosition = Drivetrain.getRightEncoderPos();
+        leftInitPosition = drivetrain.getLeftEncoderPos();
+        rightInitPosition = drivetrain.getRightEncoderPos();
 
-        leftTarget = leftInitPosition + Drivetrain.inchesToTicks(leftInch);
-        rightTarget = rightInitPosition + Drivetrain.inchesToTicks(rightInch);
+        leftTarget = leftInitPosition + drivetrain.inchesToTicks(leftInch);
+        rightTarget = rightInitPosition + drivetrain.inchesToTicks(rightInch);
     }
 
     @Override
     protected void execute() {
-        while((Drivetrain.getLeftEncoderPos() < leftTarget) && (Drivetrain.getRightEncoderPos() < rightTarget)) {
+        while((drivetrain.getLeftEncoderPos() < leftTarget) && (drivetrain.getRightEncoderPos() < rightTarget)) {
             //todo - encoder invert
-            Drivetrain.robotDrive.tankDrive(-power, -power);
+            drivetrain.robotDrive.tankDrive(-power, -power);
             postValues();
         }
     }
@@ -50,10 +52,10 @@ public class MoveByEncoder extends Command {
     @Override
     protected boolean isFinished() {
         //return ((Drivetrain.getLeftEncoderPos() >= leftTarget) || (Drivetrain.getRightEncoderPos() >= rightTarget));
-        if (Drivetrain.getLeftEncoderPos() >= leftTarget) {
+        if (drivetrain.getLeftEncoderPos() >= leftTarget) {
             SmartDashboard.putString("Is Finished:", "True");
             return true;
-        } else if (Drivetrain.getRightEncoderPos() >= rightTarget) {
+        } else if (drivetrain.getRightEncoderPos() >= rightTarget) {
             SmartDashboard.putString("Is Finished:", "True");
             return true;
         } else {
@@ -65,7 +67,7 @@ public class MoveByEncoder extends Command {
     protected void postValues() {
         SmartDashboard.putNumber("Left Target:", leftTarget);
         SmartDashboard.putNumber("Right Target:", rightTarget);
-        SmartDashboard.putNumber("Left Position", Drivetrain.getLeftEncoderPos());
-        SmartDashboard.putNumber("Right Position", Drivetrain.getRightEncoderPos());
+        SmartDashboard.putNumber("Left Position", drivetrain.getLeftEncoderPos());
+        SmartDashboard.putNumber("Right Position", drivetrain.getRightEncoderPos());
     }
 }

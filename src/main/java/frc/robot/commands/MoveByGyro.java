@@ -10,8 +10,10 @@ public class MoveByGyro extends Command {
     private double direction;
     private double targetAngle;
 
+    private Drivetrain drivetrain = Drivetrain.GetInstance();
+
     public MoveByGyro(double angle, double power) {
-        requires(RobotBuilder.drivetrain);
+        requires(drivetrain);
         this.angle = angle;
         //We only ever want positive power, as the angle of the gyro will determine wether we go in the positive or negative direction.
         this.power = Math.abs(power);
@@ -20,13 +22,13 @@ public class MoveByGyro extends Command {
 
     @Override
     protected void initialize() {
-        targetAngle = angle + Drivetrain.getGyroRotation();
+        targetAngle = angle + drivetrain.getGyroRotation();
     }
 
     @Override
     protected void execute() {
-        while(roundAngle(Drivetrain.getGyroRotation()) < roundAngle(targetAngle) || (roundAngle(Drivetrain.getGyroRotation()) > roundAngle(targetAngle)));{
-            Drivetrain.robotDrive.tankDrive(power, power * direction);
+        while(roundAngle(drivetrain.getGyroRotation()) < roundAngle(targetAngle) || (roundAngle(drivetrain.getGyroRotation()) > roundAngle(targetAngle)));{
+            drivetrain.robotDrive.tankDrive(power, power * direction);
         }
     }
 
