@@ -1,8 +1,11 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -20,8 +23,16 @@ public class Drivetrain extends Subsystem implements initableSubsystem{
     private static SpeedControllerGroup leftDrive, rightDrive;
     public static DifferentialDrive robotDrive;
 
+    //defines the motor controller which handles the feedback from the gyro
+    
     //Defines the robot gyro
     private static ADXRS450_Gyro gyro;
+
+    //Defines the other robot gyro
+    public static PigeonIMU gyro2;
+
+    //Defines the motor controller which handles Pigeon gyro input
+    private static TalonSRX Unused;
 
     @Override
     public void init(){
@@ -68,6 +79,15 @@ public class Drivetrain extends Subsystem implements initableSubsystem{
 
         //Creates gyro object
         gyro = new ADXRS450_Gyro();
+        gyro.calibrate();
+
+        //Creates the unused Talon used for getting input from the Pigeon IMU
+        Unused = new TalonSRX(RobotConstants.UNUSED);
+
+        //Creates the second gyro using the above Talon as the communication interface
+        gyro2 = new PigeonIMU(Unused);
+        gyro2.enterCalibrationMode(PigeonIMU.CalibrationMode.BootTareGyroAccel);
+        
         
     }
 
@@ -132,6 +152,13 @@ public class Drivetrain extends Subsystem implements initableSubsystem{
             System.out.println("ERROR: Gyro not connected. Defaulting to 0 rate...");
             return 0;
         }
+    }
+
+
+    public static double getPigeonYaw(){
+        double[] ypr = new double[3];
+        gyro2.getYawPitchRoll(ypr);
+        return ypr[0];
     }
 
     //This is an abstract Command method, and must be overwritten

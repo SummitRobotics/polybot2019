@@ -9,5 +9,6 @@ public class GoFwd extends CommandGroup {
 
     public GoFwd(){
         addSequential(new MoveByEncoder(12, 0.4));
+        
     }
 }

@@ -24,6 +24,10 @@ public class RobotConstants{
     //This is a hall-effect digital input sensor;
     public static final int HALL_FX = 1;
 
+    //This is the motor controller connected to the Pigeon IMU
+    public static final int UNUSED = 23;
+
+
     /*------------------------------*/
     /*      PART 2   -    OTHER     */
     /*------------------------------*/
