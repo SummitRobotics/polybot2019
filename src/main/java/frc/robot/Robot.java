@@ -105,6 +105,7 @@ public class Robot extends TimedRobot {
     if (auto != null) {
       auto.start();
     }
+    SmartDashboard.putNumber("Gyro Yaw", Drivetrain.getPigeonYaw());
   }
 
 
@@ -116,6 +117,7 @@ public class Robot extends TimedRobot {
     //Runs the Command Scheduler as defined by the WPIlib API.
     //In other words, makes our auto actually execute.
     Scheduler.getInstance().run();
+    SmartDashboard.putNumber("Gyro Yaw", Drivetrain.getPigeonYaw());
   }
 
 
