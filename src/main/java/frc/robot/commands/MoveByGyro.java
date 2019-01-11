@@ -1,19 +1,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.RobotBuilder;
-import frc.robot.subsystems.Drivetrain;
 
-public class MoveByGyro extends Command {
+public class MoveByGyro extends Command implements CommandInterface {
     private double angle, power;
     //Direction is defined by 1 being clockwise and -1 being counter-clockwise
     private double direction;
     private double targetAngle;
 
-    private Drivetrain drivetrain = Drivetrain.GetInstance();
-
     public MoveByGyro(double angle, double power) {
-        requires(drivetrain);
+        requires(subsystems.drivetrain);
         this.angle = angle;
         //We only ever want positive power, as the angle of the gyro will determine wether we go in the positive or negative direction.
         this.power = Math.abs(power);
@@ -22,13 +18,13 @@ public class MoveByGyro extends Command {
 
     @Override
     protected void initialize() {
-        targetAngle = angle + drivetrain.getGyroRotation();
+        targetAngle = angle + subsystems.drivetrain.getGyroRotation();
     }
 
     @Override
     protected void execute() {
-        while(roundAngle(drivetrain.getGyroRotation()) < roundAngle(targetAngle) || (roundAngle(drivetrain.getGyroRotation()) > roundAngle(targetAngle)));{
-            drivetrain.robotDrive.tankDrive(power, power * direction);
+        while(roundAngle(subsystems.drivetrain.getGyroRotation()) < roundAngle(targetAngle) || (roundAngle(subsystems.drivetrain.getGyroRotation()) > roundAngle(targetAngle)));{
+            subsystems.drivetrain.robotDrive.tankDrive(power, power * direction);
         }
     }
 

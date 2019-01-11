@@ -2,12 +2,11 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.RobotBuilder;
 import frc.robot.subsystems.Drivetrain;
 
-public class MoveByEncoder extends Command {
+public class MoveByEncoder extends Command implements CommandInterface {
 
-    private Drivetrain drivetrain = Drivetrain.GetInstance();
+    private Drivetrain drivetrain = subsystems.drivetrain;
 
     private double leftInch, rightInch;
     private double leftInitPosition, rightInitPosition;

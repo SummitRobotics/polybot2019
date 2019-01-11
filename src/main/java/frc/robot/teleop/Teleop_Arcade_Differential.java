@@ -2,7 +2,7 @@ package frc.robot.teleop;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.RobotBuilder;
 
 public class Teleop_Arcade_Differential {
 
@@ -10,7 +10,7 @@ public class Teleop_Arcade_Differential {
 
     double xSpeed, zRotation;
 
-    Drivetrain drivetrain = Drivetrain.GetInstance();
+    RobotBuilder subsystems = RobotBuilder.getInstance();
 
     public void init(){
         gamepad = new OI();
@@ -22,11 +22,11 @@ public class Teleop_Arcade_Differential {
         zRotation = -gamepad.getLeftJoystickX();
 
         //Potentially implement curvatureDrive in the future?
-        drivetrain.robotDrive.arcadeDrive(xSpeed, zRotation);
-        SmartDashboard.putNumber("Left Encoder", drivetrain.getLeftEncoderPos());
-        SmartDashboard.putNumber("Right Encoder", drivetrain.getRightEncoderPos());
-        SmartDashboard.putNumber("Left Velocity", drivetrain.getLeftEncoderVel());
-        SmartDashboard.putNumber("Right Velocity", drivetrain.getRightEncoderVel());
+        subsystems.drivetrain.robotDrive.arcadeDrive(xSpeed, zRotation);
+        SmartDashboard.putNumber("Left Encoder", subsystems.drivetrain.getLeftEncoderPos());
+        SmartDashboard.putNumber("Right Encoder", subsystems.drivetrain.getRightEncoderPos());
+        SmartDashboard.putNumber("Left Velocity", subsystems.drivetrain.getLeftEncoderVel());
+        SmartDashboard.putNumber("Right Velocity", subsystems.drivetrain.getRightEncoderVel());
 
     }
 }

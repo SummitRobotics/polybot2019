@@ -7,20 +7,34 @@ import frc.robot.subsystems.initableSubsystem;
 import java.util.ArrayList;
 
 
-public class RobotBuilder{
-    public static Drivetrain drivetrain = Drivetrain.GetInstance();
-    public static TestMotor mast = new TestMotor();
-    ArrayList<initableSubsystem> list;
-    
-    public RobotBuilder(){
-        list = new ArrayList<initableSubsystem>();
+public class RobotBuilder {
 
-        list.add(drivetrain);
+    public Drivetrain drivetrain = new Drivetrain();
+    public TestMotor mast = new TestMotor();
+
+    ArrayList<initableSubsystem> initiableList;
+
+    private static RobotBuilder robotBuilder;
+    
+    private RobotBuilder(){
+        initiableList = new ArrayList<initableSubsystem>();
+
+        initiableList.add(drivetrain);
+        initiableList.add(mast);
+    }
+
+    public static RobotBuilder getInstance() {
+
+        if (robotBuilder == null) {
+            robotBuilder = new RobotBuilder();
+        }
+
+        return robotBuilder;
     }
 
     public void init(){
-        for(int i = 0; i < list.size(); i++){
-            list.get(i).init();
+        for(int i = 0; i < initiableList.size(); i++){
+            initiableList.get(i).init();
         }
     }
 }

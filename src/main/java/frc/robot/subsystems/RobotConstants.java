@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 public class RobotConstants {
     
     /*This class contains important constants relevant to our robot code*/
-    /*Nothing in your program should modify these constants*/
 
     /*------------------------------*/
     /*    PART 1  -  PORT NUMBERS   */

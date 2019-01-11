@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commandgroups.GoFwd;
-import frc.robot.subsystems.Drivetrain;
 import frc.robot.teleop.Teleop_Arcade_Differential;
 
 /**
@@ -27,8 +26,8 @@ import frc.robot.teleop.Teleop_Arcade_Differential;
 
 public class Robot extends TimedRobot {
   //public static Drivetrain drivetrain = new Drivetrain();
-  public static RobotBuilder robot = new RobotBuilder();
-  public static OI OpI;
+  public RobotBuilder robot = RobotBuilder.getInstance();
+  public OI OpI;
 
   Command auto;
   SendableChooser<Command> autoChooser = new SendableChooser<>();
