@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commandgroups.GoFwd;
+import frc.robot.commandgroups.TestAuto;
+import frc.robot.commands.MoveByNewGyro;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.teleop.Teleop_Arcade_Differential;
 
@@ -48,6 +50,7 @@ public class Robot extends TimedRobot {
     //Create a drop-down menu for selcting an autonomous program
     //Use .addOption for adding new autonomous routines
     autoChooser.setDefaultOption("Default Auto", new GoFwd());
+    autoChooser.addOption("SpinToWin", new TestAuto());
     SmartDashboard.putData("Auto mode", autoChooser);
 
     //Initialize the various subsystems
@@ -55,6 +58,7 @@ public class Robot extends TimedRobot {
     robot.init();
 
     Drivetrain.zeroEncoders();
+    Drivetrain.resetGyro2();
   }
 
 
@@ -101,11 +105,11 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     auto = autoChooser.getSelected();
+   
 
     if (auto != null) {
       auto.start();
     }
-    SmartDashboard.putNumber("Gyro Yaw", Drivetrain.getPigeonYaw());
   }
 
 
@@ -117,7 +121,6 @@ public class Robot extends TimedRobot {
     //Runs the Command Scheduler as defined by the WPIlib API.
     //In other words, makes our auto actually execute.
     Scheduler.getInstance().run();
-    SmartDashboard.putNumber("Gyro Yaw", Drivetrain.getPigeonYaw());
   }
 
 

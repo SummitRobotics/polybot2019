@@ -158,6 +158,12 @@ public class Drivetrain extends Subsystem implements initableSubsystem {
         return ypr[0];
     }
 
+    public static void resetGyro2(){
+        gyro2.setYaw(0);
+        gyro2.setAccumZAngle(0);
+        gyro2.enterCalibrationMode(PigeonIMU.CalibrationMode.BootTareGyroAccel);
+    }
+
     //This is an abstract Command method, and must be overwritten
     //When the subsystem is idle (no other commands are calling it), the DefaultCommand defined in this method will run
     //For this subsystem, we don't want it to execute any commands when idle. 
