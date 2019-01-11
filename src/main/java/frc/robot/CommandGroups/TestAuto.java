@@ -1,7 +1,6 @@
 package frc.robot.commandgroups;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.commands.MoveByGyro;
 import frc.robot.commands.MoveByNewGyro;
 
 public class TestAuto extends CommandGroup {

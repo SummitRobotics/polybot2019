@@ -8,6 +8,7 @@ import frc.robot.subsystems.Drivetrain;
 public class MoveByNewGyro extends Command {
     private double angle, power, targetAngle;
     private double direction;
+    private final double threshold = 3;
     
     public MoveByNewGyro(double angle, double power) {
         requires(RobotBuilder.drivetrain);
@@ -18,18 +19,15 @@ public class MoveByNewGyro extends Command {
 
     @Override
     protected void initialize() {
-        targetAngle = angle + Drivetrain.getPigeonYaw();
         SmartDashboard.putNumber("Gyro", Drivetrain.getPigeonYaw());
+        targetAngle = getAngleError(Drivetrain.getPigeonYaw(), this.angle);
     }
 
     @Override
     protected void execute() {
-        while(/*(Drivetrain.getPigeonYaw() < tolerance(targetAngle)) || (Drivetrain.getPigeonYaw() > tolerance(targetAngle))*/ 
-                Drivetrain.getPigeonYaw() != tolerance(targetAngle)){
-            Drivetrain.robotDrive.tankDrive(power * direction, power * -direction);
-            SmartDashboard.putNumber("Gyro",Drivetrain.getPigeonYaw());
-        }
-        Drivetrain.robotDrive.stopMotor();
+            while(!isWithinThreshold()){
+                Drivetrain.robotDrive.tankDrive(power * direction, -power * direction);
+            }
     }
 
     @Override
@@ -44,16 +42,16 @@ public class MoveByNewGyro extends Command {
 
     @Override
     protected boolean isFinished() {
-        return Drivetrain.getGyroRotation() ==tolerance(targetAngle) || Drivetrain.getGyroRotation() == tolerance(targetAngle);
+        return isWithinThreshold();
     }
 
-    /*private double roundAngle(double angle) {
-        double scale = Math.pow((10), 2);
-        return Math.floor(angle * scale) / scale;
-    }*/
+    //todo - a better way
+    private double getAngleError(double currentAngle, double expectedAngle){
+        return expectedAngle - currentAngle;
+    }
 
-    private double tolerance(double angle){
-        return Math.round(angle);
+    private boolean isWithinThreshold(){
+        return getAngleError(Drivetrain.getPigeonYaw(), targetAngle) < threshold;
     }
 
 }
