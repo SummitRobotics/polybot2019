@@ -6,7 +6,7 @@ import frc.robot.subsystems.Drivetrain;
 
 public class MoveByEncoder extends Command implements CommandInterface {
 
-    private Drivetrain drivetrain = subsystems.drivetrain;
+    private Drivetrain drivetrain = Drivetrain.getInstance();
 
     private double leftInch, rightInch;
     private double leftInitPosition, rightInitPosition;

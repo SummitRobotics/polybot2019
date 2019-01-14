@@ -1,13 +1,17 @@
 package frc.robot.commands;
 
+
+import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class MoveByTime extends Command implements CommandInterface {
 
+    private Drivetrain drivetrain = Drivetrain.getInstance();
+
     private double power, time;
 
     public MoveByTime(double power, double time){
-        requires(subsystems.drivetrain);
+        requires(drivetrain);
         this.power = power;
         this.time = time;
     }
@@ -20,7 +24,7 @@ public class MoveByTime extends Command implements CommandInterface {
     @Override
     protected void execute() {
         while(timeSinceInitialized() < time){
-            subsystems.drivetrain.robotDrive.tankDrive(power, power);
+            drivetrain.robotDrive.tankDrive(power, power);
         }
     }
 
@@ -35,6 +39,6 @@ public class MoveByTime extends Command implements CommandInterface {
 
     @Override
     protected void interrupted() {
-        end();
+       
     }
 }

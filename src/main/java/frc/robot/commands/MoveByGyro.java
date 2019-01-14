@@ -1,8 +1,10 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.subsystems.Drivetrain;
 
 public class MoveByGyro extends Command implements CommandInterface {
+
     private double angle, power;
     //Direction is defined by 1 being clockwise and -1 being counter-clockwise
     private double direction;
@@ -18,13 +20,13 @@ public class MoveByGyro extends Command implements CommandInterface {
 
     @Override
     protected void initialize() {
-        targetAngle = angle + subsystems.drivetrain.getGyroRotation();
+        targetAngle = angle + drivetrain.getGyroRotation();
     }
 
     @Override
     protected void execute() {
-        while(Drivetrain.getGyroRotation() < targetAngle || Drivetrain.getGyroRotation() >targetAngle){
-            Drivetrain.robotDrive.tankDrive(power, power * direction); 
+        while(drivetrain.getGyroRotation() < targetAngle || drivetrain.getGyroRotation() >targetAngle){
+            drivetrain.robotDrive.tankDrive(power, power * direction); 
         }
     }
 
