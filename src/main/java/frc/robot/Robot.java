@@ -8,6 +8,8 @@
 package frc.robot;
 
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -16,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commandgroups.GoFwd;
 import frc.robot.commandgroups.TestAuto;
 import frc.robot.commands.MoveByNewGyro;
+import frc.robot.sensors.REVdisplay;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.teleop.Teleop_Arcade_Differential;
 
@@ -36,6 +39,8 @@ public class Robot extends TimedRobot {
   SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   private Teleop_Arcade_Differential Teleop;
+
+  private REVdisplay revBoard = new REVdisplay();
 
 
   /**
@@ -59,6 +64,8 @@ public class Robot extends TimedRobot {
 
     Drivetrain.zeroEncoders();
     Drivetrain.resetGyro2();
+
+    revBoard.init();
   }
 
 
@@ -72,6 +79,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    DashboardOutput.run();
+    revBoard.run();
   }
 
 
@@ -82,6 +91,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    revBoard.disable();
   }
 
 
@@ -105,6 +115,9 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     auto = autoChooser.getSelected();
+
+    Drivetrain.zeroEncoders();
+    Drivetrain.resetGyro2();
    
 
     if (auto != null) {
@@ -144,7 +157,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    //Scheduler.getInstance().run();
+    Scheduler.getInstance().run();
     Teleop.run();
   }
 

@@ -30,11 +30,12 @@ public class MoveByEncoder extends Command {
 
     @Override
     protected void execute() {
-        while((Drivetrain.getLeftEncoderPos() < leftTarget) && (Drivetrain.getRightEncoderPos() < rightTarget)) {
+        while((Drivetrain.getLeftEncoderPos() < -leftTarget) && (Drivetrain.getRightEncoderPos() < -rightTarget)) {
             //todo - encoder invert
             Drivetrain.robotDrive.tankDrive(-power, -power);
             postValues();
         }
+        Drivetrain.robotDrive.tankDrive(0,0);
     }
 
     @Override
@@ -44,13 +45,13 @@ public class MoveByEncoder extends Command {
 
     @Override
     protected void interrupted() {
-        end();
+        
     }
 
     @Override
     protected boolean isFinished() {
-        //return ((Drivetrain.getLeftEncoderPos() >= leftTarget) || (Drivetrain.getRightEncoderPos() >= rightTarget));
-        if (Drivetrain.getLeftEncoderPos() >= leftTarget) {
+        return ((Drivetrain.getLeftEncoderPos() >= leftTarget) || (Drivetrain.getRightEncoderPos() >= rightTarget));
+        /*if (Drivetrain.getLeftEncoderPos() >= leftTarget) {
             SmartDashboard.putString("Is Finished:", "True");
             return true;
         } else if (Drivetrain.getRightEncoderPos() >= rightTarget) {
@@ -59,7 +60,7 @@ public class MoveByEncoder extends Command {
         } else {
             SmartDashboard.putString("Is Finished:", "False");
             return false;
-        }
+        }*/
     }
 
     protected void postValues() {

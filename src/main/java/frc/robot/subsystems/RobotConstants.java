@@ -27,6 +27,9 @@ public class RobotConstants {
     //This is the motor controller connected to the Pigeon IMU
     public static final int UNUSED = 23;
 
+    //This is the SPARK Max motor controller
+    public static final int SPARK_MAX_TEST = 0;
+
 
     /*------------------------------*/
     /*      PART 2   -    OTHER     */

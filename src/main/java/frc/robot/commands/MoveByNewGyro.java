@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotBuilder;
 import frc.robot.subsystems.Drivetrain;
 
@@ -19,15 +18,15 @@ public class MoveByNewGyro extends Command {
 
     @Override
     protected void initialize() {
-        SmartDashboard.putNumber("Gyro", Drivetrain.getPigeonYaw());
         targetAngle = getAngleError(Drivetrain.getPigeonYaw(), this.angle);
     }
 
     @Override
     protected void execute() {
-            while(!isWithinThreshold()){
+         while(!isWithinThreshold()){
                 Drivetrain.robotDrive.tankDrive(power * direction, -power * direction);
             }
+         Drivetrain.robotDrive.tankDrive(0, 0);
     }
 
     @Override
@@ -42,10 +41,9 @@ public class MoveByNewGyro extends Command {
 
     @Override
     protected boolean isFinished() {
-        return isWithinThreshold();
+        return false;
     }
 
-    //todo - a better way
     private double getAngleError(double currentAngle, double expectedAngle){
         return expectedAngle - currentAngle;
     }
@@ -53,5 +51,6 @@ public class MoveByNewGyro extends Command {
     private boolean isWithinThreshold(){
         return getAngleError(Drivetrain.getPigeonYaw(), targetAngle) < threshold;
     }
+
 
 }
