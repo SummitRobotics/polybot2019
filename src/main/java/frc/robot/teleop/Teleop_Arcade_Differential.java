@@ -27,6 +27,6 @@ public class Teleop_Arcade_Differential {
         SmartDashboard.putNumber("Right Encoder", subsystems.drivetrain.getRightEncoderPos());
         SmartDashboard.putNumber("Left Velocity", subsystems.drivetrain.getLeftEncoderVel());
         SmartDashboard.putNumber("Right Velocity", subsystems.drivetrain.getRightEncoderVel());
-
+    
     }
 }

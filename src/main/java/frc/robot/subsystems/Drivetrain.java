@@ -135,7 +135,7 @@ public class Drivetrain extends Subsystem implements initableSubsystem {
         return ypr[0];
     }
 
-    public static void resetGyro2(){
+    public void resetGyro2(){
         gyro2.setYaw(0);
         gyro2.setAccumZAngle(0);
         gyro2.enterCalibrationMode(PigeonIMU.CalibrationMode.BootTareGyroAccel);
