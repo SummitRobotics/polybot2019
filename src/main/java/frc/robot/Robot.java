@@ -8,8 +8,6 @@
 package frc.robot;
 
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -17,9 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commandgroups.GoFwd;
 import frc.robot.commandgroups.TestAuto;
-import frc.robot.commands.MoveByNewGyro;
 import frc.robot.sensors.REVdisplay;
-import frc.robot.subsystems.Drivetrain;
 import frc.robot.teleop.Teleop_Arcade_Differential;
 
 /**
@@ -59,12 +55,11 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto mode", autoChooser);
 
     //Initialize the various subsystems
-    //TODO - Test robotbuilder architecture
     robot.init();
 
 
-    Drivetrain.zeroEncoders();
-    Drivetrain.resetGyro2();
+    robot.drivetrain.zeroEncoders();
+    robot.drivetrain.resetGyro2();
 
     revBoard.init();
     robot.drivetrain.zeroEncoders();
@@ -118,8 +113,8 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     auto = autoChooser.getSelected();
 
-    Drivetrain.zeroEncoders();
-    Drivetrain.resetGyro2();
+    robot.drivetrain.zeroEncoders();
+    robot.drivetrain.resetGyro2();
    
 
     if (auto != null) {

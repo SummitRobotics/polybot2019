@@ -33,8 +33,6 @@ public class Drivetrain extends Subsystem implements initableSubsystem {
     //Defines the motor controller which handles Pigeon gyro input
     private TalonSRX Unused;
 
-    private static Drivetrain singletonInstance;
-
     public Drivetrain() {
 
         leftDriveMotor = new WPI_TalonSRX(RobotConstants.LEFT_FRONT_DRIVE);
@@ -67,13 +65,6 @@ public class Drivetrain extends Subsystem implements initableSubsystem {
 
         gyro2 = new PigeonIMU(Unused);
         gyro2.enterCalibrationMode(PigeonIMU.CalibrationMode.BootTareGyroAccel);
-    }
-
-    public static Drivetrain getInstance(){
-        if(singletonInstance == null){
-            singletonInstance = new Drivetrain();
-        }
-        return singletonInstance;
     }
 
     //These methods are used for returning the current value of the relative encoders on the left and right Drive Talons. 

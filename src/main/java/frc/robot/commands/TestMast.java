@@ -1,14 +1,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.RobotBuilder;
-import frc.robot.subsystems.RevController;
 
-public class TestMast extends Command{
+public class TestMast extends Command implements CommandInterface{
     private double power, time, timestamp;
 
     public TestMast(double power, double time){
-        requires(RobotBuilder.revController);
+        requires(subsystems.revController);
         power = this.power;
         time = this.time;
         setTimeout(time);
@@ -22,7 +20,7 @@ public class TestMast extends Command{
     @Override
     protected void execute() {
         while(!isFinished()){
-            RevController.sparkMaxTest.set(power);
+            subsystems.revController.sparkMaxTest.set(power);
         }
     }
 

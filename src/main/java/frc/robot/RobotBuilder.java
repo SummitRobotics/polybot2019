@@ -11,9 +11,9 @@ public class RobotBuilder {
 
     public Drivetrain drivetrain = new Drivetrain();
     public TestMotor mast = new TestMotor();
+    public RevController revController = new RevController();
 
     ArrayList<initableSubsystem> initiableList;
-    public static RevController revController = new RevController();
 
     private static RobotBuilder robotBuilder;
 
@@ -30,9 +30,7 @@ public class RobotBuilder {
         if (robotBuilder == null) {
             robotBuilder = new RobotBuilder();
         }
-
-        list.add(drivetrain);
-        list.add(revController);
+        
         return robotBuilder;
     }
 

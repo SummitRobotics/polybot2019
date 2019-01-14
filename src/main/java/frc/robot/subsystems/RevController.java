@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class RevController extends Subsystem implements initableSubsystem{
 
-    public static CANSparkMax sparkMaxTest;
+    public CANSparkMax sparkMaxTest;
 
     @Override
     public void init() {

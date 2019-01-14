@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Drivetrain;
 
 public class MoveByGyro extends Command implements CommandInterface {
 
@@ -20,13 +19,13 @@ public class MoveByGyro extends Command implements CommandInterface {
 
     @Override
     protected void initialize() {
-        targetAngle = angle + drivetrain.getGyroRotation();
+        targetAngle = angle + subsystems.drivetrain.getGyroRotation();
     }
 
     @Override
     protected void execute() {
-        while(drivetrain.getGyroRotation() < targetAngle || drivetrain.getGyroRotation() >targetAngle){
-            drivetrain.robotDrive.tankDrive(power, power * direction); 
+        while(subsystems.drivetrain.getGyroRotation() < targetAngle || subsystems.drivetrain.getGyroRotation() >targetAngle){
+            subsystems.drivetrain.robotDrive.tankDrive(power, power * direction); 
         }
     }
 
