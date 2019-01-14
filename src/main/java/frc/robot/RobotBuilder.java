@@ -1,11 +1,11 @@
 package frc.robot;
 
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.RevController;
 import frc.robot.subsystems.TestMotor;
 import frc.robot.subsystems.initableSubsystem;
 
 import java.util.ArrayList;
-
 
 public class RobotBuilder {
 
@@ -13,8 +13,10 @@ public class RobotBuilder {
     public TestMotor mast = new TestMotor();
 
     ArrayList<initableSubsystem> initiableList;
+    public static RevController revController = new RevController();
 
     private static RobotBuilder robotBuilder;
+
     
     private RobotBuilder(){
         initiableList = new ArrayList<initableSubsystem>();
@@ -29,6 +31,8 @@ public class RobotBuilder {
             robotBuilder = new RobotBuilder();
         }
 
+        list.add(drivetrain);
+        list.add(revController);
         return robotBuilder;
     }
 

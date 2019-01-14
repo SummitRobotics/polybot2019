@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class MoveByNewGyro extends Command implements CommandInterface {
     private double angle, power, targetAngle;
     private double direction;
+    private final double threshold = 3;
     
     public MoveByNewGyro(double angle, double power) {
         requires(subsystems.drivetrain);
@@ -15,14 +16,15 @@ public class MoveByNewGyro extends Command implements CommandInterface {
 
     @Override
     protected void initialize() {
-        targetAngle = angle + subsystems.drivetrain.getPigeonYaw();
+        targetAngle = getAngleError(Drivetrain.getPigeonYaw(), this.angle);
     }
 
     @Override
     protected void execute() {
-        while((subsystems.drivetrain.getPigeonYaw() < targetAngle) || (subsystems.drivetrain.getPigeonYaw() > targetAngle)){
-            subsystems.drivetrain.robotDrive.tankDrive(power, power * direction);
-        }
+         while(!isWithinThreshold()){
+                Drivetrain.robotDrive.tankDrive(power * direction, -power * direction);
+            }
+         Drivetrain.robotDrive.tankDrive(0, 0);
     }
 
     @Override
@@ -39,5 +41,14 @@ public class MoveByNewGyro extends Command implements CommandInterface {
     protected boolean isFinished() {
         return subsystems.drivetrain.getGyroRotation() == targetAngle;
     }
+
+    private double getAngleError(double currentAngle, double expectedAngle){
+        return expectedAngle - currentAngle;
+    }
+
+    private boolean isWithinThreshold(){
+        return getAngleError(Drivetrain.getPigeonYaw(), targetAngle) < threshold;
+    }
+
 
 }

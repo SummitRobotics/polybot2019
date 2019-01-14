@@ -23,8 +23,8 @@ public class MoveByGyro extends Command implements CommandInterface {
 
     @Override
     protected void execute() {
-        while(roundAngle(subsystems.drivetrain.getGyroRotation()) < roundAngle(targetAngle) || (roundAngle(subsystems.drivetrain.getGyroRotation()) > roundAngle(targetAngle)));{
-            subsystems.drivetrain.robotDrive.tankDrive(power, power * direction);
+        while(Drivetrain.getGyroRotation() < targetAngle || Drivetrain.getGyroRotation() >targetAngle){
+            Drivetrain.robotDrive.tankDrive(power, power * direction); 
         }
     }
 
@@ -43,8 +43,4 @@ public class MoveByGyro extends Command implements CommandInterface {
         return false;
     }
 
-    private double roundAngle(double angle) {
-        double scale = Math.pow((10), 2);
-        return Math.floor(angle * scale) / scale;
-    }
 }

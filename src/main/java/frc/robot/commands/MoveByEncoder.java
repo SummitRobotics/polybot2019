@@ -36,6 +36,7 @@ public class MoveByEncoder extends Command implements CommandInterface {
             drivetrain.robotDrive.tankDrive(-power, -power);
             postValues();
         }
+        Drivetrain.robotDrive.tankDrive(0,0);
     }
 
     @Override
@@ -45,22 +46,12 @@ public class MoveByEncoder extends Command implements CommandInterface {
 
     @Override
     protected void interrupted() {
-        end();
+        
     }
 
     @Override
     protected boolean isFinished() {
-        //return ((Drivetrain.getLeftEncoderPos() >= leftTarget) || (Drivetrain.getRightEncoderPos() >= rightTarget));
-        if (drivetrain.getLeftEncoderPos() >= leftTarget) {
-            SmartDashboard.putString("Is Finished:", "True");
-            return true;
-        } else if (drivetrain.getRightEncoderPos() >= rightTarget) {
-            SmartDashboard.putString("Is Finished:", "True");
-            return true;
-        } else {
-            SmartDashboard.putString("Is Finished:", "False");
-            return false;
-        }
+        return ((Drivetrain.getLeftEncoderPos() >= leftTarget) || (Drivetrain.getRightEncoderPos() >= rightTarget));
     }
 
     protected void postValues() {

@@ -8,12 +8,18 @@
 package frc.robot;
 
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commandgroups.GoFwd;
+import frc.robot.commandgroups.TestAuto;
+import frc.robot.commands.MoveByNewGyro;
+import frc.robot.sensors.REVdisplay;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.teleop.Teleop_Arcade_Differential;
 
 /**
@@ -34,6 +40,8 @@ public class Robot extends TimedRobot {
 
   private Teleop_Arcade_Differential Teleop;
 
+  private REVdisplay revBoard = new REVdisplay();
+
 
   /**
    * This function is run when the robot is first started up and should be
@@ -47,12 +55,18 @@ public class Robot extends TimedRobot {
     //Create a drop-down menu for selcting an autonomous program
     //Use .addOption for adding new autonomous routines
     autoChooser.setDefaultOption("Default Auto", new GoFwd());
+    autoChooser.addOption("SpinToWin", new TestAuto());
     SmartDashboard.putData("Auto mode", autoChooser);
 
     //Initialize the various subsystems
     //TODO - Test robotbuilder architecture
     robot.init();
 
+
+    Drivetrain.zeroEncoders();
+    Drivetrain.resetGyro2();
+
+    revBoard.init();
     robot.drivetrain.zeroEncoders();
   }
 
@@ -67,6 +81,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    DashboardOutput.run();
+    revBoard.run();
   }
 
 
@@ -77,6 +93,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    revBoard.disable();
   }
 
 
@@ -100,6 +117,10 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     auto = autoChooser.getSelected();
+
+    Drivetrain.zeroEncoders();
+    Drivetrain.resetGyro2();
+   
 
     if (auto != null) {
       auto.start();
@@ -138,7 +159,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    //Scheduler.getInstance().run();
+    Scheduler.getInstance().run();
     Teleop.run();
   }
 
