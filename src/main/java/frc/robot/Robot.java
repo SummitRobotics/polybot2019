@@ -32,8 +32,8 @@ import frc.robot.teleop.Teleop_Arcade_Differential;
 
 public class Robot extends TimedRobot {
   //public static Drivetrain drivetrain = new Drivetrain();
-  public static RobotBuilder robot = new RobotBuilder();
-  public static OI OpI;
+  public RobotBuilder robot = RobotBuilder.getInstance();
+  public OI OpI;
 
   Command auto;
   SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -62,10 +62,12 @@ public class Robot extends TimedRobot {
     //TODO - Test robotbuilder architecture
     robot.init();
 
+
     Drivetrain.zeroEncoders();
     Drivetrain.resetGyro2();
 
     revBoard.init();
+    robot.drivetrain.zeroEncoders();
   }
 
 
