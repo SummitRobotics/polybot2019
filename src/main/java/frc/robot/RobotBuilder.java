@@ -23,6 +23,7 @@ public class RobotBuilder {
 
         initiableList.add(drivetrain);
         initiableList.add(mast);
+        initiableList.add(revController);
     }
 
     public static RobotBuilder getInstance() {

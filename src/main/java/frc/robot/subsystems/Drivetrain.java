@@ -65,6 +65,7 @@ public class Drivetrain extends Subsystem implements initableSubsystem {
 
         gyro2 = new PigeonIMU(Unused);
         gyro2.enterCalibrationMode(PigeonIMU.CalibrationMode.BootTareGyroAccel);
+
     }
 
     //These methods are used for returning the current value of the relative encoders on the left and right Drive Talons. 

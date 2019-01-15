@@ -9,9 +9,12 @@ public class RevController extends Subsystem implements initableSubsystem{
 
     public CANSparkMax sparkMaxTest;
 
+    public RevController() {
+        sparkMaxTest = new CANSparkMax(RobotConstants.SPARK_MAX_TEST, CANSparkMaxLowLevel.MotorType.kBrushed);
+    }
+
     @Override
     public void init() {
-        sparkMaxTest = new CANSparkMax(RobotConstants.SPARK_MAX_TEST, CANSparkMaxLowLevel.MotorType.kBrushed);
         sparkMaxTest.setInverted(false);
     }
 
