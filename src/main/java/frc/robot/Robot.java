@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commandgroups.GoFwd;
 import frc.robot.commandgroups.TestAuto;
-import frc.robot.sensors.REVdisplay;
 import frc.robot.teleop.Teleop_Arcade_Differential;
 
 /**
@@ -35,8 +34,6 @@ public class Robot extends TimedRobot {
   SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   private Teleop_Arcade_Differential Teleop;
-
-  private REVdisplay revBoard = new REVdisplay();
 
 
   /**
@@ -61,7 +58,7 @@ public class Robot extends TimedRobot {
     robot.drivetrain.zeroEncoders();
     robot.drivetrain.resetGyro2();
 
-    revBoard.init();
+    robot.revBoard.init();
     robot.drivetrain.zeroEncoders();
   }
 
@@ -77,7 +74,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     DashboardOutput.run();
-    revBoard.run();
+    robot.revBoard.run();
   }
 
 
@@ -88,7 +85,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    revBoard.disable();
+    robot.revBoard.disable();
   }
 
 

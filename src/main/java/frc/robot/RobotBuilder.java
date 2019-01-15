@@ -1,5 +1,7 @@
 package frc.robot;
 
+import frc.robot.sensors.Limelight;
+import frc.robot.sensors.REVdisplay;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.RevController;
 import frc.robot.subsystems.TestMotor;
@@ -12,6 +14,8 @@ public class RobotBuilder {
     public Drivetrain drivetrain = new Drivetrain();
     public TestMotor mast = new TestMotor();
     public RevController revController = new RevController();
+    public Limelight lemonlight = new Limelight();
+    public REVdisplay revBoard = new REVdisplay();
 
     ArrayList<initableSubsystem> initiableList;
 
