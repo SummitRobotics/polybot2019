@@ -44,7 +44,11 @@ public class Drivetrain extends Subsystem implements initableSubsystem {
         rightDrive = new SpeedControllerGroup(rightDriveMotor, rightSlaveMotor);
 
         robotDrive = new DifferentialDrive(leftDrive, rightDrive);
+
         gyro = new ADXRS450_Gyro();
+
+        Unused = new TalonSRX(RobotConstants.UNUSED);
+        gyro2 = new PigeonIMU(Unused);
     }
 
     public void init() {
@@ -61,9 +65,6 @@ public class Drivetrain extends Subsystem implements initableSubsystem {
 
         gyro.calibrate();
 
-        Unused = new TalonSRX(RobotConstants.UNUSED);
-
-        gyro2 = new PigeonIMU(Unused);
         gyro2.enterCalibrationMode(PigeonIMU.CalibrationMode.BootTareGyroAccel);
 
     }
