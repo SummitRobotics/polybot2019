@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MoveByNewGyro extends Command implements CommandInterface {
 
@@ -23,9 +24,13 @@ public class MoveByNewGyro extends Command implements CommandInterface {
 
     @Override
     protected void execute() {
-         while(!isWithinThreshold()){
+
+         while(!isWithinThreshold()) {
+
                 subsystems.drivetrain.robotDrive.tankDrive(power * direction, -power * direction);
+                SmartDashboard.putBoolean("NewGyroRunning", true);
             }
+        SmartDashboard.putBoolean("NewGyroRunning", false);
          subsystems.drivetrain.robotDrive.tankDrive(0, 0);
     }
 

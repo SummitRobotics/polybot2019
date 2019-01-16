@@ -24,8 +24,9 @@ public class MoveByGyro extends Command implements CommandInterface {
 
     @Override
     protected void execute() {
-        while(subsystems.drivetrain.getGyroRotation() < targetAngle || subsystems.drivetrain.getGyroRotation() >targetAngle){
+        while(subsystems.drivetrain.getGyroRotation() < targetAngle || subsystems.drivetrain.getGyroRotation() > targetAngle) {
             subsystems.drivetrain.robotDrive.tankDrive(power, power * direction); 
+            
         }
     }
 
