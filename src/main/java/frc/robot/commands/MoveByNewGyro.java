@@ -8,11 +8,12 @@ public class MoveByNewGyro extends Command implements CommandInterface {
     private double direction;
     private final double threshold = 3;
     
-    public MoveByNewGyro(double angle, double power) {
+    public MoveByNewGyro(double angle, double power, double timeout) {
         requires(subsystems.drivetrain);
         this.angle = angle;
         this.power = Math.abs(power);
         direction = Math.copySign(1, angle);
+        setTimeout(timeout);
     }
 
     @Override
@@ -40,11 +41,11 @@ public class MoveByNewGyro extends Command implements CommandInterface {
 
     @Override
     protected boolean isFinished() {
-        return subsystems.drivetrain.getGyroRotation() == targetAngle;
+        return isWithinThreshold() || (isTimedOut());
     }
 
     private double getAngleError(double currentAngle, double expectedAngle){
-        return expectedAngle - currentAngle;
+        return Math.abs(expectedAngle - currentAngle);
     }
 
     private boolean isWithinThreshold(){

@@ -29,6 +29,7 @@ public class Robot extends TimedRobot {
   //public static Drivetrain drivetrain = new Drivetrain();
   public RobotBuilder robot = RobotBuilder.getInstance();
   public OI OpI;
+  public DashboardOutput dashboard = new DashboardOutput();
 
   Command auto;
   SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -60,6 +61,8 @@ public class Robot extends TimedRobot {
 
     robot.revBoard.init();
     robot.drivetrain.zeroEncoders();
+
+    robot.lemonlight.disableLights();
   }
 
 
@@ -73,7 +76,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    DashboardOutput.run();
+    dashboard.run();
     robot.revBoard.run();
   }
 

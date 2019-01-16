@@ -3,10 +3,18 @@ package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DashboardOutput{
-    public static void run(){
-        SmartDashboard.putNumber("Gyro Angle", RobotBuilder.getInstance().drivetrain.getPigeonYaw());
-        SmartDashboard.putNumber("Target X", RobotBuilder.getInstance().lemonlight.getX());
-        SmartDashboard.putNumber("Target Y", RobotBuilder.getInstance().lemonlight.getY());
-        SmartDashboard.putNumber("Target Area", RobotBuilder.getInstance().lemonlight.getArea());
+    public RobotBuilder robot = RobotBuilder.getInstance();
+    double initTime;
+
+    public void run(){
+        SmartDashboard.putNumber("Gyro Angle", robot.drivetrain.getPigeonYaw());
+        SmartDashboard.putNumber("Target X", robot.lemonlight.getX());
+        SmartDashboard.putNumber("Target Y", robot.lemonlight.getY());
+        SmartDashboard.putNumber("Target Area", robot.lemonlight.getArea());
+        SmartDashboard.putNumber("Velocity", getVelocity());
+    }
+    
+    public double getVelocity(){
+        return (robot.drivetrain.getLeftEncoderVel() + robot.drivetrain.getRightEncoderVel()) / 2;
     }
 }
