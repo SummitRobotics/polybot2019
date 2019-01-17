@@ -14,8 +14,8 @@ public class USBCamera{
     }
     
     public void init(){
-        new Thread(() -> {
-            UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+       /*new Thread(() -> {
+            UsbCamera camera = CameraServer.getInstance().startAutomaticCapture(0);
             camera.setResolution(640, 480);
             
             CvSink cvSink = CameraServer.getInstance().getVideo();
@@ -29,7 +29,7 @@ public class USBCamera{
                 Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
                 outputStream.putFrame(output);
             }
-        }).start();
+        }).start();*/
 
     }
        
