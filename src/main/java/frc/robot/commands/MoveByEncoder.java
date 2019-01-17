@@ -31,7 +31,6 @@ public class MoveByEncoder extends Command implements CommandInterface {
         while((subsystems.drivetrain.getLeftEncoderPos() < leftTarget) && (subsystems.drivetrain.getRightEncoderPos() < rightTarget)) {
             //todo - encoder invert
             subsystems.drivetrain.robotDrive.tankDrive(-power, -power);
-            postValues();
         }
         subsystems.drivetrain.robotDrive.tankDrive(0,0);
     }
@@ -48,13 +47,8 @@ public class MoveByEncoder extends Command implements CommandInterface {
 
     @Override
     protected boolean isFinished() {
+        SmartDashboard.putBoolean("eyo", ((subsystems.drivetrain.getLeftEncoderPos() >= leftTarget) || (subsystems.drivetrain.getRightEncoderPos() >= rightTarget)));
         return ((subsystems.drivetrain.getLeftEncoderPos() >= leftTarget) || (subsystems.drivetrain.getRightEncoderPos() >= rightTarget));
     }
 
-    protected void postValues() {
-        SmartDashboard.putNumber("Left Target:", leftTarget);
-        SmartDashboard.putNumber("Right Target:", rightTarget);
-        SmartDashboard.putNumber("Left Position", subsystems.drivetrain.getLeftEncoderPos());
-        SmartDashboard.putNumber("Right Position", subsystems.drivetrain.getRightEncoderPos());
-    }
 }

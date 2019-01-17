@@ -25,9 +25,10 @@ public class MoveByNewGyro extends Command implements CommandInterface {
     @Override
     protected void execute() {
 
-         while(!isWithinThreshold()) {
+         while(!isFinished()) {
 
                 subsystems.drivetrain.robotDrive.tankDrive(power * direction, -power * direction);
+                SmartDashboard.putBoolean("gyrotimedout", isTimedOut());
                 SmartDashboard.putBoolean("NewGyroRunning", true);
             }
         SmartDashboard.putBoolean("NewGyroRunning", false);
@@ -46,16 +47,21 @@ public class MoveByNewGyro extends Command implements CommandInterface {
 
     @Override
     protected boolean isFinished() {
+        SmartDashboard.putBoolean("isTimedOut", isTimedOut());
+        SmartDashboard.putBoolean("isWithinThreshold", isWithinThreshold());
         return isWithinThreshold() || (isTimedOut());
     }
 
     private double getAngleError(double currentAngle, double expectedAngle){
-        return Math.abs(expectedAngle - currentAngle);
+        return expectedAngle - currentAngle;
+
     }
 
     private boolean isWithinThreshold(){
+        SmartDashboard.putNumber("Angle Current", subsystems.drivetrain.getPigeonYaw());
+        SmartDashboard.putNumber("Target Angle", targetAngle);
+        SmartDashboard.putNumber("Threshold", threshold);
         return getAngleError(subsystems.drivetrain.getPigeonYaw(), targetAngle) < threshold;
     }
-
-
 }
+//turn in circles bitch

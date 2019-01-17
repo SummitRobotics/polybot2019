@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commandgroups.GoFwd;
-import frc.robot.commandgroups.TestAuto;
 import frc.robot.teleop.Teleop_Arcade_Differential;
 
 /**
@@ -49,13 +48,11 @@ public class Robot extends TimedRobot {
     //Create a drop-down menu for selcting an autonomous program
     //Use .addOption for adding new autonomous routines
     autoChooser.setDefaultOption("Default Auto", new GoFwd());
-    autoChooser.addOption("SpinToWin", new TestAuto());
     SmartDashboard.putData("Auto mode", autoChooser);
 
     //Initialize the various subsystems
     robot.init();
-
-
+    
     robot.drivetrain.zeroEncoders();
     robot.drivetrain.resetGyro2();
 
@@ -78,6 +75,7 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     dashboard.run();
     robot.revBoard.run();
+    //robot.camera.init();
   }
 
 

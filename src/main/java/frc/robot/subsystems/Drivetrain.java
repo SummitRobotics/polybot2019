@@ -33,6 +33,8 @@ public class Drivetrain extends Subsystem implements initableSubsystem {
     //Defines the motor controller which handles Pigeon gyro input
     private TalonSRX Unused;
 
+    double[] ypr;
+
     public Drivetrain() {
 
         leftDriveMotor = new WPI_TalonSRX(RobotConstants.LEFT_FRONT_DRIVE);
@@ -132,9 +134,9 @@ public class Drivetrain extends Subsystem implements initableSubsystem {
 
 
     public double getPigeonYaw() {
-        double[] ypr = new double[3];
+        ypr = new double[3];
         gyro2.getYawPitchRoll(ypr);
-        return ypr[0];
+        return ypr[1];
     }
 
     public void resetGyro2(){

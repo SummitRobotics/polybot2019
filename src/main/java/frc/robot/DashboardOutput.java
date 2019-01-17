@@ -12,6 +12,8 @@ public class DashboardOutput{
         SmartDashboard.putNumber("Target Y", robot.lemonlight.getY());
         SmartDashboard.putNumber("Target Area", robot.lemonlight.getArea());
         SmartDashboard.putNumber("Velocity", getVelocity());
+        SmartDashboard.putNumber("Left Encoder", robot.drivetrain.getLeftEncoderPos());
+        SmartDashboard.putNumber("Right Encoder", robot.drivetrain.getRightEncoderPos());
     }
     
     public double getVelocity(){
