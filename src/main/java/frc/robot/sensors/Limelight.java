@@ -3,13 +3,14 @@ package frc.robot.sensors;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Limelight{
     NetworkTable table;
     NetworkTableEntry tx, ty, ta, ts;
     //Target heights in inches
     public final double ROCKET_PORT_HEIGHT = 39.125;
-    public final double HATCH_HEIGHT = 31.5;
+    public final double HATCH_HEIGHT = 29.5;
 
     private final double CAMERA_HEIGHT = 19.75;
     private final double CAMERA_ANGLE = 0.0;
@@ -48,7 +49,10 @@ public class Limelight{
         }
     }
     public double getDistance(double targetHeight){
-        double deltaHeight = CAMERA_HEIGHT - targetHeight;
-        return deltaHeight / Math.tan(CAMERA_ANGLE + getSkew());
+        double deltaHeight = targetHeight - CAMERA_HEIGHT;
+        SmartDashboard.putNumber("deltaheight", deltaHeight);
+        SmartDashboard.putNumber("ANGLE", CAMERA_ANGLE + getY());
+        SmartDashboard.putNumber("Tangent", Math.tan(Math.toRadians( + getY())));
+        return deltaHeight / Math.tan(Math.toRadians(CAMERA_ANGLE + getY()));
     }
 }

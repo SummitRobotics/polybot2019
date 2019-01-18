@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DashboardOutput{
     public RobotBuilder robot = RobotBuilder.getInstance();
     double initTime;
+    public final double HATCH_HEIGHT = 31.5;
 
     public void run(){
         SmartDashboard.putNumber("Gyro Angle", robot.drivetrain.getPigeonYaw());
@@ -14,6 +15,7 @@ public class DashboardOutput{
         SmartDashboard.putNumber("Velocity", getVelocity());
         SmartDashboard.putNumber("Left Encoder", robot.drivetrain.getLeftEncoderPos());
         SmartDashboard.putNumber("Right Encoder", robot.drivetrain.getRightEncoderPos());
+        SmartDashboard.putNumber("Distance From Target", robot.lemonlight.getDistance(HATCH_HEIGHT));
     }
     
     public double getVelocity(){

@@ -28,7 +28,7 @@ public class Teleop_Arcade_Differential {
             subsystems.lemonlight.disableLights();
         }
         else{
-            subsystems.lemonlight.enableLights();
+           subsystems.lemonlight.enableLights();
         }
         SmartDashboard.putNumber("Left Encoder", subsystems.drivetrain.getLeftEncoderPos());
         SmartDashboard.putNumber("Right Encoder", subsystems.drivetrain.getRightEncoderPos());

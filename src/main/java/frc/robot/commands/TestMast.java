@@ -24,7 +24,6 @@ public class TestMast extends Command implements CommandInterface{
     protected void execute() {
         timeError = Timer.getFPGATimestamp() - currentTime;
         while(true){
-            subsystems.revController.sparkMaxTest.set(power);
             SmartDashboard.putNumber("Power", power);
         }
     }
