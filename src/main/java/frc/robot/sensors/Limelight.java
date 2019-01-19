@@ -52,7 +52,7 @@ public class Limelight{
         double deltaHeight = targetHeight - CAMERA_HEIGHT;
         SmartDashboard.putNumber("deltaheight", deltaHeight);
         SmartDashboard.putNumber("ANGLE", CAMERA_ANGLE + getY());
-        SmartDashboard.putNumber("Tangent", Math.tan(Math.toRadians( + getY())));
-        return deltaHeight / Math.tan(Math.toRadians(CAMERA_ANGLE + getY()));
+        SmartDashboard.putNumber("Tangent", Math.tan(Math.toRadians(getY())));
+        return (targetHeight - CAMERA_HEIGHT) / Math.tan(Math.toRadians(CAMERA_ANGLE + getY()));
     }
 }

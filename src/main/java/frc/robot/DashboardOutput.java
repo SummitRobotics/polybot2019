@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DashboardOutput{
     public RobotBuilder robot = RobotBuilder.getInstance();
     double initTime;
-    public final double HATCH_HEIGHT = 31.5;
+    public final double HATCH_HEIGHT = 29.5;
 
     public void run(){
         SmartDashboard.putNumber("Gyro Angle", robot.drivetrain.getPigeonYaw());
