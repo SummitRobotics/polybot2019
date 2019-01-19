@@ -1,14 +1,15 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.RobotBuilder;
-import frc.robot.subsystems.RevController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class TestMast extends Command{
-    private double power, time, timestamp;
+public class TestMast extends Command implements CommandInterface{
+    private double power, time;
+    private double currentTime, timeError;
 
     public TestMast(double power, double time){
-        requires(RobotBuilder.revController);
+        requires(subsystems.revController);
         power = this.power;
         time = this.time;
         setTimeout(time);
@@ -16,19 +17,20 @@ public class TestMast extends Command{
 
     @Override
     protected void initialize() {
-        
+        currentTime = Timer.getFPGATimestamp();
     }
 
     @Override
     protected void execute() {
-        while(!isFinished()){
-            RevController.sparkMaxTest.set(power);
+        timeError = Timer.getFPGATimestamp() - currentTime;
+        while(true){
+            SmartDashboard.putNumber("Power", power);
         }
     }
 
     @Override
     protected boolean isFinished() {
-        return timeSinceInitialized() < time;
+        return timeError == time; 
     }
 
     @Override

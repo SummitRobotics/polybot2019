@@ -1,32 +1,38 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.RobotBuilder;
-import frc.robot.subsystems.Drivetrain;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class MoveByNewGyro extends Command {
+public class MoveByNewGyro extends Command implements CommandInterface {
+
     private double angle, power, targetAngle;
     private double direction;
     private final double threshold = 3;
     
-    public MoveByNewGyro(double angle, double power) {
-        requires(RobotBuilder.drivetrain);
+    public MoveByNewGyro(double angle, double power, double timeout) {
+        requires(subsystems.drivetrain);
         this.angle = angle;
         this.power = Math.abs(power);
         direction = Math.copySign(1, angle);
+        setTimeout(timeout);
     }
 
     @Override
     protected void initialize() {
-        targetAngle = getAngleError(Drivetrain.getPigeonYaw(), this.angle);
+        targetAngle = getAngleError(subsystems.drivetrain.getPigeonYaw(), this.angle);
     }
 
     @Override
     protected void execute() {
-         while(!isWithinThreshold()){
-                Drivetrain.robotDrive.tankDrive(power * direction, -power * direction);
+
+         while(!isFinished()) {
+
+                subsystems.drivetrain.robotDrive.tankDrive(power * direction, -power * direction);
+                SmartDashboard.putBoolean("gyrotimedout", isTimedOut());
+                SmartDashboard.putBoolean("NewGyroRunning", true);
             }
-         Drivetrain.robotDrive.tankDrive(0, 0);
+        SmartDashboard.putBoolean("NewGyroRunning", false);
+         subsystems.drivetrain.robotDrive.tankDrive(0, 0);
     }
 
     @Override
@@ -41,16 +47,21 @@ public class MoveByNewGyro extends Command {
 
     @Override
     protected boolean isFinished() {
-        return false;
+        SmartDashboard.putBoolean("isTimedOut", isTimedOut());
+        SmartDashboard.putBoolean("isWithinThreshold", isWithinThreshold());
+        return isWithinThreshold() || (isTimedOut());
     }
 
     private double getAngleError(double currentAngle, double expectedAngle){
         return expectedAngle - currentAngle;
+
     }
 
     private boolean isWithinThreshold(){
-        return getAngleError(Drivetrain.getPigeonYaw(), targetAngle) < threshold;
+        SmartDashboard.putNumber("Angle Current", subsystems.drivetrain.getPigeonYaw());
+        SmartDashboard.putNumber("Target Angle", targetAngle);
+        SmartDashboard.putNumber("Threshold", threshold);
+        return getAngleError(subsystems.drivetrain.getPigeonYaw(), targetAngle) < threshold;
     }
-
-
 }
+//turn in circles bitch

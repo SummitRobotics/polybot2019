@@ -1,7 +1,6 @@
 package frc.robot.sensors;
 
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class REVdisplay{
     private REVDigitBoardDriver revBoard = new REVDigitBoardDriver();

@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 public class RobotConstants {
     
     /*This class contains important constants relevant to our robot code*/
-    /*Nothing in your program should modify these constants*/
 
     /*------------------------------*/
     /*    PART 1  -  PORT NUMBERS   */
@@ -27,8 +26,10 @@ public class RobotConstants {
     //This is the motor controller connected to the Pigeon IMU
     public static final int UNUSED = 23;
 
-    //This is the SPARK Max motor controller
-    public static final int SPARK_MAX_TEST = 0;
+    //This is the SPARK Max motor controllers
+    public static final int SPARK_MAX_1 = 41;
+    public static final int SPARK_MAX_2 = 42;
+    public static final int SPARK_MAX_3 = 43;
 
 
     /*------------------------------*/

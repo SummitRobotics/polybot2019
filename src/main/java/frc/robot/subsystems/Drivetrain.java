@@ -14,111 +14,92 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 public class Drivetrain extends Subsystem implements initableSubsystem {
 
     //Defines the motor controllers
-    private static WPI_TalonSRX leftDriveMotor, rightDriveMotor;
-    private static WPI_VictorSPX leftSlaveMotor, rightSlaveMotor;
+    private WPI_TalonSRX leftDriveMotor, rightDriveMotor;
+    private WPI_VictorSPX leftSlaveMotor, rightSlaveMotor;
 
     //Defines motor controller groupings. There's a speed controller per drive-side and a differentialdrive for grouping said speed controllers 
     //This makes it so we only have to assign power to one object instead of 4+. 
-    private static SpeedControllerGroup leftDrive, rightDrive;
-    public static DifferentialDrive robotDrive;
+    private SpeedControllerGroup leftDrive, rightDrive;
+    public DifferentialDrive robotDrive;
 
     //defines the motor controller which handles the feedback from the gyro
     
     //Defines the robot gyro
-    private static ADXRS450_Gyro gyro;
+    private ADXRS450_Gyro gyro;
 
     //Defines the other robot gyro
-    public static PigeonIMU gyro2;
+    public PigeonIMU gyro2;
 
     //Defines the motor controller which handles Pigeon gyro input
-    private static TalonSRX Unused;
+    private TalonSRX Unused;
 
-    @Override
-    public void init() {
-        //This configures our motor controller objects and assigns them to the CAN objects on the robot.
+    double[] ypr;
 
-        /*Left Motor Config*/
+    public Drivetrain() {
 
-        //Creates motor object and configures it to use a relative magnetic encoder for feedback.
         leftDriveMotor = new WPI_TalonSRX(RobotConstants.LEFT_FRONT_DRIVE);
-        leftDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0 ,0);
-        //Does NOT invert the direction of the encoder
-        leftDriveMotor.setSensorPhase(false);
-
-        //Creates the slave motor and assigns it to follow all given input from the drive motor.
         leftSlaveMotor = new WPI_VictorSPX(RobotConstants.LEFT_BACK_DRIVE);
-        leftSlaveMotor.follow(leftDriveMotor);
-
-        //Groups all left-side motors together as one object.
         leftDrive = new SpeedControllerGroup(leftDriveMotor, leftSlaveMotor);
 
-
-        /*Right Motor Config*/
-
-        //Creates motor object and configures it to use a relative magnetic encoder for feedback.
         rightDriveMotor = new WPI_TalonSRX(RobotConstants.RIGHT_FRONT_DRIVE);
-        rightDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0 , 0);
-        //Inverts the phase of the encoder
-        rightDriveMotor.setSensorPhase(true);
-
-        //Creates the slave motor and assigns it to follow all given input from the drive motor.
         rightSlaveMotor = new WPI_VictorSPX(RobotConstants.RIGHT_BACK_DRIVE);
-        rightSlaveMotor.follow(rightDriveMotor);
-
-        //Groups all right-side motors together as one object.
         rightDrive = new SpeedControllerGroup(rightDriveMotor, rightSlaveMotor);
 
-        /*Drivetrain Object Config*/
-        //This groups the leftDrive and rightDrive Motor Controller Groups into one unifed motor controller object 
-        //This object also automatically inverts motor direction, so make sure to not invert right-side motors as you would normally do.
         robotDrive = new DifferentialDrive(leftDrive, rightDrive);
-        //This disables the watchdog safety which will disable the motor if its input is not updated for a given timeout period. 
-        //TODO - Configure Safety Watchdog
+
+        gyro = new ADXRS450_Gyro();
+
+        Unused = new TalonSRX(RobotConstants.UNUSED);
+        gyro2 = new PigeonIMU(Unused);
+    }
+
+    public void init() {
+
+        leftDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0 ,0);
+        leftDriveMotor.setSensorPhase(false);
+        leftSlaveMotor.follow(leftDriveMotor);
+
+        rightDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0 , 0);
+        rightDriveMotor.setSensorPhase(true);
+        rightSlaveMotor.follow(rightDriveMotor);
+
         robotDrive.setSafetyEnabled(false);
 
-        //Creates gyro object
-        gyro = new ADXRS450_Gyro();
         gyro.calibrate();
 
-        //Creates the unused Talon used for getting input from the Pigeon IMU
-        Unused = new TalonSRX(RobotConstants.UNUSED);
-
-        //Creates the second gyro using the above Talon as the communication interface
-        gyro2 = new PigeonIMU(Unused);
         gyro2.enterCalibrationMode(PigeonIMU.CalibrationMode.BootTareGyroAccel);
-        
-        
+
     }
 
     //These methods are used for returning the current value of the relative encoders on the left and right Drive Talons. 
-    public static double getLeftEncoderPos() {
+    public double getLeftEncoderPos() {
         return leftDriveMotor.getSelectedSensorPosition(0);
     }
-    public static double getRightEncoderPos() {
+    public double getRightEncoderPos() {
         return rightDriveMotor.getSelectedSensorPosition(0);
     }
 
     //This resets the encoder values to 0
-    public static void zeroEncoders() {
+    public void zeroEncoders() {
         leftDriveMotor.setSelectedSensorPosition(0);
         rightDriveMotor.setSelectedSensorPosition(0);
     }
 
     //These methods get the velocities (in feet per second) of the left and right drive Talons, based on the encoder ticks per second.
     //To convert units, we use the ticksToInches method, shown below
-    public static double getLeftEncoderVel() {
+    public double getLeftEncoderVel() {
         return (ticksToInches(leftDriveMotor.getSelectedSensorVelocity(0)) /10);
     }
-    public static double getRightEncoderVel() {
+    public double getRightEncoderVel() {
         return (ticksToInches(rightDriveMotor.getSelectedSensorVelocity(0)) /10);
     }
 
     //This method returns the number of inches a robot will have traveled, given an input of encoder ticks
-    public static double ticksToInches(double tick) {
+    public double ticksToInches(double tick) {
         return (tick / RobotConstants.TICKS_PER_ROTATION * (RobotConstants.WHEEL_DIAMETER * Math.PI));
     }
     //This method does what the above one does, but in reverse. 
-    public static double inchesToTicks(double inch) {
+    public double inchesToTicks(double inch) {
         return (inch / (RobotConstants.WHEEL_DIAMETER * Math.PI) * RobotConstants.TICKS_PER_ROTATION);
     }
 
@@ -131,7 +112,7 @@ public class Drivetrain extends Subsystem implements initableSubsystem {
 
     //Returns current angle of the gyro
     //TODO - Backup Encoder-Only Auton
-    public static double getGyroRotation() {
+    public double getGyroRotation() {
         if (gyro.isConnected()) {
             return gyro.getAngle();
         } else {
@@ -142,7 +123,7 @@ public class Drivetrain extends Subsystem implements initableSubsystem {
     }
 
     //Returns current rate of the gyro.
-    public static double getGyroRate() {
+    public double getGyroRate() {
         if (gyro.isConnected()) {
             return gyro.getRate();
         } else {
@@ -152,13 +133,13 @@ public class Drivetrain extends Subsystem implements initableSubsystem {
     }
 
 
-    public static double getPigeonYaw() {
-        double[] ypr = new double[3];
+    public double getPigeonYaw() {
+        ypr = new double[3];
         gyro2.getYawPitchRoll(ypr);
-        return ypr[0];
+        return ypr[1];
     }
 
-    public static void resetGyro2(){
+    public void resetGyro2(){
         gyro2.setYaw(0);
         gyro2.setAccumZAngle(0);
         gyro2.enterCalibrationMode(PigeonIMU.CalibrationMode.BootTareGyroAccel);

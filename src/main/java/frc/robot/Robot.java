@@ -8,19 +8,14 @@
 package frc.robot;
 
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commandgroups.GoFwd;
-import frc.robot.commandgroups.TestAuto;
-import frc.robot.commands.MoveByNewGyro;
-import frc.robot.sensors.REVdisplay;
-import frc.robot.subsystems.Drivetrain;
 import frc.robot.teleop.Teleop_Arcade_Differential;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -32,15 +27,14 @@ import frc.robot.teleop.Teleop_Arcade_Differential;
 
 public class Robot extends TimedRobot {
   //public static Drivetrain drivetrain = new Drivetrain();
-  public static RobotBuilder robot = new RobotBuilder();
-  public static OI OpI;
+  public RobotBuilder robot = RobotBuilder.getInstance();
+  public OI OpI;
+  public DashboardOutput dashboard = new DashboardOutput();
 
   Command auto;
   SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   private Teleop_Arcade_Differential Teleop;
-
-  private REVdisplay revBoard = new REVdisplay();
 
 
   /**
@@ -55,17 +49,18 @@ public class Robot extends TimedRobot {
     //Create a drop-down menu for selcting an autonomous program
     //Use .addOption for adding new autonomous routines
     autoChooser.setDefaultOption("Default Auto", new GoFwd());
-    autoChooser.addOption("SpinToWin", new TestAuto());
     SmartDashboard.putData("Auto mode", autoChooser);
 
     //Initialize the various subsystems
-    //TODO - Test robotbuilder architecture
     robot.init();
+    
+    robot.drivetrain.zeroEncoders();
+    robot.drivetrain.resetGyro2();
 
-    Drivetrain.zeroEncoders();
-    Drivetrain.resetGyro2();
+    robot.revBoard.init();
+    robot.drivetrain.zeroEncoders();
 
-    revBoard.init();
+    robot.lemonlight.disableLights();
   }
 
 
@@ -79,8 +74,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    DashboardOutput.run();
-    revBoard.run();
+    dashboard.run();
+    robot.revBoard.run();
+    //robot.camera.init();
   }
 
 
@@ -91,7 +87,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    revBoard.disable();
+    robot.revBoard.disable();
   }
 
 
@@ -116,8 +112,8 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     auto = autoChooser.getSelected();
 
-    Drivetrain.zeroEncoders();
-    Drivetrain.resetGyro2();
+    robot.drivetrain.zeroEncoders();
+    robot.drivetrain.resetGyro2();
    
 
     if (auto != null) {
