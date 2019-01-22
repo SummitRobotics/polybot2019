@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot;
 
 public class RobotConstants {
     
@@ -38,4 +38,7 @@ public class RobotConstants {
 
     public static final int TICKS_PER_ROTATION = 4096;
     public static final double WHEEL_DIAMETER = 6.0;
+
+    public static final double ROCKET_PORT_HEIGHT = 39.125;
+    public static final double HATCH_HEIGHT_TEST = 28.5;
 }

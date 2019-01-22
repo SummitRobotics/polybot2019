@@ -8,9 +8,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Limelight{
     NetworkTable table;
     NetworkTableEntry tx, ty, ta, ts;
-    //Target heights in inches
-    public final double ROCKET_PORT_HEIGHT = 39.125;
-    public final double HATCH_HEIGHT = 28.5;
 
     private final double CAMERA_HEIGHT = 21.5;
     private final double CAMERA_ANGLE = 21.86;
