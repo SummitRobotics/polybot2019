@@ -8,7 +8,7 @@ public class MoveByGyro extends Command implements CommandInterface {
     //Direction is defined by 1 being clockwise and -1 being counter-clockwise
     private double direction;
     private final double THRESHOLD = 1;
-    double error;
+    private double error;
 
     public MoveByGyro(double angle, double power) {
         requires(subsystems.drivetrain);

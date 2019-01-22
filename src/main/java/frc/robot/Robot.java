@@ -26,7 +26,7 @@ import frc.robot.teleop.Teleop_Arcade_Differential;
  */
 
 public class Robot extends TimedRobot {
-  //public static Drivetrain drivetrain = new Drivetrain();
+
   public RobotBuilder robot = RobotBuilder.getInstance();
   public OI OpI;
   public DashboardOutput dashboard = new DashboardOutput();

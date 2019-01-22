@@ -6,8 +6,8 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Limelight{
-    NetworkTable table;
-    NetworkTableEntry tx, ty, ta, ts;
+    private NetworkTable table;
+    private NetworkTableEntry tx, ty, ta, ts;
 
     private final double CAMERA_HEIGHT = 21.5;
     private final double CAMERA_ANGLE = 21.86;
