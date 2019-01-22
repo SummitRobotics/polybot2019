@@ -9,7 +9,7 @@ public class TestMast extends Command implements CommandInterface{
     private double currentTime, timeError;
 
     public TestMast(double power, double time){
-        requires(subsystems.revController);
+        requires(subsystems.mast);
         power = this.power;
         time = this.time;
         setTimeout(time);

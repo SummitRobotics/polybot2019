@@ -56,11 +56,11 @@ public class Drivetrain extends Subsystem implements initableSubsystem {
     public void init() {
 
         leftDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0 ,0);
-        leftDriveMotor.setSensorPhase(false);
+        leftDriveMotor.setSensorPhase(true);
         leftSlaveMotor.follow(leftDriveMotor);
 
         rightDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0 , 0);
-        rightDriveMotor.setSensorPhase(true);
+        rightDriveMotor.setSensorPhase(false);
         rightSlaveMotor.follow(rightDriveMotor);
 
         robotDrive.setSafetyEnabled(false);
@@ -113,13 +113,12 @@ public class Drivetrain extends Subsystem implements initableSubsystem {
     //Returns current angle of the gyro
     //TODO - Backup Encoder-Only Auton
     public double getGyroRotation() {
-        if (gyro.isConnected()) {
-            return gyro.getAngle();
-        } else {
+        /*if (gyro.isConnected()) {
+            */return gyro.getAngle();
+        /*} else {
             //TODO - More elegant error flag system.
             System.out.println("ERROR: Gyro not connected. Defaulting to 0 angle...");
-            return 0;
-        }
+            return 0;*/
     }
 
     //Returns current rate of the gyro.
@@ -136,13 +135,15 @@ public class Drivetrain extends Subsystem implements initableSubsystem {
     public double getPigeonYaw() {
         ypr = new double[3];
         gyro2.getYawPitchRoll(ypr);
-        return ypr[1];
+        return ypr[0];
     }
 
     public void resetGyro2(){
+        //gyro2.enterCalibrationMode(PigeonIMU.CalibrationMode.BootTareGyroAccel);
         gyro2.setYaw(0);
         gyro2.setAccumZAngle(0);
-        gyro2.enterCalibrationMode(PigeonIMU.CalibrationMode.BootTareGyroAccel);
+        Unused.setSelectedSensorPosition(0);
+        
         //test
     }
 

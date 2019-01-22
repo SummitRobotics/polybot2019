@@ -58,9 +58,8 @@ public class Robot extends TimedRobot {
     robot.drivetrain.resetGyro2();
 
     robot.revBoard.init();
-    robot.drivetrain.zeroEncoders();
 
-    robot.lemonlight.disableLights();
+    robot.lemonlight.enableLights();
   }
 
 
@@ -75,7 +74,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     dashboard.run();
-    robot.revBoard.run();
+    //robot.revBoard.run();
     //robot.camera.init();
   }
 
@@ -110,12 +109,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    auto = autoChooser.getSelected();
-
     robot.drivetrain.zeroEncoders();
     robot.drivetrain.resetGyro2();
-   
 
+    auto = autoChooser.getSelected();
     if (auto != null) {
       auto.start();
     }

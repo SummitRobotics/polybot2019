@@ -30,15 +30,15 @@ public class MoveByEncoder extends Command implements CommandInterface {
     protected void execute() {
         while((subsystems.drivetrain.getLeftEncoderPos() < leftTarget) && (subsystems.drivetrain.getRightEncoderPos() < rightTarget)) {
             //todo - encoder invert
-            subsystems.drivetrain.robotDrive.tankDrive(-power, -power);
+            subsystems.drivetrain.robotDrive.tankDrive(power, power);
         }
         subsystems.drivetrain.robotDrive.tankDrive(0,0);
     }
 
-    @Override
-    protected void end() {
-        
-    }
+   @Override
+   protected void end() {
+       super.end();
+   }
 
     @Override
     protected void interrupted() {
@@ -47,7 +47,6 @@ public class MoveByEncoder extends Command implements CommandInterface {
 
     @Override
     protected boolean isFinished() {
-        SmartDashboard.putBoolean("eyo", ((subsystems.drivetrain.getLeftEncoderPos() >= leftTarget) || (subsystems.drivetrain.getRightEncoderPos() >= rightTarget)));
         return ((subsystems.drivetrain.getLeftEncoderPos() >= leftTarget) || (subsystems.drivetrain.getRightEncoderPos() >= rightTarget));
     }
 
