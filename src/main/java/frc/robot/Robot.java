@@ -73,7 +73,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    dashboard.run();
+    //dashboard.run();
     //robot.revBoard.run();
     //robot.camera.init();
   }

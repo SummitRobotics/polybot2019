@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MoveByEncoder extends Command implements CommandInterface {
 
@@ -9,7 +10,7 @@ public class MoveByEncoder extends Command implements CommandInterface {
     private double leftTarget, rightTarget;
     private double power, direction;
     private double leftError, rightError;
-    private final double THRESHOLD = 1;
+    private final double THRESHOLD = 100;
 
     public MoveByEncoder(double distance, double power) {
         requires(subsystems.drivetrain);
@@ -26,21 +27,26 @@ public class MoveByEncoder extends Command implements CommandInterface {
 
         leftTarget = leftInitPosition + subsystems.drivetrain.inchesToTicks(leftInch);
         rightTarget = rightInitPosition + subsystems.drivetrain.inchesToTicks(rightInch);
+        leftError = leftTarget - subsystems.drivetrain.getLeftEncoderPos();
+        rightError = rightTarget - subsystems.drivetrain.getRightEncoderPos();
     }
 
     @Override
     protected void execute() {
         //get initial errors at the start of execution
-        leftError = Math.abs(leftTarget - subsystems.drivetrain.getLeftEncoderPos());
-        rightError = Math.abs(rightTarget - subsystems.drivetrain.getRightEncoderPos());
-
-        while((leftError > THRESHOLD) || (rightError > THRESHOLD)) {
-            subsystems.drivetrain.robotDrive.tankDrive(power * direction, power * direction);
+        SmartDashboard.putNumber("leftError", leftError);
+        SmartDashboard.putNumber("rightError", rightError);
+        while(((leftError > THRESHOLD) || (rightError > THRESHOLD) || (-leftError > THRESHOLD) || (-rightError > THRESHOLD))) {
+            subsystems.drivetrain.robotDrive.tankDrive(-power * direction, -power * direction);
             //continue feeding the error value as encoder positions draw closer to the target
-            leftError = Math.abs(leftTarget - subsystems.drivetrain.getLeftEncoderPos());
-            rightError = Math.abs(rightTarget - subsystems.drivetrain.getRightEncoderPos());
+            leftError = leftTarget - subsystems.drivetrain.getLeftEncoderPos();
+            rightError = rightTarget - subsystems.drivetrain.getRightEncoderPos();
+            SmartDashboard.putNumber("leftError", leftError);
+            SmartDashboard.putNumber("rightError", rightError);
+            SmartDashboard.putNumber("Pos", subsystems.drivetrain.getRightEncoderPos());
         }
         subsystems.drivetrain.robotDrive.tankDrive(0,0);
+        SmartDashboard.putBoolean("Done", isFinished());
     }
 
    @Override
@@ -50,12 +56,12 @@ public class MoveByEncoder extends Command implements CommandInterface {
 
     @Override
     protected void interrupted() {
-        
+        super.interrupted();
     }
 
     @Override
     protected boolean isFinished() {
-        return ((leftError <= THRESHOLD) || (rightError <= THRESHOLD));
+        return ((Math.abs(leftError) <= THRESHOLD) || (Math.abs(rightError) <= THRESHOLD));
     }
 
 }

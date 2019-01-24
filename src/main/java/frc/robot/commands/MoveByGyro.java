@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MoveByGyro extends Command implements CommandInterface {
 
@@ -26,10 +27,10 @@ public class MoveByGyro extends Command implements CommandInterface {
 
     @Override
     protected void execute() {
-        error = Math.abs(targetAngle - subsystems.drivetrain.getPigeonYaw());
-        while(error > THRESHOLD) {
+        error = targetAngle - subsystems.drivetrain.getPigeonYaw();
+        while((error > THRESHOLD)||(-error > THRESHOLD)) {
             subsystems.drivetrain.robotDrive.tankDrive(power * direction, -power * direction);
-            error = Math.abs(targetAngle - subsystems.drivetrain.getPigeonYaw()); 
+            error = targetAngle - subsystems.drivetrain.getPigeonYaw(); 
         }
         subsystems.drivetrain.robotDrive.tankDrive(0, 0);
     }
@@ -46,7 +47,8 @@ public class MoveByGyro extends Command implements CommandInterface {
 
     @Override
     protected boolean isFinished() {
-        return error <= THRESHOLD;
+        //dont work
+        return Math.abs(error) <= THRESHOLD;
     }
 
 }

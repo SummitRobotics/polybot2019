@@ -3,7 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class TurnToTarget extends Command implements CommandInterface{
-    private final double THRESHOLD = 1;
+    private final double THRESHOLD = 0.5;
     private double power, direction;
 
     public TurnToTarget(double power){
@@ -19,7 +19,7 @@ public class TurnToTarget extends Command implements CommandInterface{
     protected void execute() {
         //TODO - gyro alignment?
         while(Math.abs(subsystems.lemonlight.getX()) > THRESHOLD){
-            subsystems.drivetrain.robotDrive.tankDrive(power * direction, -power * direction);
+            subsystems.drivetrain.robotDrive.tankDrive(-power * direction, power * direction);
         }
         subsystems.drivetrain.robotDrive.tankDrive(0, 0);
     }

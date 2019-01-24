@@ -57,7 +57,7 @@ public class Drivetrain extends Subsystem implements initableSubsystem {
     public void init() {
 
         leftDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0 ,0);
-        leftDriveMotor.setSensorPhase(true);
+        leftDriveMotor.setSensorPhase(false);
         leftSlaveMotor.follow(leftDriveMotor);
 
         rightDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0 , 0);
