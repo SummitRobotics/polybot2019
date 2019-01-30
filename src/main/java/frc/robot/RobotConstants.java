@@ -24,7 +24,7 @@ public class RobotConstants {
     public static final int HALL_FX = 1;
 
     //This is the motor controller connected to the Pigeon IMU
-    public static final int UNUSED = 23;
+    public static final int PIGEONMOTORCONTROLLER = 23;
 
     //This is the SPARK Max motor controllers
     public static final int SPARK_MAX_1 = 41;

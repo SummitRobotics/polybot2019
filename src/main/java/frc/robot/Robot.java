@@ -55,7 +55,7 @@ public class Robot extends TimedRobot {
     robot.init();
     
     robot.drivetrain.zeroEncoders();
-    robot.drivetrain.resetGyro2();
+    robot.drivetrain.resetPigeonGyro();
 
     robot.revBoard.init();
 
@@ -110,7 +110,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     robot.drivetrain.zeroEncoders();
-    robot.drivetrain.resetGyro2();
+    robot.drivetrain.resetPigeonGyro();
 
     auto = autoChooser.getSelected();
     if (auto != null) {
@@ -159,6 +159,6 @@ public class Robot extends TimedRobot {
    * This function is called periodically during test mode.
    */
   @Override
-  public void testPeriodic() {
+    public void testPeriodic() {
   }
 }

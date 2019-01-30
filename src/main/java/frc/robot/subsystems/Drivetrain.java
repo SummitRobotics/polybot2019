@@ -6,7 +6,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -26,13 +25,10 @@ public class Drivetrain extends Subsystem implements initableSubsystem {
     //defines the motor controller which handles the feedback from the gyro
     
     //Defines the robot gyro
-    private ADXRS450_Gyro gyro;
+    public PigeonIMU pigeonGyro;
 
-    //Defines the other robot gyro
-    public PigeonIMU gyro2;
-
-    //Defines the motor controller which handles Pigeon gyro input
-    private TalonSRX Unused;
+    //Defines the motor controller which handles Pigeon gyro input (not used other than for defining Pigeon)
+    private TalonSRX pigeonMotorController;
 
     double[] ypr;
 
@@ -48,10 +44,8 @@ public class Drivetrain extends Subsystem implements initableSubsystem {
 
         robotDrive = new DifferentialDrive(leftDrive, rightDrive);
 
-        gyro = new ADXRS450_Gyro();
-
-        Unused = new TalonSRX(RobotConstants.UNUSED);
-        gyro2 = new PigeonIMU(Unused);
+        pigeonMotorController = new TalonSRX(RobotConstants.PIGEONMOTORCONTROLLER);
+        pigeonGyro = new PigeonIMU(pigeonMotorController);
     }
 
     public void init() {
@@ -66,9 +60,7 @@ public class Drivetrain extends Subsystem implements initableSubsystem {
 
         robotDrive.setSafetyEnabled(false);
 
-        gyro.calibrate();
-
-        gyro2.enterCalibrationMode(PigeonIMU.CalibrationMode.BootTareGyroAccel);
+        pigeonGyro.enterCalibrationMode(PigeonIMU.CalibrationMode.BootTareGyroAccel);
 
     }
 
@@ -104,48 +96,19 @@ public class Drivetrain extends Subsystem implements initableSubsystem {
         return (inch / (RobotConstants.WHEEL_DIAMETER * Math.PI) * RobotConstants.TICKS_PER_ROTATION);
     }
 
-    /*The two methods below interface with the gyro so we can publically access the rate and angle of the sensor.*/
-    /*They're configured in a way which will allow the robot to continue running even if the gyro is disconnected.*/
-    /*This is known as the "Fuck you, Daniel" logic block*/
-    /*Right now, if the gyro is disconnected it will just return a value of 0 and print an error statement*/
-    /*This means that the robot could spin infinitely, unless a timeout flag is added to the gyro command*/
-    /*In the future, this should ideally throw some sort of error flag and disable gyro-based commands*/
-
-    //Returns current angle of the gyro
-    //TODO - Backup Encoder-Only Auton
-    public double getGyroRotation() {
-        /*if (gyro.isConnected()) {
-            */return gyro.getAngle();
-        /*} else {
-            //TODO - More elegant error flag system.
-            System.out.println("ERROR: Gyro not connected. Defaulting to 0 angle...");
-            return 0;*/
-    }
-
-    //Returns current rate of the gyro.
-    public double getGyroRate() {
-        if (gyro.isConnected()) {
-            return gyro.getRate();
-        } else {
-            System.out.println("ERROR: Gyro not connected. Defaulting to 0 rate...");
-            return 0;
-        }
-    }
-
-
+    
     public double getPigeonYaw() {
         ypr = new double[3];
-        gyro2.getYawPitchRoll(ypr);
+        pigeonGyro.getYawPitchRoll(ypr);
         return ypr[0];
     }
 
-    public void resetGyro2(){
-        //gyro2.enterCalibrationMode(PigeonIMU.CalibrationMode.BootTareGyroAccel);
-        gyro2.setYaw(0);
-        gyro2.setAccumZAngle(0);
-        Unused.setSelectedSensorPosition(0);
+    public void resetPigeonGyro(){
+        //pigeonGyro.enterCalibrationMode(PigeonIMU.CalibrationMode.BootTareGyroAccel);
+        pigeonGyro.setYaw(0);
+        pigeonGyro.setAccumZAngle(0);
+    pigeonMotorController.setSelectedSensorPosition(0);
         
-        //test
     }
 
     //This is an abstract Command method, and must be overwritten
