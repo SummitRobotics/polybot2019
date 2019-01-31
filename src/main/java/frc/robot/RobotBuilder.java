@@ -4,7 +4,6 @@ import frc.robot.sensors.Limelight;
 import frc.robot.sensors.REVdisplay;
 import frc.robot.sensors.USBCamera;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.RevController;
 import frc.robot.subsystems.TestMotor;
 import frc.robot.subsystems.initableSubsystem;
 
@@ -14,7 +13,6 @@ public class RobotBuilder {
 
     public Drivetrain drivetrain = new Drivetrain();
     public TestMotor mast = new TestMotor();
-    public RevController revController = new RevController();
     public Limelight lemonlight = new Limelight();
     public REVdisplay revBoard = new REVdisplay();
     public USBCamera camera = new USBCamera();
@@ -29,7 +27,7 @@ public class RobotBuilder {
 
         initiableList.add(drivetrain);
         initiableList.add(mast);
-        initiableList.add(revController);
+
     }
 
     public static RobotBuilder getInstance() {

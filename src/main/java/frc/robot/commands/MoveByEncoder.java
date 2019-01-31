@@ -8,13 +8,16 @@ public class MoveByEncoder extends Command implements CommandInterface {
     private double leftInch, rightInch;
     private double leftInitPosition, rightInitPosition;
     private double leftTarget, rightTarget;
-    private double power;
+    private double power, direction;
+    private double leftError, rightError;
+    private final double THRESHOLD = 100;
 
     public MoveByEncoder(double distance, double power) {
         requires(subsystems.drivetrain);
         leftInch = distance;
         rightInch = distance;
-        this.power = power;
+        this.power = Math.abs(power);
+        this.direction = Math.copySign(1, distance);
     }
 
     @Override
@@ -24,31 +27,41 @@ public class MoveByEncoder extends Command implements CommandInterface {
 
         leftTarget = leftInitPosition + subsystems.drivetrain.inchesToTicks(leftInch);
         rightTarget = rightInitPosition + subsystems.drivetrain.inchesToTicks(rightInch);
+        leftError = leftTarget - subsystems.drivetrain.getLeftEncoderPos();
+        rightError = rightTarget - subsystems.drivetrain.getRightEncoderPos();
     }
 
     @Override
     protected void execute() {
-        while((subsystems.drivetrain.getLeftEncoderPos() < leftTarget) && (subsystems.drivetrain.getRightEncoderPos() < rightTarget)) {
-            //todo - encoder invert
-            subsystems.drivetrain.robotDrive.tankDrive(-power, -power);
+        //get initial errors at the start of execution
+        SmartDashboard.putNumber("leftError", leftError);
+        SmartDashboard.putNumber("rightError", rightError);
+        while(((leftError > THRESHOLD) || (rightError > THRESHOLD) || (-leftError > THRESHOLD) || (-rightError > THRESHOLD))) {
+            subsystems.drivetrain.robotDrive.tankDrive(-power * direction, -power * direction);
+            //continue feeding the error value as encoder positions draw closer to the target
+            leftError = leftTarget - subsystems.drivetrain.getLeftEncoderPos();
+            rightError = rightTarget - subsystems.drivetrain.getRightEncoderPos();
+            SmartDashboard.putNumber("leftError", leftError);
+            SmartDashboard.putNumber("rightError", rightError);
+            SmartDashboard.putNumber("Pos", subsystems.drivetrain.getRightEncoderPos());
         }
         subsystems.drivetrain.robotDrive.tankDrive(0,0);
+        SmartDashboard.putBoolean("Done", isFinished());
     }
 
-    @Override
-    protected void end() {
-        
-    }
+   @Override
+   protected void end() {
+       super.end();
+   }
 
     @Override
     protected void interrupted() {
-        
+        super.interrupted();
     }
 
     @Override
     protected boolean isFinished() {
-        SmartDashboard.putBoolean("eyo", ((subsystems.drivetrain.getLeftEncoderPos() >= leftTarget) || (subsystems.drivetrain.getRightEncoderPos() >= rightTarget)));
-        return ((subsystems.drivetrain.getLeftEncoderPos() >= leftTarget) || (subsystems.drivetrain.getRightEncoderPos() >= rightTarget));
+        return ((Math.abs(leftError) <= THRESHOLD) || (Math.abs(rightError) <= THRESHOLD));
     }
 
 }

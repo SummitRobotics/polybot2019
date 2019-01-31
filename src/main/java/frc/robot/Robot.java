@@ -26,7 +26,7 @@ import frc.robot.teleop.Teleop_Arcade_Differential;
  */
 
 public class Robot extends TimedRobot {
-  //public static Drivetrain drivetrain = new Drivetrain();
+
   public RobotBuilder robot = RobotBuilder.getInstance();
   public OI OpI;
   public DashboardOutput dashboard = new DashboardOutput();
@@ -55,12 +55,11 @@ public class Robot extends TimedRobot {
     robot.init();
     
     robot.drivetrain.zeroEncoders();
-    robot.drivetrain.resetGyro2();
+    robot.drivetrain.resetPigeonGyro();
 
     robot.revBoard.init();
-    robot.drivetrain.zeroEncoders();
 
-    robot.lemonlight.disableLights();
+    robot.lemonlight.enableLights();
   }
 
 
@@ -74,8 +73,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    dashboard.run();
-    robot.revBoard.run();
+    //dashboard.run();
+    //robot.revBoard.run();
     //robot.camera.init();
   }
 
@@ -110,12 +109,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    auto = autoChooser.getSelected();
-
     robot.drivetrain.zeroEncoders();
-    robot.drivetrain.resetGyro2();
-   
+    robot.drivetrain.resetPigeonGyro();
 
+    auto = autoChooser.getSelected();
     if (auto != null) {
       auto.start();
     }
@@ -162,6 +159,6 @@ public class Robot extends TimedRobot {
    * This function is called periodically during test mode.
    */
   @Override
-  public void testPeriodic() {
+    public void testPeriodic() {
   }
 }

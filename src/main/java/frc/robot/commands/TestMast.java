@@ -1,18 +1,19 @@
 package frc.robot.commands;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TestMast extends Command implements CommandInterface{
     private double power, time;
-    private double currentTime, timeError;
+    private double currentTime, deltaTime;
 
     public TestMast(double power, double time){
-        requires(subsystems.revController);
+        requires(subsystems.mast);
         power = this.power;
         time = this.time;
-        setTimeout(time);
+        setTimeout(time++);
     }
 
     @Override
@@ -22,20 +23,20 @@ public class TestMast extends Command implements CommandInterface{
 
     @Override
     protected void execute() {
-        timeError = Timer.getFPGATimestamp() - currentTime;
-        while(true){
-            SmartDashboard.putNumber("Power", power);
+        deltaTime = Timer.getFPGATimestamp() - currentTime;
+        while(deltaTime < time){
+            subsystems.mast.testMotor.set(ControlMode.PercentOutput, power);
         }
     }
 
     @Override
     protected boolean isFinished() {
-        return timeError == time; 
+        return deltaTime >= time; 
     }
 
     @Override
     protected void end() {
-        
+        super.end();
     }
     @Override
     protected void interrupted() {

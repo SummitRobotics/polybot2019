@@ -6,14 +6,11 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Limelight{
-    NetworkTable table;
-    NetworkTableEntry tx, ty, ta, ts;
-    //Target heights in inches
-    public final double ROCKET_PORT_HEIGHT = 39.125;
-    public final double HATCH_HEIGHT = 29.5;
+    private NetworkTable table;
+    private NetworkTableEntry tx, ty, ta, ts;
 
-    private final double CAMERA_HEIGHT = 19.75;
-    private final double CAMERA_ANGLE = 0.0;
+    private final double CAMERA_HEIGHT = 21.5;
+    private final double CAMERA_ANGLE = 21.86;
 
     public Limelight(){
         table = NetworkTableInstance.getDefault().getTable("limelight");
@@ -52,7 +49,7 @@ public class Limelight{
         double deltaHeight = targetHeight - CAMERA_HEIGHT;
         SmartDashboard.putNumber("deltaheight", deltaHeight);
         SmartDashboard.putNumber("ANGLE", CAMERA_ANGLE + getY());
-        SmartDashboard.putNumber("Tangent", Math.tan(Math.toRadians(getY())));
+        SmartDashboard.putNumber("Tangent", Math.tan(Math.toRadians(CAMERA_ANGLE + getY())));
         return (targetHeight - CAMERA_HEIGHT) / Math.tan(Math.toRadians(CAMERA_ANGLE + getY()));
     }
 }

@@ -25,11 +25,15 @@ public class Teleop_Arcade_Differential {
         subsystems.drivetrain.robotDrive.arcadeDrive(xSpeed, zRotation);
 
         if(gamepad.isButtonA()){
-            subsystems.lemonlight.disableLights();
+            subsystems.mast.testServo.set(1);
+        }
+        else if(gamepad.isButtonB()){
+            subsystems.mast.testServo.set(0.5);
         }
         else{
-           subsystems.lemonlight.enableLights();
+            subsystems.mast.testServo.set(0);
         }
+
         SmartDashboard.putNumber("Left Encoder", subsystems.drivetrain.getLeftEncoderPos());
         SmartDashboard.putNumber("Right Encoder", subsystems.drivetrain.getRightEncoderPos());
         SmartDashboard.putNumber("Left Velocity", subsystems.drivetrain.getLeftEncoderVel());
