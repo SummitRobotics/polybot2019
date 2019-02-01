@@ -15,7 +15,7 @@ public class RobotBuilder {
     public TestMotor mast = new TestMotor();
     public Limelight lemonlight = new Limelight();
     public REVdisplay revBoard = new REVdisplay();
-    public USBCamera camera = new USBCamera();
+    //public USBCamera camera = new USBCamera();
 
     ArrayList<initableSubsystem> initiableList;
 

@@ -18,11 +18,11 @@ public class Teleop_Arcade_Differential {
 
     public void run(){
 
-        xSpeed = gamepad.getLeftTrigger() - gamepad.getRightTrigger();
-        zRotation = -gamepad.getLeftJoystickX();
+        xSpeed = gamepad.getForwardPower();
+        zRotation = gamepad.getRotationalPower();
 
         //Potentially implement curvatureDrive in the future?
-        subsystems.drivetrain.robotDrive.arcadeDrive(xSpeed, zRotation);
+        subsystems.drivetrain.robotDrive.arcadeDrive(xSpeed, -zRotation);
 
         if(gamepad.isButtonA()){
             subsystems.mast.testServo.set(1);

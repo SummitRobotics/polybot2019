@@ -36,6 +36,17 @@ public class OI {
         return controller.getTriggerAxis(GenericHID.Hand.kRight);
     }
 
+    public double makeCurve(double input){
+        return(Math.pow(2, input) -1);
+    }
+
+    public double getForwardPower(){
+        return makeCurve(getLeftTrigger()) - makeCurve(getRightTrigger());
+    }
+    public double getRotationalPower(){
+        return Math.copySign(makeCurve(Math.abs(getLeftJoystickX())), getLeftJoystickX());
+    }
+
 
     public boolean isButtonA() {
         return controller.getAButton();
@@ -51,7 +62,7 @@ public class OI {
     }
 
 
-    public double joystickDeadzone(double stickVal, double deadzone) {
+    /*public double joystickDeadzone(double stickVal, double deadzone) {
         if (Math.abs(stickVal) < deadzone){
             return 0;
         } else {
@@ -65,7 +76,7 @@ public class OI {
         else {
             return stickVal;
         }
-    }
+    }*/
 
     public double holdButton (boolean button) {
         if (button){

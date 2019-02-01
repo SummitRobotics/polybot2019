@@ -24,7 +24,7 @@ public class TestMotor extends Subsystem implements initableSubsystem {
         //Example code of creating a servo object given specific boundaries. 
         testServo = new Servo(0);
         //DANIEL --- These are the boundaries you need to change
-        testServo.setBounds(2.0, 0.003, 1.7, 0.00, 1.4);
+        testServo.setBounds(2.0, 0.0, 1.5, 0.00, 1.0);
 
     }
 

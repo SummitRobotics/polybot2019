@@ -37,7 +37,7 @@ public class MoveByEncoder extends Command implements CommandInterface {
         SmartDashboard.putNumber("leftError", leftError);
         SmartDashboard.putNumber("rightError", rightError);
         while(((leftError > THRESHOLD) || (rightError > THRESHOLD) || (-leftError > THRESHOLD) || (-rightError > THRESHOLD))) {
-            subsystems.drivetrain.robotDrive.tankDrive(-power * direction, -power * direction);
+            subsystems.drivetrain.robotDrive.tankDrive(power * direction, power * direction);
             //continue feeding the error value as encoder positions draw closer to the target
             leftError = leftTarget - subsystems.drivetrain.getLeftEncoderPos();
             rightError = rightTarget - subsystems.drivetrain.getRightEncoderPos();

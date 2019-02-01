@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commandgroups.GoFwd;
+import frc.robot.CommandGroups.GoFwd;
 import frc.robot.teleop.Teleop_Arcade_Differential;
 
 
@@ -60,6 +60,8 @@ public class Robot extends TimedRobot {
     robot.revBoard.init();
 
     robot.lemonlight.enableLights();
+
+    //robot.camera.init();
   }
 
 
