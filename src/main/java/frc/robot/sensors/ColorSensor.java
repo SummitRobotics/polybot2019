@@ -41,7 +41,7 @@ public class ColorSensor {
     public ColorSensor(I2C.Port port, int address) {
 
         buffy.order(ByteOrder.LITTLE_ENDIAN);
-        sensor = new I2C(port, address); //0x39 is the address of the color senser
+        sensor = new I2C(port, address);
         
         sensor.write(CMD | 0x00, PON | AEN | PEN);
         
@@ -66,8 +66,7 @@ public class ColorSensor {
         
         prox = buffy.getShort(6); 
         if(prox < 0) { prox += 0b10000000000000000; }
-        
-    }
+        }
     
     public int status() {
         buffy.clear();

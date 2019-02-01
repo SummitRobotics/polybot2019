@@ -10,6 +10,7 @@ public class Teleop_Arcade_Differential {
 
     private double xSpeed, zRotation;
     private short red, green, blue;
+    private int colorStatus;
 
     RobotBuilder subsystems = RobotBuilder.getInstance();
 
@@ -40,11 +41,13 @@ public class Teleop_Arcade_Differential {
         this.green = subsystems.colorSensor.green;
         this.blue = subsystems.colorSensor.blue;
 
+        colorStatus = subsystems.colorSensor.status();
 
         SmartDashboard.putNumber("Left Encoder", subsystems.drivetrain.getLeftEncoderPos());
         SmartDashboard.putNumber("Right Encoder", subsystems.drivetrain.getRightEncoderPos());
         SmartDashboard.putNumber("Left Velocity", subsystems.drivetrain.getLeftEncoderVel());
         SmartDashboard.putNumber("Right Velocity", subsystems.drivetrain.getRightEncoderVel());
         SmartDashboard.putString("Color", String.valueOf(red) + ", " + String.valueOf(green) + ", " + String.valueOf(blue));
+        SmartDashboard.putNumber("Color Sensor Status", colorStatus);
     }
 }
