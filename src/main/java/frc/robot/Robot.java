@@ -15,7 +15,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commandgroups.GoFwd;
 import frc.robot.teleop.Teleop_Arcade_Differential;
-
+import frc.robot.sensors.ColorSensor;
+import edu.wpi.first.wpilibj.I2C;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -58,8 +59,8 @@ public class Robot extends TimedRobot {
     robot.drivetrain.resetPigeonGyro();
 
     robot.revBoard.init();
-
     robot.lemonlight.enableLights();
+    robot.colorSensor = new ColorSensor(I2C.Port.kOnboard, 0x39);
   }
 
 

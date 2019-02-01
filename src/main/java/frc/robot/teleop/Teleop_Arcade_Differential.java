@@ -8,7 +8,8 @@ public class Teleop_Arcade_Differential {
 
     OI gamepad;
 
-    double xSpeed, zRotation;
+    private double xSpeed, zRotation;
+    private short red, green, blue;
 
     RobotBuilder subsystems = RobotBuilder.getInstance();
 
@@ -25,19 +26,25 @@ public class Teleop_Arcade_Differential {
         subsystems.drivetrain.robotDrive.arcadeDrive(xSpeed, zRotation);
 
         if(gamepad.isButtonA()){
-            subsystems.mast.testServo.set(1);
+            subsystems.testSystem.testServo.set(1);
         }
         else if(gamepad.isButtonB()){
-            subsystems.mast.testServo.set(0.5);
+            subsystems.testSystem.testServo.set(0.5);
         }
         else{
-            subsystems.mast.testServo.set(0);
+            subsystems.testSystem.testServo.set(0);
         }
+
+        subsystems.colorSensor.read();
+        this.red = subsystems.colorSensor.red;
+        this.green = subsystems.colorSensor.green;
+        this.blue = subsystems.colorSensor.blue;
+
 
         SmartDashboard.putNumber("Left Encoder", subsystems.drivetrain.getLeftEncoderPos());
         SmartDashboard.putNumber("Right Encoder", subsystems.drivetrain.getRightEncoderPos());
         SmartDashboard.putNumber("Left Velocity", subsystems.drivetrain.getLeftEncoderVel());
         SmartDashboard.putNumber("Right Velocity", subsystems.drivetrain.getRightEncoderVel());
-    
+        SmartDashboard.putString("Color", String.valueOf(red) + ", " + String.valueOf(green) + ", " + String.valueOf(blue));
     }
 }

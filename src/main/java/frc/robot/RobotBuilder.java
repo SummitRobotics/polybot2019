@@ -1,10 +1,8 @@
 package frc.robot;
 
-import frc.robot.sensors.Limelight;
-import frc.robot.sensors.REVdisplay;
-import frc.robot.sensors.USBCamera;
+import frc.robot.sensors.*;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.TestMotor;
+import frc.robot.subsystems.TestSystem;
 import frc.robot.subsystems.initableSubsystem;
 
 import java.util.ArrayList;
@@ -12,10 +10,11 @@ import java.util.ArrayList;
 public class RobotBuilder {
 
     public Drivetrain drivetrain = new Drivetrain();
-    public TestMotor mast = new TestMotor();
+    public TestSystem testSystem = new TestSystem();
     public Limelight lemonlight = new Limelight();
     public REVdisplay revBoard = new REVdisplay();
     public USBCamera camera = new USBCamera();
+    public ColorSensor colorSensor;
 
     ArrayList<initableSubsystem> initiableList;
 
@@ -26,7 +25,7 @@ public class RobotBuilder {
         initiableList = new ArrayList<initableSubsystem>();
 
         initiableList.add(drivetrain);
-        initiableList.add(mast);
+        initiableList.add(testSystem);
 
     }
 
