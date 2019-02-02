@@ -18,10 +18,15 @@ public class TurnToTarget extends Command implements CommandInterface{
     @Override
     protected void execute() {
         //TODO - gyro alignment?
-        while(Math.abs(subsystems.lemonlight.getX()) > THRESHOLD){
-            subsystems.drivetrain.robotDrive.tankDrive(-power * direction, power * direction);
+        if(subsystems.lemonlight.getX() > 0){
+            new MoveByGyro(subsystems.lemonlight.getX(), power, false);
         }
-        subsystems.drivetrain.robotDrive.tankDrive(0, 0);
+        else if(subsystems.lemonlight.getX() < 0){
+            new MoveByGyro(subsystems.lemonlight.getX(), power, true);
+        }
+        else{
+            subsystems.drivetrain.robotDrive.tankDrive(0, 0);
+        }
     }
 
     @Override

@@ -1,34 +1,44 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//TODO - make work someday with negative values.
 
-public class MoveByEncoder extends Command implements CommandInterface {
+public class MoveByEncoder/* extends Command implements CommandInterface*/ {
 
-    private double leftInch, rightInch;
+    /*private double leftInch, rightInch;
     private double leftInitPosition, rightInitPosition;
     private double leftTarget, rightTarget;
-    private double power, direction;
+    private double power;
+    private double leftDirection, rightDirection;
     private double leftError, rightError;
-    private final double THRESHOLD = 100;
+    private double THRESHOLD = 100;*/
+
 
     public MoveByEncoder(double distance, double power) {
-        requires(subsystems.drivetrain);
+        /*requires(subsystems.drivetrain);
         leftInch = distance;
         rightInch = distance;
-        this.power = Math.abs(power);
-        this.direction = Math.copySign(1, distance);
+        this.power = Math.abs(power);*/
     }
 
-    @Override
+   /* @Override
     protected void initialize() {
         leftInitPosition = subsystems.drivetrain.getLeftEncoderPos();
         rightInitPosition = subsystems.drivetrain.getRightEncoderPos();
+        SmartDashboard.putNumber("LeftInit", leftInitPosition);
+        SmartDashboard.putNumber("RightInit", rightInitPosition);
 
         leftTarget = leftInitPosition + subsystems.drivetrain.inchesToTicks(leftInch);
         rightTarget = rightInitPosition + subsystems.drivetrain.inchesToTicks(rightInch);
+        SmartDashboard.putNumber("LeftTarget", leftTarget);
+        SmartDashboard.putNumber("RightTarget", rightTarget);
+
         leftError = leftTarget - subsystems.drivetrain.getLeftEncoderPos();
         rightError = rightTarget - subsystems.drivetrain.getRightEncoderPos();
+
+        leftDirection = Math.copySign(1, leftError);
+        rightDirection = Math.copySign(1, rightError);
+        SmartDashboard.putNumber("leftError", leftError);
+        SmartDashboard.putNumber("rightError", rightError);
     }
 
     @Override
@@ -36,8 +46,10 @@ public class MoveByEncoder extends Command implements CommandInterface {
         //get initial errors at the start of execution
         SmartDashboard.putNumber("leftError", leftError);
         SmartDashboard.putNumber("rightError", rightError);
-        while(((leftError > THRESHOLD) || (rightError > THRESHOLD) || (-leftError > THRESHOLD) || (-rightError > THRESHOLD))) {
-            subsystems.drivetrain.robotDrive.tankDrive(power * direction, power * direction);
+
+        while(((leftError) > THRESHOLD) || ((rightError) > THRESHOLD)) {
+            subsystems.drivetrain.robotDrive.tankDrive(power * leftDirection, power * rightDirection);
+            SmartDashboard.putNumber("direction", leftDirection);
             //continue feeding the error value as encoder positions draw closer to the target
             leftError = leftTarget - subsystems.drivetrain.getLeftEncoderPos();
             rightError = rightTarget - subsystems.drivetrain.getRightEncoderPos();
@@ -45,13 +57,14 @@ public class MoveByEncoder extends Command implements CommandInterface {
             SmartDashboard.putNumber("rightError", rightError);
             SmartDashboard.putNumber("Pos", subsystems.drivetrain.getRightEncoderPos());
         }
-        subsystems.drivetrain.robotDrive.tankDrive(0,0);
         SmartDashboard.putBoolean("Done", isFinished());
+
     }
 
    @Override
    protected void end() {
-       super.end();
+        subsystems.drivetrain.robotDrive.tankDrive(0,0);
+        super.end();
    }
 
     @Override
@@ -61,7 +74,7 @@ public class MoveByEncoder extends Command implements CommandInterface {
 
     @Override
     protected boolean isFinished() {
-        return ((Math.abs(leftError) <= THRESHOLD) || (Math.abs(rightError) <= THRESHOLD));
-    }
+        return (((leftError) <= THRESHOLD) || ((rightError) <= THRESHOLD));
+    }*/
 
 }

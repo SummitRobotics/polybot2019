@@ -42,7 +42,7 @@ public class Drivetrain extends Subsystem implements initableSubsystem {
         rightSlaveMotor = new WPI_VictorSPX(RobotConstants.RIGHT_BACK_DRIVE);
         rightDrive = new SpeedControllerGroup(rightDriveMotor, rightSlaveMotor);
 
-        robotDrive = new DifferentialDrive(leftDrive, rightDrive);
+        robotDrive = new DifferentialDrive(rightDrive, leftDrive);
 
         pigeonMotorController = new TalonSRX(RobotConstants.PIGEONMOTORCONTROLLER);
         pigeonGyro = new PigeonIMU(pigeonMotorController);

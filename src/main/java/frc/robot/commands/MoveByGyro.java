@@ -11,38 +11,31 @@ public class MoveByGyro extends Command implements CommandInterface {
     private final double THRESHOLD = 1;
     private double error;
 
-    public MoveByGyro(double angle, double power) {
+    public MoveByGyro(double angle, double power, boolean isClockwise) {
         requires(subsystems.drivetrain);
-        this.angle = angle;
-        //We only ever want positive power, as the angle of the gyro will determine wether we go in the positive or negative direction.
+        this.angle = Math.abs(angle);
         this.power = Math.abs(power);
-        //SmartDashboard.putNumber("Target Angle", targetAngle);
+        if(isClockwise){
+            direction = -1;
+        }
+        else{
+            direction = 1;
+        }
     }
 
     @Override
     protected void initialize() {
         targetAngle = subsystems.drivetrain.getPigeonYaw() + this.angle;
-        direction = Math.copySign(1, angle);
     }
 
     @Override
     protected void execute() {
         error = targetAngle - subsystems.drivetrain.getPigeonYaw();
-        while((error > THRESHOLD)||(-error > THRESHOLD)) {
+        while((error > THRESHOLD)||(error > THRESHOLD)) {
             subsystems.drivetrain.robotDrive.tankDrive(power * direction, -power * direction);
             error = targetAngle - subsystems.drivetrain.getPigeonYaw(); 
         }
         subsystems.drivetrain.robotDrive.tankDrive(0, 0);
-    }
-
-    @Override
-    protected void end() {
-        
-    }
-
-    @Override
-    protected void interrupted() {
-        
     }
 
     @Override
