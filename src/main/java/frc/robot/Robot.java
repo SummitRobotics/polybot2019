@@ -28,7 +28,6 @@ import frc.robot.teleop.Teleop_Arcade_Differential;
 public class Robot extends TimedRobot {
 
   public RobotBuilder robot = RobotBuilder.getInstance();
-  public OI OpI;
   public DashboardOutput dashboard = new DashboardOutput();
 
   Command auto;
@@ -43,25 +42,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    //Create an instance of the Operator Interface (Op--erator I--nterface)
-    OpI = new OI();
+    robot.init();
 
     //Create a drop-down menu for selcting an autonomous program
     //Use .addOption for adding new autonomous routines
     autoChooser.setDefaultOption("Default Auto", new GoFwd());
     SmartDashboard.putData("Auto mode", autoChooser);
-
-    //Initialize the various subsystems
-    robot.init();
-    
-    robot.drivetrain.zeroEncoders();
-    robot.drivetrain.resetPigeonGyro();
-
-    robot.revBoard.init();
-
-    robot.lemonlight.enableLights();
-
-    //robot.camera.init();
   }
 
 
@@ -75,7 +61,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    //dashboard.run();
+    dashboard.run();
     //robot.revBoard.run();
     //robot.camera.init();
   }
@@ -113,6 +99,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     robot.drivetrain.zeroEncoders();
     robot.drivetrain.resetPigeonGyro();
+    robot.drivetrain.resetOldGyro();
 
     auto = autoChooser.getSelected();
     if (auto != null) {
@@ -151,9 +138,9 @@ public class Robot extends TimedRobot {
    * This function is called periodically during operator control.
    */
   @Override
-  public void teleopPeriodic() {
-    Scheduler.getInstance().run();
+  public void teleopPeriodic() { 
     Teleop.run();
+    Scheduler.getInstance().run();
   }
 
 

@@ -2,12 +2,24 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.Trigger;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.Vision.TargetAlignment;
 
 public class OI {
+
 
     double deadzoneDefault = 0.15;
 
     XboxController controller = new XboxController(0);
+    Button button = new Button(){
+        @Override
+        public boolean get() {
+            return controller.getAButton();
+        }
+    };
 
     public OI(){
 
@@ -41,12 +53,16 @@ public class OI {
     }
 
     public double getForwardPower(){
-        return makeCurve(getLeftTrigger()) - makeCurve(getRightTrigger());
+        return makeCurve(getRightTrigger()) - makeCurve(getLeftTrigger());
     }
     public double getRotationalPower(){
         return Math.copySign(makeCurve(Math.abs(getLeftJoystickX())), getLeftJoystickX());
     }
 
+    public void triggerAlign(){
+        button.whenPressed(new TargetAlignment(0.5));
+    }
+    
 
     public boolean isButtonA() {
         return controller.getAButton();
@@ -60,6 +76,8 @@ public class OI {
     public boolean isButtonY() {
         return controller.getYButton();
     }
+
+   
 
 
     /*public double joystickDeadzone(double stickVal, double deadzone) {
@@ -85,6 +103,5 @@ public class OI {
             return 0;
         }
     }
-
 
 }

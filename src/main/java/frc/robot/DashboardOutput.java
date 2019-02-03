@@ -17,6 +17,7 @@ public class DashboardOutput{
         //SmartDashboard.putNumber("Right Encoder", robot.drivetrain.getRightEncoderPos());
         SmartDashboard.putNumber("Distance From Target", robot.lemonlight.getDistance(HATCH_HEIGHT));
         SmartDashboard.putNumber("Pigeon Angle", robot.drivetrain.getPigeonYaw());
+        SmartDashboard.putNumber("Gyro Angle", robot.drivetrain.getGyroRot());
     }
     
     public double getVelocity(){
