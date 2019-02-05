@@ -60,7 +60,7 @@ public class Robot extends TimedRobot {
 
     robot.revBoard.init();
     robot.lemonlight.enableLights();
-    robot.colorSensor = new ColorSensor(I2C.Port.kOnboard, 0x39);
+    robot.colorSensor.init();
   }
 
 

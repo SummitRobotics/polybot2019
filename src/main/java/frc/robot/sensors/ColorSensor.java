@@ -5,13 +5,10 @@ import java.nio.ByteOrder;
 
 import edu.wpi.first.wpilibj.I2C;
 
-//WARNING: this class is temporary for one sensor testing, it is NOT COMPATABLE with multiplexers
-
 public class ColorSensor {
-
     protected final static int CMD = 0x80;
     protected final static int MULTI_BYTE_BIT = 0x20;
-
+    
     protected final static int ENABLE_REGISTER  = 0x00;
     protected final static int ATIME_REGISTER   = 0x01;
     protected final static int PPULSE_REGISTER  = 0x0E;
@@ -32,17 +29,21 @@ public class ColorSensor {
     
     private final double integrationTime = 10;
     
+    
     private I2C sensor;
     
     private ByteBuffer buffy = ByteBuffer.allocate(8);
     
     public short red = 0, green = 0, blue = 0, prox = 0;
     
-    public ColorSensor(I2C.Port port, int address) {
-
-        buffy.order(ByteOrder.LITTLE_ENDIAN);
-        sensor = new I2C(port, address);
+    public ColorSensor(I2C.Port port) {
         
+        buffy.order(ByteOrder.LITTLE_ENDIAN);
+        sensor = new I2C(port, 0x39); //0x39 is the address of the Vex ColorSensor V2
+    }
+    
+    public void init() {
+
         sensor.write(CMD | 0x00, PON | AEN | PEN);
         
         sensor.write(CMD | 0x01, (int) (256-integrationTime/2.38)); //configures the integration time (time for updating color data)
@@ -50,8 +51,8 @@ public class ColorSensor {
         
     }
     
+    
     public void read() {
-
         buffy.clear();
         sensor.read(CMD | MULTI_BYTE_BIT | RDATA_REGISTER, 8, buffy);
         
@@ -66,7 +67,8 @@ public class ColorSensor {
         
         prox = buffy.getShort(6); 
         if(prox < 0) { prox += 0b10000000000000000; }
-        }
+        
+    }
     
     public int status() {
         buffy.clear();
@@ -78,3 +80,4 @@ public class ColorSensor {
         sensor.free();
     }
 }
+    

@@ -1,5 +1,7 @@
 package frc.robot.teleop;
 
+import org.lwjgl.system.CallbackI.S;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.RobotBuilder;
@@ -10,7 +12,11 @@ public class Teleop_Arcade_Differential {
 
     private double xSpeed, zRotation;
     private short red, green, blue;
-    private int colorStatus;
+    private short redAvg = 0, greenAvg = 0, blueAvg = 0;
+    
+    //get color averages (temp)
+    private int count = 1;
+    private boolean toggleOne = false, toggleTwo = false;
 
     RobotBuilder subsystems = RobotBuilder.getInstance();
 
@@ -26,28 +32,42 @@ public class Teleop_Arcade_Differential {
         //Potentially implement curvatureDrive in the future?
         subsystems.drivetrain.robotDrive.arcadeDrive(xSpeed, zRotation);
 
-        if(gamepad.isButtonA()){
-            subsystems.testSystem.testServo.set(1);
-        }
-        else if(gamepad.isButtonB()){
-            subsystems.testSystem.testServo.set(0.5);
-        }
-        else{
-            subsystems.testSystem.testServo.set(0);
-        }
-
         subsystems.colorSensor.read();
         this.red = subsystems.colorSensor.red;
         this.green = subsystems.colorSensor.green;
         this.blue = subsystems.colorSensor.blue;
 
-        colorStatus = subsystems.colorSensor.status();
+        toggleTwo = toggleOne;
+        toggleOne = gamepad.isButtonA();
+
+
+        
+        if (toggleOne && !toggleTwo) {
+
+            redAvg += red;
+            greenAvg += green;
+            blueAvg += blue;
+
+            count++;
+        }
 
         SmartDashboard.putNumber("Left Encoder", subsystems.drivetrain.getLeftEncoderPos());
         SmartDashboard.putNumber("Right Encoder", subsystems.drivetrain.getRightEncoderPos());
         SmartDashboard.putNumber("Left Velocity", subsystems.drivetrain.getLeftEncoderVel());
         SmartDashboard.putNumber("Right Velocity", subsystems.drivetrain.getRightEncoderVel());
-        SmartDashboard.putString("Color", String.valueOf(red) + ", " + String.valueOf(green) + ", " + String.valueOf(blue));
-        SmartDashboard.putNumber("Color Sensor Status", colorStatus);
+
+        SmartDashboard.putNumber("Red", red);
+        SmartDashboard.putNumber("Green", green);
+        SmartDashboard.putNumber("Blue", blue);
+
+        SmartDashboard.putNumber("Red", red);
+        SmartDashboard.putNumber("Green", green);
+        SmartDashboard.putNumber("Blue", blue);
+
+        SmartDashboard.putNumber("Red Avg.", redAvg/count);
+        SmartDashboard.putNumber("Green Avg.", greenAvg/count);
+        SmartDashboard.putNumber("Blue Avg.", blueAvg/count);
+
+        SmartDashboard.putBoolean("Detected", red==200 && green==250 && blue==110);
     }
 }

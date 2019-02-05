@@ -7,6 +7,8 @@ import frc.robot.subsystems.initableSubsystem;
 
 import java.util.ArrayList;
 
+import edu.wpi.first.wpilibj.I2C;
+
 public class RobotBuilder {
 
     public Drivetrain drivetrain = new Drivetrain();
@@ -14,7 +16,7 @@ public class RobotBuilder {
     public Limelight lemonlight = new Limelight();
     public REVdisplay revBoard = new REVdisplay();
     public USBCamera camera = new USBCamera();
-    public ColorSensor colorSensor;
+    public ColorSensor colorSensor = new ColorSensor(I2C.Port.kOnboard);
 
     ArrayList<initableSubsystem> initiableList;
 
