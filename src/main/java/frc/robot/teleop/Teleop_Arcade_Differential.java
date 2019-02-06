@@ -60,14 +60,28 @@ public class Teleop_Arcade_Differential {
         SmartDashboard.putNumber("Green", green);
         SmartDashboard.putNumber("Blue", blue);
 
-        SmartDashboard.putNumber("Red", red);
-        SmartDashboard.putNumber("Green", green);
+        SmartDashboard.putNumber("Red", red/2);
+        SmartDashboard.putNumber("Green", green/2);
         SmartDashboard.putNumber("Blue", blue);
 
         SmartDashboard.putNumber("Red Avg.", redAvg/count);
         SmartDashboard.putNumber("Green Avg.", greenAvg/count);
         SmartDashboard.putNumber("Blue Avg.", blueAvg/count);
 
-        SmartDashboard.putBoolean("Detected", red==200 && green==250 && blue==110);
+        SmartDashboard.putBoolean("Detected", detect(red, green, blue));
+    }
+
+    public boolean detect(int red, int green, int blue) {
+
+        red /= 2;
+        green /= 2;
+        
+        int average = (red+green+blue)/3;
+
+        if (average-20 < red && red < average+20 && average-20 < green && green < average+20 && average-20 < blue && blue < average+20 && red > 90 && green > 90 && blue > 90) {
+            return true;
+        }
+
+        return false;
     }
 }
