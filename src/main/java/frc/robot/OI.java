@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.DisabledFlag;
+import frc.robot.commands.Move.MoveByEncoder;
 import frc.robot.commands.Vision.TargetAlignment;
 
 public class OI {
@@ -18,6 +20,13 @@ public class OI {
         @Override
         public boolean get() {
             return controller.getAButton();
+        }
+    };
+
+    Button interruptAll = new Button(){
+        @Override
+        public boolean get(){
+            return controller.getBumper(GenericHID.Hand.kLeft) && controller.getBumper(GenericHID.Hand.kRight);
         }
     };
 
@@ -41,6 +50,7 @@ public class OI {
     }
 
 
+    
     public double getLeftTrigger() {
         return controller.getTriggerAxis(GenericHID.Hand.kLeft);
     }
@@ -60,7 +70,13 @@ public class OI {
     }
 
     public void triggerAlign(){
-        button.whenPressed(new TargetAlignment(0.5));
+        button.whenPressed(new MoveByEncoder(45, 0.5));
+    }
+
+    public void interruptCommand(){
+        if(isButtonB()){
+            DisabledFlag.getInstance().setTrue();
+        }
     }
     
 

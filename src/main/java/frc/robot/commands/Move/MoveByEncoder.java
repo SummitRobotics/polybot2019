@@ -1,7 +1,7 @@
 package frc.robot.commands.Move;
 
 import edu.wpi.first.wpilibj.command.Command;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.CommandInterface;
 
 public class MoveByEncoder extends Command implements CommandInterface {
@@ -17,6 +17,7 @@ public class MoveByEncoder extends Command implements CommandInterface {
 
     public MoveByEncoder(double distance, double power) {
         requires(robot.drivetrain);
+        setInterruptible(true);
         leftInch = distance;
         rightInch = distance;
         this.power = Math.abs(power);
@@ -39,23 +40,28 @@ public class MoveByEncoder extends Command implements CommandInterface {
 
     @Override
     protected void execute() {
-        while(((leftError > THRESHOLD) || (leftError < -THRESHOLD)) && ((rightError > THRESHOLD) || (rightError < -THRESHOLD))){
-            robot.drivetrain.robotDrive.tankDrive(power * leftDirection, power * rightDirection);
-            leftError = leftTarget - robot.drivetrain.getLeftEncoderPos();
-            rightError = rightTarget - robot.drivetrain.getRightEncoderPos();
-        }
+            SmartDashboard.putBoolean("isInterrupted", false);
+            while(((leftError > THRESHOLD) || (leftError < -THRESHOLD)) && ((rightError > THRESHOLD) || (rightError < -THRESHOLD))){
+                if(interrupt.getInterrupt()){
+                    end();
+                    SmartDashboard.putBoolean("This Got Disabled", true);
+                }
+                robot.drivetrain.robotDrive.tankDrive(power * leftDirection, power * rightDirection);
+                leftError = leftTarget - robot.drivetrain.getLeftEncoderPos();
+                rightError = rightTarget - robot.drivetrain.getRightEncoderPos();
+            }
         robot.drivetrain.stopRobot();        
     }
 
    @Override
    protected void end() {
-        //robot.drivetrain.robotDrive.tankDrive(0,0);
+        robot.drivetrain.robotDrive.tankDrive(0,0);
         super.end();
    }
 
     @Override
     protected void interrupted() {
-        super.interrupted();
+        end();
     }
 
     @Override

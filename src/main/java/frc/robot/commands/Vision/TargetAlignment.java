@@ -7,10 +7,10 @@ import frc.robot.commands.CommandInterface;
 
 public class TargetAlignment extends PIDCommand implements CommandInterface{
     private static final double
-        P = 0.3,
-        I = 0.00,
+        P = 0.15,
+        I = 0.01,
         D = 0.0;
-    private double power, direction;
+    private double power, direction, leftDrive, rightDrive;
 
     public TargetAlignment(double power){
         super("TargetAlignment", P, I, D, robot.drivetrain);
@@ -27,21 +27,15 @@ public class TargetAlignment extends PIDCommand implements CommandInterface{
     @Override
     protected void execute() {
         usePIDOutput(getPIDController().get());
+        robot.drivetrain.robotDrive.tankDrive(leftDrive, rightDrive);
         //pranked
     }
     @Override
     protected void usePIDOutput(double output) {
-        if(returnPIDInput() < 0.0){
-            direction = -1;
-        }
-        else{
-            direction = 1;
-        }
-        double leftDrive = robot.gamepad.getForwardPower();
-        double rightDrive = robot.gamepad.getForwardPower();
-        /*robot.drivetrain.leftDrive.pidWrite(-output);
-        robot.drivetrain.rightDrive.pidWrite(-output);*/
-        robot.drivetrain.robotDrive.tankDrive(-power * output, power * output);
+        leftDrive = power;
+        rightDrive = power;
+        leftDrive += output;
+        rightDrive -= output;
         SmartDashboard.putNumber("output", output);
     }
     @Override

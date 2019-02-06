@@ -24,6 +24,7 @@ public class Teleop_Arcade_Differential {
         //Potentially implement curvatureDrive in the future?
         robot.drivetrain.robotDrive.arcadeDrive(xSpeed, -zRotation);
 
-        //robot.gamepad.triggerAlign();
+        robot.gamepad.triggerAlign();
+        robot.gamepad.interruptCommand();
     }
 }
