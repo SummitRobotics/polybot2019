@@ -79,5 +79,20 @@ public class ColorSensor {
     public void free() {
         sensor.free();
     }
+
+    //tune color vals when claw is installed
+    public boolean detectPanel(int red, int green, int blue) {
+
+        red /= 2;
+        green /= 2;
+        
+        int average = (red+green+blue)/3;
+
+        if (average-20 < red && red < average+20 && average-20 < green && green < average+20 && average-20 < blue && blue < average+20 && red > 90 && green > 90 && blue > 90) {
+            return true;
+        }
+
+        return false;
+
+    }
 }
-    
