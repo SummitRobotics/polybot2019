@@ -4,13 +4,17 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 
-public class Limelight{
+public class Limelight implements PIDSource{
     private NetworkTable table;
     private NetworkTableEntry tx, ty, ta, ts;
 
     private final double CAMERA_HEIGHT = 21.5;
     private final double CAMERA_ANGLE = 21.86;
+
+    private PIDSourceType pidSource = PIDSourceType.kDisplacement;
 
     public Limelight(){
         table = NetworkTableInstance.getDefault().getTable("limelight");
@@ -18,7 +22,17 @@ public class Limelight{
         ty = table.getEntry("ty");
         ta = table.getEntry("ta");
         ts = table.getEntry("ts");
+        
     }
+    @Override
+    public void setPIDSourceType(PIDSourceType pidSource) {
+        pidSource = this.pidSource;
+    }
+    @Override
+    public PIDSourceType getPIDSourceType() {
+        return pidSource;
+    }
+    
     public double getX(){
         return tx.getDouble(0.0);
     }
@@ -31,6 +45,11 @@ public class Limelight{
     }
     public double getSkew(){
         return ts.getDouble(0.0);
+    }
+    
+    @Override
+    public double pidGet() {
+        return getX();
     }
 
     public void disableLights(){

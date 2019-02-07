@@ -6,30 +6,26 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotConstants;
 
-public class Drivetrain extends Subsystem implements initableSubsystem {
+public class Drivetrain extends Subsystem {
 
     //Defines the motor controllers
     private WPI_TalonSRX leftDriveMotor, rightDriveMotor;
     private WPI_VictorSPX leftSlaveMotor, rightSlaveMotor;
 
-    //Defines motor controller groupings. There's a speed controller per drive-side and a differentialdrive for grouping said speed controllers 
-    //This makes it so we only have to assign power to one object instead of 4+. 
-    private SpeedControllerGroup leftDrive, rightDrive;
+    public SpeedControllerGroup leftDrive, rightDrive;
     public DifferentialDrive robotDrive;
 
-    //defines the motor controller which handles the feedback from the gyro
-    
-    //Defines the robot gyro
+    public ADXRS450_Gyro gyro;
+
     public PigeonIMU pigeonGyro;
-
-    //Defines the motor controller which handles Pigeon gyro input (not used other than for defining Pigeon)
     private TalonSRX pigeonMotorController;
-
+    //Yaw-Pitch-Roll array for use with the Pigeon IMU
     double[] ypr;
 
     public Drivetrain() {
@@ -37,31 +33,23 @@ public class Drivetrain extends Subsystem implements initableSubsystem {
         leftDriveMotor = new WPI_TalonSRX(RobotConstants.LEFT_FRONT_DRIVE);
         leftSlaveMotor = new WPI_VictorSPX(RobotConstants.LEFT_BACK_DRIVE);
         leftDrive = new SpeedControllerGroup(leftDriveMotor, leftSlaveMotor);
-
-        rightDriveMotor = new WPI_TalonSRX(RobotConstants.RIGHT_FRONT_DRIVE);
-        rightSlaveMotor = new WPI_VictorSPX(RobotConstants.RIGHT_BACK_DRIVE);
-        rightDrive = new SpeedControllerGroup(rightDriveMotor, rightSlaveMotor);
-
-        robotDrive = new DifferentialDrive(leftDrive, rightDrive);
-
-        pigeonMotorController = new TalonSRX(RobotConstants.PIGEONMOTORCONTROLLER);
-        pigeonGyro = new PigeonIMU(pigeonMotorController);
-    }
-
-    public void init() {
-
         leftDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0 ,0);
         leftDriveMotor.setSensorPhase(false);
         leftSlaveMotor.follow(leftDriveMotor);
 
+        rightDriveMotor = new WPI_TalonSRX(RobotConstants.RIGHT_FRONT_DRIVE);
+        rightSlaveMotor = new WPI_VictorSPX(RobotConstants.RIGHT_BACK_DRIVE);
+        rightDrive = new SpeedControllerGroup(rightDriveMotor, rightSlaveMotor);
         rightDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0 , 0);
         rightDriveMotor.setSensorPhase(false);
         rightSlaveMotor.follow(rightDriveMotor);
 
+        robotDrive = new DifferentialDrive(rightDrive, leftDrive);
         robotDrive.setSafetyEnabled(false);
 
-        pigeonGyro.enterCalibrationMode(PigeonIMU.CalibrationMode.BootTareGyroAccel);
-
+        pigeonMotorController = new TalonSRX(RobotConstants.PIGEONMOTORCONTROLLER);
+        pigeonGyro = new PigeonIMU(pigeonMotorController);
+        gyro = new ADXRS450_Gyro();
     }
 
     //These methods are used for returning the current value of the relative encoders on the left and right Drive Talons. 
@@ -96,6 +84,10 @@ public class Drivetrain extends Subsystem implements initableSubsystem {
         return (inch / (RobotConstants.WHEEL_DIAMETER * Math.PI) * RobotConstants.TICKS_PER_ROTATION);
     }
 
+    public void stopRobot(){
+        robotDrive.tankDrive(0, 0);
+    }
+
     
     public double getPigeonYaw() {
         ypr = new double[3];
@@ -103,12 +95,18 @@ public class Drivetrain extends Subsystem implements initableSubsystem {
         return ypr[0];
     }
 
+    public double getGyroRot(){
+        return gyro.getAngle();
+    }
+    public void resetOldGyro(){
+        gyro.reset();
+    }
+
     public void resetPigeonGyro(){
         //pigeonGyro.enterCalibrationMode(PigeonIMU.CalibrationMode.BootTareGyroAccel);
         pigeonGyro.setYaw(0);
         pigeonGyro.setAccumZAngle(0);
     pigeonMotorController.setSelectedSensorPosition(0);
-        
     }
 
     //This is an abstract Command method, and must be overwritten

@@ -1,35 +1,58 @@
 package frc.robot.teleop;
 
-import org.lwjgl.system.CallbackI.S;
-
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.RobotBuilder;
+import frc.robot.commands.Vision.TargetAlignment;
 
 public class Teleop_Arcade_Differential {
 
-    OI gamepad;
+    static double leftFwd, rightFwd;
+    double zRotation, xSpeed;
+    double Kp = 0.0265;
+    double min_command = 0.05;
 
-    private double xSpeed, zRotation;
-    
-    RobotBuilder subsystems = RobotBuilder.getInstance();
+    RobotBuilder robot = RobotBuilder.getInstance();
+    OI gamepad = OI.getInstance();
 
     public void init(){
-        gamepad = new OI();
+        
     }
 
     public void run(){
 
-        xSpeed = gamepad.getLeftTrigger() - gamepad.getRightTrigger();
-        zRotation = -gamepad.getLeftJoystickX();
+        zRotation = gamepad.getRotationalPower();
+        xSpeed = gamepad.getForwardPower();
+        robot.drivetrain.robotDrive.arcadeDrive(xSpeed, zRotation);
+
+        /*leftFwd = gamepad.getForwardPower() - gamepad.getRotationalPower();
+        rightFwd = gamepad.getForwardPower() + gamepad.getRotationalPower();
+        robot.drivetrain.robotDrive.tankDrive(leftFwd, rightFwd);*/
+
+        /*if(gamepad.isButtonB()){
+            calculateVisionAlign();
+        }*/
 
         //Potentially implement curvatureDrive in the future?
-        subsystems.drivetrain.robotDrive.arcadeDrive(xSpeed, zRotation);
         
-        SmartDashboard.putNumber("Left Encoder", subsystems.drivetrain.getLeftEncoderPos());
-        SmartDashboard.putNumber("Right Encoder", subsystems.drivetrain.getRightEncoderPos());
-        SmartDashboard.putNumber("Left Velocity", subsystems.drivetrain.getLeftEncoderVel());
-        SmartDashboard.putNumber("Right Velocity", subsystems.drivetrain.getRightEncoderVel());
+        
 
     }
+
+    public void calculateVisionAlign(){
+        double headingError = robot.lemonlight.getX();
+        double steeringAdjust = 0.0;
+
+        if(robot.lemonlight.getX() > 1.0){
+            steeringAdjust = Kp*headingError - min_command;
+        }
+        else if(robot.lemonlight.getX() < 1.0){
+            steeringAdjust = Kp*headingError + min_command;
+        }
+        leftFwd -= steeringAdjust;
+        rightFwd += steeringAdjust;
+    }
+
 }
