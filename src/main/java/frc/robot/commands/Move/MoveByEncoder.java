@@ -12,7 +12,7 @@ public class MoveByEncoder extends Command implements CommandInterface {
     private double power;
     private double leftDirection, rightDirection;
     private double leftError, rightError;
-    private double THRESHOLD = 100;
+    private double THRESHOLD = 35;
 
 
     public MoveByEncoder(double distance, double power) {
@@ -40,12 +40,7 @@ public class MoveByEncoder extends Command implements CommandInterface {
 
     @Override
     protected void execute() {
-            SmartDashboard.putBoolean("isInterrupted", false);
             while(((leftError > THRESHOLD) || (leftError < -THRESHOLD)) && ((rightError > THRESHOLD) || (rightError < -THRESHOLD))){
-                if(interrupt.getInterrupt()){
-                    end();
-                    SmartDashboard.putBoolean("This Got Disabled", true);
-                }
                 robot.drivetrain.robotDrive.tankDrive(power * leftDirection, power * rightDirection);
                 leftError = leftTarget - robot.drivetrain.getLeftEncoderPos();
                 rightError = rightTarget - robot.drivetrain.getRightEncoderPos();

@@ -3,10 +3,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.Trigger;
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.DisabledFlag;
 import frc.robot.commands.Move.MoveByEncoder;
 import frc.robot.commands.Vision.TargetAlignment;
 
@@ -30,8 +26,17 @@ public class OI {
         }
     };
 
-    public OI(){
+    private static OI instance;
 
+    public OI(){
+        button.whileHeld(new TargetAlignment());
+    }
+
+    public static OI getInstance(){
+        if(instance == null){
+            instance = new OI();
+        }
+        return instance;
     }
 
 
@@ -68,17 +73,6 @@ public class OI {
     public double getRotationalPower(){
         return Math.copySign(makeCurve(Math.abs(getLeftJoystickX())), getLeftJoystickX());
     }
-
-    public void triggerAlign(){
-        button.whenPressed(new MoveByEncoder(45, 0.5));
-    }
-
-    public void interruptCommand(){
-        if(isButtonB()){
-            DisabledFlag.getInstance().setTrue();
-        }
-    }
-    
 
     public boolean isButtonA() {
         return controller.getAButton();

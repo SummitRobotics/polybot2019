@@ -9,7 +9,6 @@ public class RobotBuilder {
     public TestMotor mast;
     public Limelight lemonlight;
     public REVdisplay revBoard;
-    public OI gamepad;
     //public USBCamera camera = new USBCamera();
 
     private static RobotBuilder robotBuilder;
@@ -20,7 +19,6 @@ public class RobotBuilder {
         mast = new TestMotor();
         lemonlight = new Limelight();
         revBoard = new REVdisplay();
-        gamepad = new OI();
 
     }
 

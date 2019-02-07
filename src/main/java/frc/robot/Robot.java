@@ -29,6 +29,7 @@ public class Robot extends TimedRobot {
 
   public RobotBuilder robot = RobotBuilder.getInstance();
   public DashboardOutput dashboard = new DashboardOutput();
+  private OI gamepad = OI.getInstance();
 
   Command auto;
   SendableChooser<Command> autoChooser = new SendableChooser<>();

@@ -1,5 +1,6 @@
 package frc.robot.teleop;
 
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
@@ -8,9 +9,13 @@ import frc.robot.commands.Vision.TargetAlignment;
 
 public class Teleop_Arcade_Differential {
 
-    double xSpeed, zRotation;
+    static double leftFwd, rightFwd;
+    double zRotation, xSpeed;
+    double Kp = 0.0265;
+    double min_command = 0.05;
 
     RobotBuilder robot = RobotBuilder.getInstance();
+    OI gamepad = OI.getInstance();
 
     public void init(){
         
@@ -18,13 +23,36 @@ public class Teleop_Arcade_Differential {
 
     public void run(){
 
-        xSpeed = robot.gamepad.getForwardPower();
-        zRotation = robot.gamepad.getRotationalPower();
+        zRotation = gamepad.getRotationalPower();
+        xSpeed = gamepad.getForwardPower();
+        robot.drivetrain.robotDrive.arcadeDrive(xSpeed, zRotation);
+
+        /*leftFwd = gamepad.getForwardPower() - gamepad.getRotationalPower();
+        rightFwd = gamepad.getForwardPower() + gamepad.getRotationalPower();
+        robot.drivetrain.robotDrive.tankDrive(leftFwd, rightFwd);*/
+
+        /*if(gamepad.isButtonB()){
+            calculateVisionAlign();
+        }*/
 
         //Potentially implement curvatureDrive in the future?
-        robot.drivetrain.robotDrive.arcadeDrive(xSpeed, -zRotation);
+        
+        
 
-        robot.gamepad.triggerAlign();
-        robot.gamepad.interruptCommand();
     }
+
+    public void calculateVisionAlign(){
+        double headingError = robot.lemonlight.getX();
+        double steeringAdjust = 0.0;
+
+        if(robot.lemonlight.getX() > 1.0){
+            steeringAdjust = Kp*headingError - min_command;
+        }
+        else if(robot.lemonlight.getX() < 1.0){
+            steeringAdjust = Kp*headingError + min_command;
+        }
+        leftFwd -= steeringAdjust;
+        rightFwd += steeringAdjust;
+    }
+
 }
