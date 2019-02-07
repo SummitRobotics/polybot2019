@@ -6,7 +6,7 @@ import frc.robot.subsystems.*;
 public class RobotBuilder {
 
     public Drivetrain drivetrain;
-    public TestMotor mast;
+    public TestSystem testSystem;
     public Limelight lemonlight;
     public REVdisplay revBoard;
     //public USBCamera camera = new USBCamera();
@@ -16,7 +16,7 @@ public class RobotBuilder {
     
     private RobotBuilder(){
         drivetrain = new Drivetrain();
-        mast = new TestMotor();
+        testSystem = new TestSystem();
         lemonlight = new Limelight();
         revBoard = new REVdisplay();
 

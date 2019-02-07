@@ -10,7 +10,7 @@ public class TestMast extends Command implements CommandInterface{
     private double currentTime, deltaTime;
 
     public TestMast(double power, double time){
-        requires(subsystems.testSystem);
+        requires(robot.testSystem);
         power = this.power;
         time = this.time;
         setTimeout(time++);
@@ -25,7 +25,7 @@ public class TestMast extends Command implements CommandInterface{
     protected void execute() {
         deltaTime = Timer.getFPGATimestamp() - currentTime;
         while(deltaTime < time){
-            subsystems.testSystem.testMotor.set(ControlMode.PercentOutput, power);
+            robot.testSystem.testMotor.set(ControlMode.PercentOutput, power);
         }
     }
 
