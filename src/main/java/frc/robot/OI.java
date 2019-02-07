@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
 import frc.robot.commands.Move.MoveByEncoder;
+import frc.robot.commands.Move.MoveByGyro;
 import frc.robot.commands.Vision.TargetAlignment;
 
 public class OI {
@@ -18,6 +19,13 @@ public class OI {
             return controller.getAButton();
         }
     };
+    Button overide = new Button(){
+    
+        @Override
+        public boolean get() {
+            return controller.getXButton();
+        }
+    };
 
     Button interruptAll = new Button(){
         @Override
@@ -29,7 +37,7 @@ public class OI {
     private static OI instance;
 
     public OI(){
-        button.whileHeld(new TargetAlignment());
+        button.whenPressed(new MoveByGyro(1000, 0.5));
     }
 
     public static OI getInstance(){
