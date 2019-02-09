@@ -13,10 +13,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.CommandGroups.GoFwd;
+import frc.robot.commandgroups.*;
 import frc.robot.teleop.Teleop_Arcade_Differential;
-import frc.robot.sensors.ColorSensor;
-import edu.wpi.first.wpilibj.I2C;
 
 /**
  * The VM is configured to automatically run this class, and to call the
