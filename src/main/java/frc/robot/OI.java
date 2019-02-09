@@ -37,7 +37,7 @@ public class OI {
     private static OI instance;
 
     public OI(){
-        button.whenPressed(new MoveByGyro(1000, 0.5));
+        button.whileHeld(new TargetAlignment(0.8));
     }
 
     public static OI getInstance(){
@@ -79,7 +79,7 @@ public class OI {
         return makeCurve(getRightTrigger()) - makeCurve(getLeftTrigger());
     }
     public double getRotationalPower(){
-        return Math.copySign(makeCurve(Math.abs(getLeftJoystickX())), getLeftJoystickX());
+        return -Math.copySign(makeCurve(Math.abs(getLeftJoystickX())), getLeftJoystickX());
     }
 
     public boolean isButtonA() {

@@ -22,18 +22,18 @@ public class Teleop_Arcade_Differential {
     }
 
     public void run(){
+        
+        while(gamepad.isButtonB()){
+            leftFwd = gamepad.getForwardPower() - gamepad.getRotationalPower();
+            rightFwd = gamepad.getForwardPower() + gamepad.getRotationalPower();
+            calculateVisionAlign();
+            robot.drivetrain.robotDrive.tankDrive(leftFwd, rightFwd);
+        }
 
         zRotation = gamepad.getRotationalPower();
         xSpeed = gamepad.getForwardPower();
         robot.drivetrain.robotDrive.arcadeDrive(xSpeed, zRotation);
-
-        /*leftFwd = gamepad.getForwardPower() - gamepad.getRotationalPower();
-        rightFwd = gamepad.getForwardPower() + gamepad.getRotationalPower();
-        robot.drivetrain.robotDrive.tankDrive(leftFwd, rightFwd);*/
-
-        /*if(gamepad.isButtonB()){
-            calculateVisionAlign();
-        }*/
+        
 
         //Potentially implement curvatureDrive in the future?
         
