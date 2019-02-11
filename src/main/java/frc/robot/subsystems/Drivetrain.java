@@ -75,6 +75,16 @@ public class Drivetrain extends Subsystem {
         rightDriveMotor.setSelectedSensorPosition(0);
     }
 
+    public void runToPosition(double pos, double threshold, double power){
+        double leftError = pos - getLeftEncoderPos();
+        double rightError = pos - getRightEncoderPos();
+        while((!(leftError < threshold && rightError > -threshold)) || (!(rightError  < threshold && rightError > -threshold))){
+            robotDrive.tankDrive(power, power);
+            leftError = pos - getLeftEncoderPos();
+            rightError = pos - getRightEncoderPos();
+        }
+    }
+
     //These methods get the velocities (in feet per second) of the left and right drive Talons, based on the encoder ticks per second.
     //To convert units, we use the ticksToInches method, shown below
     public double getLeftEncoderVel() {
