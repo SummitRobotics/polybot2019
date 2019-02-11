@@ -7,6 +7,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -27,6 +29,8 @@ public class Drivetrain extends Subsystem {
     private TalonSRX pigeonMotorController;
     //Yaw-Pitch-Roll array for use with the Pigeon IMU
     double[] ypr;
+
+    private DigitalInput limitSwitch;
 
     public Drivetrain() {
 
@@ -50,6 +54,8 @@ public class Drivetrain extends Subsystem {
         pigeonMotorController = new TalonSRX(RobotConstants.PIGEONMOTORCONTROLLER);
         pigeonGyro = new PigeonIMU(pigeonMotorController);
         gyro = new ADXRS450_Gyro();
+
+        limitSwitch = new DigitalInput(0);
     }
 
     //These methods are used for returning the current value of the relative encoders on the left and right Drive Talons. 
@@ -58,6 +64,9 @@ public class Drivetrain extends Subsystem {
     }
     public double getRightEncoderPos() {
         return rightDriveMotor.getSelectedSensorPosition(0);
+    }
+    public boolean getLimitSwitchState(){
+        return !limitSwitch.get();
     }
 
     //This resets the encoder values to 0

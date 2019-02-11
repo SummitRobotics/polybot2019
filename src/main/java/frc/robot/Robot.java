@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.CommandGroups.GoFwd;
+//import frc.robot.commandgroups.GoFwd;
 import frc.robot.teleop.Teleop_Arcade_Differential;
 import frc.robot.sensors.ColorSensor;
 import edu.wpi.first.wpilibj.I2C;
@@ -48,7 +48,7 @@ public class Robot extends TimedRobot {
 
     //Create a drop-down menu for selcting an autonomous program
     //Use .addOption for adding new autonomous routines
-    autoChooser.setDefaultOption("Default Auto", new GoFwd());
+    //autoChooser.setDefaultOption("Default Auto", new GoFwd());
     SmartDashboard.putData("Auto mode", autoChooser);
   }
 

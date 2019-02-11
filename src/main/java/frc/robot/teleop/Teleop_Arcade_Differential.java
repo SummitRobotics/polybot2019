@@ -33,6 +33,8 @@ public class Teleop_Arcade_Differential {
         zRotation = gamepad.getRotationalPower();
         xSpeed = gamepad.getForwardPower();
         robot.drivetrain.robotDrive.arcadeDrive(xSpeed, zRotation);
+
+        SmartDashboard.putBoolean("Limit Switch", robot.drivetrain.getLimitSwitchState());
         
 
         //Potentially implement curvatureDrive in the future?

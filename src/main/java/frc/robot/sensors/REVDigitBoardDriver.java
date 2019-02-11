@@ -1,4 +1,4 @@
-package frc.robot.sensors; // might need to change this number
+package frc.robot.sensors; 
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Timer;
