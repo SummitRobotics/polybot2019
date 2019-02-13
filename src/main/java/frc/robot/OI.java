@@ -37,7 +37,7 @@ public class OI {
     private static OI instance;
 
     public OI(){
-        button.whileHeld(new TargetAlignment(0.8));
+        //button.whileHeld(new TargetAlignment(0.8));
     }
 
     public static OI getInstance(){

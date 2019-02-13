@@ -23,16 +23,26 @@ public class Teleop_Arcade_Differential {
 
     public void run(){
         
-        while(gamepad.isButtonB()){
+        /*while(gamepad.isButtonB()){
             leftFwd = gamepad.getForwardPower() - gamepad.getRotationalPower();
             rightFwd = gamepad.getForwardPower() + gamepad.getRotationalPower();
             calculateVisionAlign();
             robot.drivetrain.robotDrive.tankDrive(leftFwd, rightFwd);
-        }
+        }*/
 
         zRotation = gamepad.getRotationalPower();
         xSpeed = gamepad.getForwardPower();
         robot.drivetrain.robotDrive.arcadeDrive(xSpeed, zRotation);
+
+        if(gamepad.isButtonA()){
+        robot.testSystem.testServo.set(0);
+        }
+        else if(gamepad.isButtonB()){
+        robot.testSystem.testServo.set(0.5);
+        }
+        else if(gamepad.isButtonY()){
+            robot.testSystem.testServo.set(1);
+        }
 
         SmartDashboard.putBoolean("Limit Switch", robot.drivetrain.getLimitSwitchState());
         
