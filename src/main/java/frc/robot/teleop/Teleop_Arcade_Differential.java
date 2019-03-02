@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.RobotBuilder;
-import frc.robot.commands.Vision.TargetAlignment;
+import frc.robot.drivetrain.Vision.TargetAlignment;
 
 public class Teleop_Arcade_Differential {
 

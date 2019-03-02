@@ -1,19 +1,20 @@
-package frc.robot.commands.Move;
+package frc.robot.drivetrain.Move;
 
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.drivetrain.Drivetrain;
 
-import frc.robot.commands.CommandInterface;
 
+public class MoveByTime extends Command {
 
-public class MoveByTime extends Command implements CommandInterface {
+    private Drivetrain drivetrain = Drivetrain.getInstance();
 
     private double power, time, initTime, deltaTime;
 
     public MoveByTime(double power, double time){
-        requires(robot.drivetrain);
+        requires(drivetrain);
         this.power = power;
         this.time = time;
     }
@@ -27,11 +28,11 @@ public class MoveByTime extends Command implements CommandInterface {
     protected void execute() {
         deltaTime = Timer.getFPGATimestamp() - initTime;
         while(deltaTime < time){
-            robot.drivetrain.robotDrive.tankDrive(power, power);
+            drivetrain.robotDrive.tankDrive(power, power);
             SmartDashboard.putNumber("Delta Time", deltaTime);
             deltaTime = Timer.getFPGATimestamp() - initTime;
         }
-        robot.drivetrain.stopRobot();
+        drivetrain.stopRobot();
     }
 
     protected boolean isFinished() {

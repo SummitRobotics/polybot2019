@@ -1,4 +1,4 @@
-package frc.robot.sensors;
+package frc.robot.devices;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;

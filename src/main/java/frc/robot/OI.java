@@ -3,9 +3,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.Button;
-import frc.robot.commands.Move.MoveByEncoder;
-import frc.robot.commands.Move.MoveByGyro;
-import frc.robot.commands.Vision.TargetAlignment;
+import frc.robot.drivetrain.Move.MoveByEncoder;
+import frc.robot.drivetrain.Move.MoveByGyro;
+import frc.robot.drivetrain.Vision.TargetAlignment;
+import frc.robot.testsubsystem.RotateShit;
 
 public class OI {
 
@@ -38,6 +39,7 @@ public class OI {
 
     public OI(){
         button.whileHeld(new TargetAlignment(0.8));
+        button.whenActive(new RotateShit(90));
     }
 
     public static OI getInstance(){

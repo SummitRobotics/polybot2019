@@ -1,12 +1,17 @@
-package frc.robot.commands.Vision;
+package frc.robot.drivetrain.Vision;
 
 
 import edu.wpi.first.wpilibj.command.PIDCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
-import frc.robot.commands.CommandInterface;
+import frc.robot.devices.Limelight;
+import frc.robot.drivetrain.Drivetrain;
 
-public class TargetAlignment extends PIDCommand implements CommandInterface{
+public class TargetAlignment extends PIDCommand {
+
+    private Drivetrain drivetrain = Drivetrain.getInstance();
+    private Limelight lemonlight = Limelight.getInstance();
+
     private static final double
         P = 0.01,
         I = 0.0,
@@ -17,7 +22,7 @@ public class TargetAlignment extends PIDCommand implements CommandInterface{
 
 
     public TargetAlignment(double power){
-        super("TargetAlignment", P, I, D, robot.drivetrain);    
+        super("TargetAlignment", P, I, D, Drivetrain.getInstance());    
         setSetpoint(0);
         getPIDController().setPercentTolerance(5);
         this.power = power;
@@ -38,23 +43,23 @@ public class TargetAlignment extends PIDCommand implements CommandInterface{
         leftFwd = power;
         rightFwd = power;
 
-        SmartDashboard.putNumber("Target", robot.lemonlight.getTarget());
+        SmartDashboard.putNumber("Target", lemonlight.getTarget());
 
-        if(robot.lemonlight.getTarget() != 1){
-            robot.drivetrain.robotDrive.tankDrive(0, 0);
+        if(lemonlight.getTarget() != 1){
+            drivetrain.robotDrive.tankDrive(0, 0);
             end();
         }
-        else if(robot.lemonlight.getX() > 1.0){
+        else if(lemonlight.getX() > 1.0){
             steeringAdjust = output - min_command;
             leftFwd += steeringAdjust;
             rightFwd -= steeringAdjust;
-            robot.drivetrain.robotDrive.tankDrive(leftFwd, rightFwd);
+            drivetrain.robotDrive.tankDrive(leftFwd, rightFwd);
         }
-        else if(robot.lemonlight.getX() < 1.0){
+        else if(lemonlight.getX() < 1.0){
             steeringAdjust = output + min_command;
             leftFwd += steeringAdjust;
             rightFwd -= steeringAdjust;
-            robot.drivetrain.robotDrive.tankDrive(leftFwd, rightFwd);
+            drivetrain.robotDrive.tankDrive(leftFwd, rightFwd);
         }
         
         SmartDashboard.putNumber("Output", steeringAdjust);
@@ -70,6 +75,6 @@ public class TargetAlignment extends PIDCommand implements CommandInterface{
     }
     @Override
     protected double returnPIDInput() {
-        return robot.lemonlight.getX();
+        return lemonlight.getX();
     }
 }

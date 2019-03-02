@@ -1,4 +1,4 @@
-package frc.robot.sensors;
+package frc.robot.devices;
 
 import org.opencv.core.Mat;
 
