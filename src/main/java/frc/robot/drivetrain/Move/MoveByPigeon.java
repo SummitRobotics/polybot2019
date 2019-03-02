@@ -1,11 +1,11 @@
-package frc.robot.commands.Move;
+package frc.robot.drivetrain.Move;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.drivetrain.Drivetrain;
 
-import frc.robot.commands.CommandInterface;
-
-public class MoveByPigeon extends Command implements CommandInterface {
+public class MoveByPigeon extends Command {
+    private Drivetrain drivetrain = Drivetrain.getInstance();
 
     private double angle, power, targetAngle;
     //Direction is defined by 1 being clockwise and -1 being counter-clockwise
@@ -14,15 +14,15 @@ public class MoveByPigeon extends Command implements CommandInterface {
     private double error;
 
     public MoveByPigeon(double angle, double power) {
-        requires(robot.drivetrain);
+        requires(drivetrain);
         this.angle = angle;
         this.power = power;
     }
 
     @Override
     protected void initialize() {
-        targetAngle = robot.drivetrain.getPigeonYaw() + angle;
-        error = targetAngle - robot.drivetrain.getPigeonYaw();
+        targetAngle = drivetrain.getPigeonYaw() + angle;
+        error = targetAngle - drivetrain.getPigeonYaw();
         direction = Math.copySign(1, error);
     }
 
@@ -30,10 +30,10 @@ public class MoveByPigeon extends Command implements CommandInterface {
     protected void execute() {
         SmartDashboard.putNumber("InitError", error);
         while((error > THRESHOLD)||(error < -THRESHOLD)) {
-            robot.drivetrain.robotDrive.tankDrive(-power * direction, power * direction);
-            error = targetAngle - robot.drivetrain.getPigeonYaw(); 
+            drivetrain.robotDrive.tankDrive(-power * direction, power * direction);
+            error = targetAngle - drivetrain.getPigeonYaw(); 
         }
-        robot.drivetrain.stopRobot();
+        drivetrain.stopRobot();
     }
 
     @Override

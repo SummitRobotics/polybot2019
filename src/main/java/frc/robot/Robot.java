@@ -128,7 +128,7 @@ public class Robot extends TimedRobot {
     if (auto != null) {
       auto.cancel();
     }
-    Teleop = new Teleop_Arcade_Differential();
+    //Teleop = new Teleop_Arcade_Differential();
 
     //Teleop.init();
   }
@@ -139,8 +139,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() { 
-    Teleop.run();
-    //Scheduler.getInstance().run();
+    //Teleop.run();
+    Scheduler.getInstance().run();
   }
 
 

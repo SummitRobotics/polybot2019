@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.testsubsystem;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -10,11 +10,19 @@ public class TestSystem extends Subsystem {
 
     public TalonSRX testMotor;
 
-    public TestSystem(){
+    private static TestSystem instance;
+
+    private TestSystem(){
         testMotor = new TalonSRX(RobotConstants.TEST_MOTOR);
         configPID();
-        testMotor.setSelectedSensorPosition(getAbsoluteResetPosition());
+        testMotor.setSelectedSensorPosition(0);
 
+    }
+    public static TestSystem getInstance(){
+        if(instance == null){
+            instance = new TestSystem();
+        }
+        return instance;
     }
 
     @Override
@@ -31,13 +39,13 @@ public class TestSystem extends Subsystem {
 
         testMotor.configNominalOutputForward(0);
         testMotor.configNominalOutputReverse(0);
-        testMotor.configPeakOutputForward(0.4);
-        testMotor.configPeakOutputReverse(0.4);
+        testMotor.configPeakOutputForward(1);
+        testMotor.configPeakOutputReverse(1);
 
         testMotor.configPeakCurrentLimit((int)40);
         testMotor.configContinuousCurrentLimit((int)30);
 
-        testMotor.configAllowableClosedloopError(0, (int)0);
+        testMotor.configAllowableClosedloopError(0, (int)15);
 
         testMotor.config_kF(0, 0);
         testMotor.config_kP(0, 1);
@@ -45,7 +53,11 @@ public class TestSystem extends Subsystem {
         testMotor.config_kD(0, 0);
     }
 
-    public int getAbsoluteResetPosition(){
+    public double getEncoderPosition(){
+        return testMotor.getSelectedSensorPosition();
+    }
+
+    /*public int getAbsoluteResetPosition(){
         int absolutePosition = testMotor.getSensorCollection().getPulseWidthPosition();
 
         absolutePosition &= 0xFFF;
@@ -56,10 +68,10 @@ public class TestSystem extends Subsystem {
             absolutePosition *= 1;
         }
         return absolutePosition;
-    }
+    }*/
 
     public boolean setArm(double angle){
-        double target = angle * 4096;
+        double target = (angle/360) * 4096;
         testMotor.set(ControlMode.Position, target);
         return testMotor.getClosedLoopError() == 0;
     }

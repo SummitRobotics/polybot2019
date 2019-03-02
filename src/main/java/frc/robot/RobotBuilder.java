@@ -1,7 +1,12 @@
 package frc.robot;
 
-import frc.robot.sensors.*;
-import frc.robot.subsystems.*;
+import frc.robot.devices.Limelight;
+import frc.robot.devices.REVdisplay;
+import frc.robot.drivetrain.Drivetrain;
+import frc.robot.devices.*;
+import frc.robot.drivetrain.*;
+import frc.robot.testsubsystem.*;
+import frc.robot.testsubsystem.TestSystem;
 
 public class RobotBuilder {
 
@@ -15,9 +20,9 @@ public class RobotBuilder {
 
     
     private RobotBuilder(){
-        drivetrain = new Drivetrain();
-        testSystem = new TestSystem();
-        lemonlight = new Limelight();
+        drivetrain = Drivetrain.getInstance();
+        testSystem = TestSystem.getInstance();
+        lemonlight = Limelight.getInstance();
         revBoard = new REVdisplay();
 
     }

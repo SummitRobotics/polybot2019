@@ -8,7 +8,6 @@ public class DashboardOutput{
     public final double HATCH_HEIGHT = 28.5;
 
     public void run(){
-        //SmartDashboard.putNumber("Gyro Angle", robot.drivetrain.getGyroRotation());
         SmartDashboard.putNumber("Target X", robot.lemonlight.getX());
         SmartDashboard.putNumber("Target Y", robot.lemonlight.getY());
         SmartDashboard.putNumber("Target Area", robot.lemonlight.getArea());
@@ -18,6 +17,7 @@ public class DashboardOutput{
         SmartDashboard.putNumber("Distance From Target", robot.lemonlight.getDistance(HATCH_HEIGHT));
         SmartDashboard.putNumber("Pigeon Angle", robot.drivetrain.getPigeonYaw());
         SmartDashboard.putNumber("Gyro Angle", robot.drivetrain.getGyroRot());
+        SmartDashboard.putNumber("Test Motor Encoder", robot.testSystem.getEncoderPosition());
     }
     
     public double getVelocity(){

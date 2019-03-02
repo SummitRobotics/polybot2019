@@ -1,10 +1,12 @@
-package frc.robot.commands.Move;
+package frc.robot.drivetrain.Move;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.CommandInterface;
+import frc.robot.drivetrain.Drivetrain;
 
-public class MoveByEncoder extends Command implements CommandInterface {
+public class MoveByEncoder extends Command {
+
+    private Drivetrain drivetrain = Drivetrain.getInstance();
 
     private double leftInch, rightInch;
     private double leftInitPosition, rightInitPosition;
@@ -16,7 +18,7 @@ public class MoveByEncoder extends Command implements CommandInterface {
 
 
     public MoveByEncoder(double distance, double power) {
-        requires(robot.drivetrain);
+        requires(drivetrain);
         setInterruptible(true);
         leftInch = distance;
         rightInch = distance;
@@ -25,14 +27,14 @@ public class MoveByEncoder extends Command implements CommandInterface {
 
     @Override
     protected void initialize() {
-        leftInitPosition = robot.drivetrain.getLeftEncoderPos();
-        rightInitPosition = robot.drivetrain.getRightEncoderPos();
+        leftInitPosition = drivetrain.getLeftEncoderPos();
+        rightInitPosition = drivetrain.getRightEncoderPos();
 
-        leftTarget = leftInitPosition + robot.drivetrain.inchesToTicks(leftInch);
-        rightTarget = rightInitPosition + robot.drivetrain.inchesToTicks(rightInch);
+        leftTarget = leftInitPosition + drivetrain.inchesToTicks(leftInch);
+        rightTarget = rightInitPosition + drivetrain.inchesToTicks(rightInch);
 
-        leftError = leftTarget - robot.drivetrain.getLeftEncoderPos();
-        rightError = rightTarget - robot.drivetrain.getRightEncoderPos();
+        leftError = leftTarget - drivetrain.getLeftEncoderPos();
+        rightError = rightTarget - drivetrain.getRightEncoderPos();
 
         leftDirection = Math.copySign(1, leftError);
         rightDirection = Math.copySign(1, rightError);
@@ -41,16 +43,16 @@ public class MoveByEncoder extends Command implements CommandInterface {
     @Override
     protected void execute() {
             while(((leftError > THRESHOLD) || (leftError < -THRESHOLD)) && ((rightError > THRESHOLD) || (rightError < -THRESHOLD))){
-                robot.drivetrain.robotDrive.tankDrive(power * leftDirection, power * rightDirection);
-                leftError = leftTarget - robot.drivetrain.getLeftEncoderPos();
-                rightError = rightTarget - robot.drivetrain.getRightEncoderPos();
+                drivetrain.robotDrive.tankDrive(power * leftDirection, power * rightDirection);
+                leftError = leftTarget - drivetrain.getLeftEncoderPos();
+                rightError = rightTarget - drivetrain.getRightEncoderPos();
             }
-        robot.drivetrain.stopRobot();        
+        drivetrain.stopRobot();        
     }
 
    @Override
    protected void end() {
-        robot.drivetrain.robotDrive.tankDrive(0,0);
+        drivetrain.robotDrive.tankDrive(0,0);
         super.end();
    }
 

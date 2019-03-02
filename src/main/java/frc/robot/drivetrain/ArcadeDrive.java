@@ -1,11 +1,13 @@
-package frc.robot.commands;
+package frc.robot.drivetrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 
-public class ArcadeDrive extends Command implements CommandInterface{
+public class ArcadeDrive extends Command{
+    private Drivetrain drivetrain = Drivetrain.getInstance();
+
     public ArcadeDrive(){
-        requires(robot.drivetrain);
+        requires(drivetrain);
     }
     @Override
     protected void initialize() {
@@ -13,7 +15,7 @@ public class ArcadeDrive extends Command implements CommandInterface{
     }
     @Override
     protected void execute() {
-        robot.drivetrain.robotDrive.arcadeDrive(OI.getInstance().getForwardPower(), OI.getInstance().getRotationalPower());
+        drivetrain.robotDrive.arcadeDrive(OI.getInstance().getForwardPower(), OI.getInstance().getRotationalPower());
     }
     @Override
     protected boolean isFinished() {
