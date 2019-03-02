@@ -1,31 +1,20 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Servo;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotConstants;
 
 public class TestSystem extends Subsystem {
 
-    public WPI_VictorSPX testMotor;
-    public Servo testServo;
-
-    //TODO - implement rotation incrementer for... funsies? 
-    //Anyone can play with this if they want, I'm too lazy to - Aidan B.
-
-    private DigitalInput hallFX;
+    public TalonSRX testMotor;
 
     public TestSystem(){
-        testMotor = new WPI_VictorSPX(RobotConstants.TEST_MOTOR);
-        hallFX = new DigitalInput(RobotConstants.HALL_FX);
+        testMotor = new TalonSRX(RobotConstants.TEST_MOTOR);
+        configPID();
+        testMotor.setSelectedSensorPosition(getAbsoluteResetPosition());
 
-        
-        //Example code of creating a servo object given specific boundaries. 
-        testServo = new Servo(0);
-        //DANIEL --- These are the boundaries you need to change
-        testServo.setBounds(2.2, 0, 1.5, 0, 0.8);
     }
 
     @Override
@@ -33,5 +22,46 @@ public class TestSystem extends Subsystem {
         
     }
 
+    private void configPID(){
+        testMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+
+        testMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+        testMotor.setSensorPhase(false);
+        testMotor.setInverted(false);
+
+        testMotor.configNominalOutputForward(0);
+        testMotor.configNominalOutputReverse(0);
+        testMotor.configPeakOutputForward(0.4);
+        testMotor.configPeakOutputReverse(0.4);
+
+        testMotor.configPeakCurrentLimit((int)40);
+        testMotor.configContinuousCurrentLimit((int)30);
+
+        testMotor.configAllowableClosedloopError(0, (int)0);
+
+        testMotor.config_kF(0, 0);
+        testMotor.config_kP(0, 1);
+        testMotor.config_kI(0, 0);
+        testMotor.config_kD(0, 0);
+    }
+
+    public int getAbsoluteResetPosition(){
+        int absolutePosition = testMotor.getSensorCollection().getPulseWidthPosition();
+
+        absolutePosition &= 0xFFF;
+        if(false){
+            absolutePosition *= -1;
+        }
+        if(false){
+            absolutePosition *= 1;
+        }
+        return absolutePosition;
+    }
+
+    public boolean setArm(double angle){
+        double target = angle * 4096;
+        testMotor.set(ControlMode.Position, target);
+        return testMotor.getClosedLoopError() == 0;
+    }
 
 }

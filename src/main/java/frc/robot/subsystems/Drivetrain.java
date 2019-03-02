@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotConstants;
+import frc.robot.commands.ArcadeDrive;
 
 public class Drivetrain extends Subsystem {
 
@@ -133,7 +134,7 @@ public class Drivetrain extends Subsystem {
     //For this subsystem, we don't want it to execute any commands when idle. 
     @Override
     protected void initDefaultCommand() {
-        
+        setDefaultCommand(new ArcadeDrive());
     }
 
 }

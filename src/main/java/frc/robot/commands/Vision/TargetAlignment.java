@@ -8,11 +8,11 @@ import frc.robot.commands.CommandInterface;
 
 public class TargetAlignment extends PIDCommand implements CommandInterface{
     private static final double
-        P = 0.1,
+        P = 0.01,
         I = 0.0,
         D = 0.0;
     //private final double kP = 0.0265;
-    private double min_command = 0.05;
+    private double min_command = 0.0;
     private double leftFwd, rightFwd, power;
 
 
@@ -25,7 +25,7 @@ public class TargetAlignment extends PIDCommand implements CommandInterface{
 
     @Override
     protected void initialize() {
-
+        super.initialize();
     }
     @Override
     protected void execute() {
@@ -38,26 +38,38 @@ public class TargetAlignment extends PIDCommand implements CommandInterface{
         leftFwd = power;
         rightFwd = power;
 
-        if(robot.lemonlight.getX() > 1.0){
-            steeringAdjust = output - min_command;
+        SmartDashboard.putNumber("Target", robot.lemonlight.getTarget());
+
+        if(robot.lemonlight.getTarget() != 1){
+            robot.drivetrain.robotDrive.tankDrive(0, 0);
+            end();
         }
-        else if(robot.lemonlight.getX() == 0){
-            steeringAdjust = 0;
+        else if(robot.lemonlight.getX() > 1.0){
+            steeringAdjust = output - min_command;
+            leftFwd += steeringAdjust;
+            rightFwd -= steeringAdjust;
+            robot.drivetrain.robotDrive.tankDrive(leftFwd, rightFwd);
         }
         else if(robot.lemonlight.getX() < 1.0){
             steeringAdjust = output + min_command;
+            leftFwd += steeringAdjust;
+            rightFwd -= steeringAdjust;
+            robot.drivetrain.robotDrive.tankDrive(leftFwd, rightFwd);
         }
-        leftFwd += steeringAdjust;
-        rightFwd -= steeringAdjust;
-        robot.drivetrain.robotDrive.tankDrive(leftFwd, rightFwd);
+        
         SmartDashboard.putNumber("Output", steeringAdjust);
+        SmartDashboard.putBoolean("Yeah Done", isFinished());
     }
     @Override
     protected boolean isFinished() {
-        return (getSetpoint() > -1) && (getSetpoint() < 1);
+        return false;
+    }
+    @Override
+    protected void end() {
+        super.end();
     }
     @Override
     protected double returnPIDInput() {
-        return -robot.lemonlight.getX();
+        return robot.lemonlight.getX();
     }
 }

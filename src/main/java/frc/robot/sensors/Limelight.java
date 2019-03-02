@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 
 public class Limelight implements PIDSource{
     private NetworkTable table;
-    private NetworkTableEntry tx, ty, ta, ts;
+    private NetworkTableEntry tx, ty, ta, ts, tv;
 
     private final double CAMERA_HEIGHT = 21.5;
     private final double CAMERA_ANGLE = 21.86;
@@ -22,6 +22,7 @@ public class Limelight implements PIDSource{
         ty = table.getEntry("ty");
         ta = table.getEntry("ta");
         ts = table.getEntry("ts");
+        tv = table.getEntry("tv");
         
     }
     @Override
@@ -45,6 +46,9 @@ public class Limelight implements PIDSource{
     }
     public double getSkew(){
         return ts.getDouble(0.0);
+    }
+    public double getTarget(){
+        return tv.getDouble(0.0);
     }
     
     @Override

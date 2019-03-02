@@ -32,16 +32,10 @@ public class Teleop_Arcade_Differential {
 
         zRotation = gamepad.getRotationalPower();
         xSpeed = gamepad.getForwardPower();
-        robot.drivetrain.robotDrive.arcadeDrive(xSpeed, zRotation);
+        //robot.drivetrain.robotDrive.arcadeDrive(xSpeed, zRotation);
 
         if(gamepad.isButtonA()){
-        robot.testSystem.testServo.set(0);
-        }
-        else if(gamepad.isButtonB()){
-        robot.testSystem.testServo.set(0.5);
-        }
-        else if(gamepad.isButtonY()){
-            robot.testSystem.testServo.set(1);
+            robot.testSystem.setArm(90);
         }
 
         SmartDashboard.putBoolean("Limit Switch", robot.drivetrain.getLimitSwitchState());

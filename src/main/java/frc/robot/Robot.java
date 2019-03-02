@@ -130,7 +130,7 @@ public class Robot extends TimedRobot {
     }
     Teleop = new Teleop_Arcade_Differential();
 
-    Teleop.init();
+    //Teleop.init();
   }
 
 
@@ -140,7 +140,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() { 
     Teleop.run();
-    Scheduler.getInstance().run();
+    //Scheduler.getInstance().run();
   }
 
 
