@@ -3,6 +3,7 @@ package frc.robot.testsubsystem;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RotateShit extends Command{
 
@@ -12,6 +13,7 @@ public class RotateShit extends Command{
     private boolean state;
 
     public RotateShit(double angle){
+        setInterruptible(false);
         requires(testSystem);
         this.angle = angle;
     }
@@ -24,6 +26,7 @@ public class RotateShit extends Command{
     @Override
     protected void execute() {
         state = testSystem.setArm(angle);
+        SmartDashboard.putBoolean("State of Arm", state);
     }
     @Override
     protected boolean isFinished() {
@@ -31,6 +34,7 @@ public class RotateShit extends Command{
     }
     @Override
     protected void end() {
-        testSystem.testMotor.set(ControlMode.PercentOutput, 0);
+        super.end();
+        //testSystem.testMotor.set(ControlMode.PercentOutput, 0);
     }
 }

@@ -37,7 +37,7 @@ public class MoveByGyro extends PIDCommand{
     protected void usePIDOutput(double output) {
         SmartDashboard.putNumber("Gyro Output", output);
         SmartDashboard.putNumber("Error For Gyro", getPIDController().getError());
-        drivetrain.robotDrive.tankDrive(output, -output);
+        drivetrain.robotDrive.tankDrive(output/1.4, -output/1.4);
     }
 
     @Override

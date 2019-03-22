@@ -39,8 +39,9 @@ public class OI {
 
     public OI(){
         //button.whileHeld(new TargetAlignment(0.8));
-        //button.whenActive(new RotateShit(90));
-        button.whenPressed(new MoveByGyro(5000));
+        button.whenPressed(new RotateShit(30));
+        overide.whenPressed(new RotateShit(-3000));
+        //button.whenPressed(new MoveByGyro(10000));
     }
 
     public static OI getInstance(){

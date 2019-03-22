@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotConstants;
 
 public class TestSystem extends Subsystem {
@@ -32,15 +33,13 @@ public class TestSystem extends Subsystem {
 
     private void configPID(){
         testMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
-
-        testMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
         testMotor.setSensorPhase(false);
-        testMotor.setInverted(false);
+        testMotor.setInverted(true);
 
         testMotor.configNominalOutputForward(0);
         testMotor.configNominalOutputReverse(0);
-        testMotor.configPeakOutputForward(1);
-        testMotor.configPeakOutputReverse(1);
+        testMotor.configPeakOutputForward(0.5);
+        testMotor.configPeakOutputReverse(-0.5);
 
         testMotor.configPeakCurrentLimit((int)40);
         testMotor.configContinuousCurrentLimit((int)30);
@@ -48,9 +47,9 @@ public class TestSystem extends Subsystem {
         testMotor.configAllowableClosedloopError(0, (int)15);
 
         testMotor.config_kF(0, 0);
-        testMotor.config_kP(0, 1);
+        testMotor.config_kP(0, 1.0);
         testMotor.config_kI(0, 0);
-        testMotor.config_kD(0, 0);
+        testMotor.config_kD(0, 0.1);
     }
 
     public double getEncoderPosition(){
@@ -71,9 +70,9 @@ public class TestSystem extends Subsystem {
     }*/
 
     public boolean setArm(double angle){
+        final double THRESHOLD = 75;
         double target = (angle/360) * 4096;
         testMotor.set(ControlMode.Position, target);
-        return testMotor.getClosedLoopError() == 0;
+        return (testMotor.getClosedLoopError() < THRESHOLD) && (testMotor.getClosedLoopError() > -THRESHOLD);
     }
-
 }
