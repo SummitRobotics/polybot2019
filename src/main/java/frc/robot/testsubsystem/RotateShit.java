@@ -13,7 +13,6 @@ public class RotateShit extends Command{
     private boolean state;
 
     public RotateShit(double angle){
-        setInterruptible(false);
         requires(testSystem);
         this.angle = angle;
     }
