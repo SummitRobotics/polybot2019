@@ -43,12 +43,18 @@ public class Drivetrain extends Subsystem {
         leftDriveMotor.setSensorPhase(false);
         leftSlaveMotor.follow(leftDriveMotor);
 
+        leftDriveMotor.configPeakCurrentLimit(25);
+        leftDriveMotor.configContinuousCurrentLimit(20);
+
         rightDriveMotor = new WPI_TalonSRX(RobotConstants.RIGHT_FRONT_DRIVE);
         rightSlaveMotor = new WPI_VictorSPX(RobotConstants.RIGHT_BACK_DRIVE);
         rightDrive = new SpeedControllerGroup(rightDriveMotor, rightSlaveMotor);
         rightDriveMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0 , 0);
         rightDriveMotor.setSensorPhase(false);
         rightSlaveMotor.follow(rightDriveMotor);
+        
+        rightDriveMotor.configPeakCurrentLimit(25);
+        rightDriveMotor.configContinuousCurrentLimit(20);
 
         robotDrive = new DifferentialDrive(rightDrive, leftDrive);
         robotDrive.setSafetyEnabled(false);
